@@ -6,6 +6,7 @@
 | 2024-01-28 |         |        |         |         |    1    |      |      Worked on intro for D1               |
 | 2024-01-28 |         |        |    1    |         |         |      |     Worked on human values and slides for D1                  |
 | 2024-01-29 |         |        |    1    |    1    |    1    |   1  |  Finished Architecture                     |
+| 2024-01-29 |   2     |    2   |    2    |    2    |    2    |   2  |  Finishing Project idea and architecture                     |
 |            |         |        |         |         |         |      |                       |
 |            |         |        |         |         |         |      |                       |
 |            |         |        |         |         |         |      |                       |
