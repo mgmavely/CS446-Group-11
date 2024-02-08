@@ -9,6 +9,8 @@
 | 2024-01-29 |         |        |    1    |    1    |    1    |   1  |  Finished Architecture                     |
 | 2024-01-29 |   2     |    2   |    2    |    2    |    2    |   2  |  Finishing Project idea and architecture                     |
 | 2024-02-01 |         |    1   |         |         |         |      |      Worked on Stakeholders and final document             |
+| 2024-01-7 |   2     |    2   |    2    |    2    |    2    |   2  |  Brainstorming for D2                   |
+| 2024-02-08 |         |    1   |         |         |         |      |      Worked on Harmed Tourists of D2           |
 |            |         |        |         |         |         |      |                       |
 |            |         |        |         |         |         |      |                       |
 |            |         |        |         |         |         |      |                       |
