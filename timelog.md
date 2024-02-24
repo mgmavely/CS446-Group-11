@@ -15,6 +15,7 @@
 | 2024-01-07  |   2     |    2   |    2    |    2    |    2    |   2  |  Brainstorming for D2                   |
 | 2024-02-08 |    1    |    1   |         |         |         |      |      Worked on Harmed Tourists of D2           |
 | 2024-02-10 |         |        |         |         |     1   |      |      Worked on Government section of D2          |
+| 2024-02-24 |    1    |        |         |         |         |      | Setting up AS and updating Gradle (local) |
 |            |         |        |         |         |         |      |                       |
 |            |         |        |         |         |         |      |                       |
 |            |         |        |         |         |         |      |                       |
