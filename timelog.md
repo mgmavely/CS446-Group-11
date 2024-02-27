@@ -7,6 +7,7 @@
 | 2024-01-24 |         |   0.5    |         |         |         |      |           Worked on Stakeholders for D1            |
 | 2024-01-28 |         |        |         |         |    1    |      |      Worked on intro for D1               |
 | 2024-01-28 |         |        |    1    |         |         |      |     Worked on human values and slides for D1                  |
+| 2024-01-28 |         |        |         |     1    |         |      |      Worked on user scenarios of D1          |
 | 2024-01-28 |         |        |         |         |         |   0.5   |     Worked on populations for D1                  |
 | 2024-01-28 |   1.5      |        |         |         |         |      |  Worked on the style and mockups                   |
 | 2024-01-29 |         |        |    1    |    1    |    1    |   1  |  Finished Architecture                     |
@@ -15,6 +16,7 @@
 | 2024-01-07  |   2     |    2   |    2    |    2    |    2    |   2  |  Brainstorming for D2                   |
 | 2024-02-08 |    1    |    1   |         |         |         |      |      Worked on Harmed Tourists of D2           |
 | 2024-02-10 |         |        |         |         |     1   |      |      Worked on Government section of D2          |
+| 2024-02-14 |         |        |         |     1    |         |      |      Worked on Harmed Tour Guides and Travel Companies of D2           |
 | 2024-02-24 |    1    |        |         |         |         |      | Setting up AS and updating Gradle (local) |
 |            |         |        |         |         |         |      |                       |
 |            |         |        |         |         |         |      |                       |
