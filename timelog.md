@@ -19,5 +19,6 @@
 | 2024-02-14 |         |        |         |     1    |         |      |      Worked on Harmed Tour Guides and Travel Companies of D2           |
 | 2024-02-23 |        |         |         |         |     2    |       |  Setup skeleton for front-end dev |
 | 2024-02-24 |    1    |        |         |         |         |      | Setting up AS and updating Gradle (local) |
-|            |         |        |         |         |         |      |                       |
-|            |         |        |         |         |         |      |                       |
+| 2024-02-28 |    1    |   1    |    1    |   1     |    1    |  1   |     Group brainstorm for D3                |
+| 2024-02-28 |         |        |         |         |     2   |      |      Setup Ktor for project         |
+
