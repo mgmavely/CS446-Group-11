@@ -17,7 +17,7 @@
 | 2024-02-08 |    1    |    1   |         |         |         |      |      Worked on Harmed Tourists of D2           |
 | 2024-02-10 |         |        |         |         |     1   |      |      Worked on Government section of D2          |
 | 2024-02-14 |         |        |         |     1    |         |      |      Worked on Harmed Tour Guides and Travel Companies of D2           |
+| 2024-02-23 |        |         |         |         |     2    |       |  Setup skeleton for front-end dev |
 | 2024-02-24 |    1    |        |         |         |         |      | Setting up AS and updating Gradle (local) |
-|            |         |        |         |         |         |      |                       |
 |            |         |        |         |         |         |      |                       |
 |            |         |        |         |         |         |      |                       |
