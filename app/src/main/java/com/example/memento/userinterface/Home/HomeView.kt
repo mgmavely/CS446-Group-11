@@ -15,6 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import java.time.LocalDateTime
+import kotlinx.coroutines.delay
 
 
 @Preview
@@ -23,6 +25,35 @@ fun HomeView(
     onHomeClicked: () -> Unit = {}
 ) {
     var daysPressed by remember { mutableStateOf(5) } // Simulación de días seguidos
+    var hoursLeft by remember { mutableStateOf(24) } // Horas para el siguiente prompt
+    var minutesLeft by remember { mutableStateOf(0) } // Minutos restantes
+
+    LaunchedEffect(true) {
+        while (true) {
+            val currentDateTime = LocalDateTime.now()
+            if (currentDateTime.hour == 0 && currentDateTime.minute == 0) {
+                // Si es medianoche, reinicia el contador
+                hoursLeft = 24
+                minutesLeft = 0
+            } else {
+                // Resta una hora si no es medianoche
+                if (minutesLeft == 0) {
+                    minutesLeft = 59
+                    hoursLeft--
+                } else {
+                    minutesLeft--
+                }
+                if (hoursLeft == 0 && minutesLeft == 0) {
+                    // Si llega a cero, reinicia el contador
+                    hoursLeft = 24
+                    minutesLeft = 0
+                }
+            }
+            // Espera un minuto antes de actualizar nuevamente
+            delay(60000)
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -40,7 +71,7 @@ fun HomeView(
                 color = Color.White
             )
             OutlinedTextField(
-                value = "Prompt diario",
+                value = "Diary prompt",
                 onValueChange = {},
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done
@@ -64,6 +95,7 @@ fun HomeView(
                         modifier = Modifier.size(100.dp)
                     )
                     Text("$daysPressed")
+                    Text("Strike of days")
                 }
                 Spacer(modifier = Modifier.width(80.dp)) // Add spacing between columns
                 Column(
@@ -74,7 +106,7 @@ fun HomeView(
                         contentDescription = "time remaining",
                         modifier = Modifier.size(100.dp)
                     )
-                    Text("hours left")
+                    Text("$hoursLeft:${minutesLeft.toString().padStart(2, '0')} \n Hours left")
                 }
             }
             Row(
