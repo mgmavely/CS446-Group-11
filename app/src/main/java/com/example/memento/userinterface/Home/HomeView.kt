@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import java.time.LocalDateTime
 import kotlinx.coroutines.delay
+import android.Manifest
 
 
 @Preview
@@ -115,7 +116,8 @@ fun HomeView(
                     .fillMaxSize()
 
             ) {
-                Button(onClick = onHomeClicked) {
+                Button(onClick = onHomeClicked)
+                {
                     Text("Option #1")
                 }
             }
