@@ -87,6 +87,10 @@ fun RowScope.AddItem(
     currentDestination: NavDestination?,
     navController: NavHostController
 ) {
+    val selected = currentDestination?.hierarchy?.any {
+        val test: String = it.route?: ""
+        test.split("/")[0] == screen.route
+    } == true
     NavigationBarItem(
         label = {
             Text(
@@ -97,17 +101,14 @@ fun RowScope.AddItem(
         },
         icon = {
             Icon(
-                imageVector = screen.icon,
+                imageVector = if (selected) screen.icon_filled else screen.icon_outlined,
                 contentDescription = "Navigation Icon",
                 modifier = Modifier.fillMaxSize(0.35f),
                 tint = MaterialTheme.colorScheme.primary
             )
         },
         modifier = Modifier.fillMaxSize(),
-        selected = currentDestination?.hierarchy?.any {
-            val test: String = it.route?: ""
-            test.split("/")[0] == screen.route
-        } == true,
+        selected = selected,
         onClick = {
             navController.navigate(screen.route) {
                 popUpTo(navController.graph.findStartDestination().id)
