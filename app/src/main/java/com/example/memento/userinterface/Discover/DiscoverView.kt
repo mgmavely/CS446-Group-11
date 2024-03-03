@@ -37,19 +37,14 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun Prompt() {
-    var promptText = "" +
-            "Post a picture of your favourite animal" +
-            "Post a picture of your favourite animal" +
-            "Post a picture of your favourite animal" +
-            "Post a picture of your favourite animal" +
-            "Post a picture of your favourite animal" +
-            "Post a picture of your favourite animal"
+    var promptText = "Put prompt here to check text width"
 
-            Box(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(0.2f)
-            .background(MaterialTheme.colorScheme.primaryContainer)
+            .background(MaterialTheme.colorScheme.primaryContainer),
+        contentAlignment = Alignment.Center
     ) {
                 AutoResizingText(
                     modifier = Modifier.
@@ -126,7 +121,8 @@ fun AutoResizingText(
                 textSize.value = textSize.value * 0.9f
             }
         },
-        fontWeight = FontWeight.Normal
+        fontWeight = FontWeight.Normal,
+        lineHeight = 30.sp
     )
 
 
