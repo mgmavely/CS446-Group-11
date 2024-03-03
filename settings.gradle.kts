@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "memento"
 include(":app")
+include(":server")
  
