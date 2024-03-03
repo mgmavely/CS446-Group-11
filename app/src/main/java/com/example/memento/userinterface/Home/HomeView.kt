@@ -18,7 +18,103 @@ import androidx.compose.ui.unit.dp
 import java.time.LocalDateTime
 import kotlinx.coroutines.delay
 import android.Manifest
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Bundle
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import java.io.File
+import java.util.Objects
 
+
+class MainActivity : AppCompatActivity(){
+
+    private var pictureIV : ImageView? = null
+
+    private lateinit var photoFile: File
+    lateinit var currentPhotoPath: String
+    private val PICTURE_FROM_CAMERA: Int = 1
+    override fun onCreate(savedInstanceState: Bundle?){
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+}
+@Composable
+fun imageCaptureFromCamera(){
+
+    val context = LocalContext.current
+    val file = context.createImageFile()
+    val uri = FileProvider.getUriForFile(
+        Objects.requireNonNull(context),
+        context.packageName + ".provider", file
+    )
+
+    var capturedImageUri by remember{
+        mutableStateOf<Uri>(Uri.EMPTY)
+    }
+    val cameraLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()){
+            capturedImageUri = uri
+        }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ){
+        if (it){
+            Toast.makeText(context, "Permission Granted", Toast.LENGTH_SHORT).show()
+            cameraLauncher.launch(uri)
+        }else{
+            Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    Column (
+        Modifier
+            .fillMaxSize()
+            .padding(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Bottom
+    ){
+        Button(onClick = {
+            val permissionCheckResult =
+                ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+
+            if (permissionCheckResult == PackageManager.PERMISSION_GRANTED){
+                cameraLauncher.launch(uri)
+            }else{
+                permissionLauncher.launch(Manifest.permission.CAMERA)
+            }
+
+        }){
+            Text(text = "Capture Image")
+        }
+    }
+
+
+    if (capturedImageUri.path?.isNotEmpty() == true){
+        Image(
+            modifier = Modifier
+                .padding(16.dp, 8.dp),
+            painter = rememberImagePainter(capturedImageUri),
+            contentDescription = null)
+    }else{
+        Image(
+            modifier = Modifier
+                .padding(16.dp, 8.dp),
+            painter = painterResource(id = com.example.memento.R.drawable.daily_image),
+            contentDescription = null)
+    }
+
+
+}
 
 @Preview
 @Composable
@@ -30,6 +126,7 @@ fun HomeView(
     var minutesLeft by remember { mutableStateOf(0) } // Minutos restantes
 
     LaunchedEffect(true) {
+
         while (true) {
             val currentDateTime = LocalDateTime.now()
             if (currentDateTime.hour == 0 && currentDateTime.minute == 0) {
