@@ -1,6 +1,7 @@
 package org.example
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,9 +28,12 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.ui.graphics.Color
+
 import com.example.memento.R
 import org.example.userinterface.MenuBarGraph
 import org.example.userinterface.MenuBarOptions
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
@@ -63,7 +67,10 @@ fun WaitlessMenuBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    NavigationBar {
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+        contentColor = MaterialTheme.colorScheme.tertiary
+    ) {
         screens.forEach { screen ->
             AddItem(
                 screen = screen,
@@ -71,7 +78,6 @@ fun WaitlessMenuBar(navController: NavHostController) {
                 navController = navController
             )
         }
-
     }
 }
 
@@ -83,14 +89,21 @@ fun RowScope.AddItem(
 ) {
     NavigationBarItem(
         label = {
-            Text(text = screen.title)
+            Text(
+                text = screen.title,
+                style = MaterialTheme.typography.labelMedium,
+                color = Color.Black
+            )
         },
         icon = {
             Icon(
                 imageVector = screen.icon,
-                contentDescription = "Navigation Icon"
+                contentDescription = "Navigation Icon",
+                modifier = Modifier.fillMaxSize(0.35f),
+                tint = MaterialTheme.colorScheme.primary
             )
         },
+        modifier = Modifier.fillMaxSize(),
         selected = currentDestination?.hierarchy?.any {
             val test: String = it.route?: ""
             test.split("/")[0] == screen.route
