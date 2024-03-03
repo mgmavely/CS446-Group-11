@@ -51,8 +51,11 @@ fun Prompt() {
 }
 
 @Composable
-fun Post(it: Int) {
-    val image = painterResource(R.drawable.baseline_public_24)
+fun Post(
+    modifier: Modifier = Modifier,
+    it: Int
+) {
+    val image = painterResource(id = R.drawable.dog)
     Image(
         painter = image,
         contentDescription = "post"
@@ -83,7 +86,10 @@ fun DiscoverView() {
                 .background(Color.Green)
         ) {
             items(100) {
-                Post(it)
+                Post(
+                    Modifier,
+                    it
+                )
             }
         }
     }
