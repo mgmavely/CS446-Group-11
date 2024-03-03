@@ -20,34 +20,39 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+@Composable
+fun Prompt() {
+    var promptText = "Post a picture of your favourite animal"
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(0.2f)
+            .background(Color.Red)
+    ) {
+        Text(
+            text = "Fixed Box",
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
+            color = Color.Black,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
 
 @Preview
 @Composable
 fun DiscoverView() {
-    val currentPrompt = null;
-
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(top = 20.dp, start = 20.dp, end = 20.dp)
+            .padding(top = 5.dp, start = 5.dp, end = 5.dp),
+        verticalArrangement = Arrangement.spacedBy(1.dp)
     ) {
         // Prompt at the top of the screen that doesn't change
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(20.dp)
-                .background(Color.Red)
-        ) {
-            Text(
-                text = "Fixed Box",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(8.dp),
-                color = Color.Black,
-                fontWeight = FontWeight.Bold
-            )
-        }
+        Prompt()
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
