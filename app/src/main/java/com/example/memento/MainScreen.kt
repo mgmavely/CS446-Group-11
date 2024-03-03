@@ -60,9 +60,9 @@ fun MementoApp(
 @Composable
 fun WaitlessMenuBar(navController: NavHostController) {
     val screens = listOf(
+        MenuBarOptions.Settings,
         MenuBarOptions.Home,
-        MenuBarOptions.Discover,
-        MenuBarOptions.Settings
+        MenuBarOptions.Discover
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
