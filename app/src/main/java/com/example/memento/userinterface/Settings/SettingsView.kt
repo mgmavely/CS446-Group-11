@@ -67,7 +67,7 @@ fun SettingsView(
                 Text("Enable Dark Mode", fontSize = 18.sp,
                         modifier = Modifier.padding(horizontal=10.dp))
                 Switch(
-                        checked = checked,
+                        checked = false,
                         modifier = Modifier.padding(horizontal=25.dp),
                         onCheckedChange = {
                             checked = it
@@ -78,13 +78,63 @@ fun SettingsView(
 
 
             Column () {
+                Text("Notifications", fontSize = 18.sp,
+                    modifier = Modifier.padding(horizontal=10.dp))
+
+                Text("Enable Notifications", fontSize = 15.sp,
+                    modifier = Modifier.padding(horizontal=10.dp))
+                Switch(
+                    checked = checked,
+                    modifier = Modifier.padding(horizontal=25.dp),
+                    onCheckedChange = {
+                        checked = it
+                    }
+                )
+
+                Text("Temporarily Mute Notifications", fontSize = 15.sp,
+                    modifier = Modifier.padding(horizontal=10.dp))
+                Switch(
+                    checked = false,
+                    modifier = Modifier.padding(horizontal=25.dp),
+                    onCheckedChange = {
+                        checked = it
+                    }
+                )
+
+                Divider(thickness = 1.dp)
+            }
+
+            Column () {
                 Text("Mental Health Resources", fontSize = 18.sp,
-                        modifier = Modifier.padding(horizontal=10.dp))
+                    modifier = Modifier.padding(horizontal=10.dp))
                 Button(onClick = onMentalHealthOnlineClicked, modifier = Modifier.padding(top=12.dp).padding(horizontal=25.dp),) {
                     Text("Online Mental Health Resources", fontSize = 14.sp)
                 }
                 Button(onClick = onMentalHealthPhoneClicked, modifier = Modifier.padding(top=5.dp).padding(horizontal=25.dp),) {
                     Text("Mental Health Related Phone Lines", fontSize = 14.sp)
+                }
+                Divider(thickness = 1.dp)
+            }
+
+            Column () {
+                Text("Legal", fontSize = 18.sp,
+                    modifier = Modifier.padding(horizontal=10.dp))
+                Button(onClick = onMentalHealthOnlineClicked, modifier = Modifier.padding(top=12.dp).padding(horizontal=25.dp),) {
+                    Text("Privacy Policy", fontSize = 14.sp)
+                }
+                Button(onClick = onMentalHealthPhoneClicked, modifier = Modifier.padding(top=5.dp).padding(horizontal=25.dp),) {
+                    Text("Terms Of Service", fontSize = 14.sp)
+                }
+                Divider(thickness = 1.dp)
+            }
+
+            Column () {
+                Button(onClick = onMentalHealthOnlineClicked, modifier = Modifier.padding(vertical=10.dp).align(alignment=Alignment.CenterHorizontally),) {
+                    Text("Log Out", fontSize = 14.sp)
+                }
+                Divider(thickness = 1.dp)
+                Button(onClick = onMentalHealthPhoneClicked, modifier = Modifier.padding(vertical=10.dp).align(alignment=Alignment.CenterHorizontally),) {
+                    Text("Delete Account", fontSize = 14.sp)
                 }
                 Divider(thickness = 1.dp)
             }
