@@ -68,15 +68,20 @@ fun DiscoverView() {
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(top = 5.dp, start = 5.dp, end = 5.dp),
+            .padding(top = 10.dp, start = 10.dp, end = 10.dp),
         verticalArrangement = Arrangement.spacedBy(1.dp)
     ) {
         // Prompt at the top of the screen that doesn't change
-        Prompt()
+        Box(
+            modifier = Modifier
+            .clip(RoundedCornerShape(16.dp))
+        ) {
+            Prompt()
+        }
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 20.dp)
+                .padding(top = 10.dp)
                 .background(Color.Green)
         ) {
             items(100) {
@@ -110,7 +115,7 @@ fun AutoResizingText(
         modifier = modifier,
         text = text,
         color = color,
-        textAlign = TextAlign.Start,
+        textAlign = TextAlign.Center,
         fontSize = textSize.value,
         maxLines = maxLines,
         overflow = TextOverflow.Ellipsis,
@@ -120,7 +125,8 @@ fun AutoResizingText(
             if (textLayoutResult.isLineEllipsized(lineIndex)) {
                 textSize.value = textSize.value * 0.9f
             }
-        }
+        },
+        fontWeight = FontWeight.Normal
     )
 
 
