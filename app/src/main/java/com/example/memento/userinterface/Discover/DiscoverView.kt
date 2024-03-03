@@ -30,9 +30,15 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.example.memento.R
 
+
 class ImageCollection() {
+    /**
+     *  Represents the View's internal collection of image objects
+     */
+
     val painters: MutableList<Int> = mutableListOf()
     init {
+        /* hardcoded images for now */
         painters.add(R.drawable.dog)
         painters.add(R.drawable.campfire)
         painters.add(R.drawable.flowers)
@@ -55,7 +61,11 @@ class ImageCollection() {
 
 @Composable
 fun Prompt() {
-    var promptText = "Take a picture of something beautiful..."
+    /**
+     * Represents the prompt that stays at the top of the scrolling screen
+     */
+
+    var promptText = "Take a picture of something beautiful..." /* hardcoded text for now */
 
     Box(
         modifier = Modifier
@@ -79,6 +89,10 @@ fun Post(
     modifier: Modifier = Modifier,
     imagePath: Int
 ) {
+    /**
+     * Represents a single post in the scrolling column
+     */
+
     val image = painterResource(id = imagePath)
 
     Box(
@@ -102,7 +116,9 @@ fun Post(
 @Preview
 @Composable
 fun DiscoverView() {
-    // All images to show as posts
+    /**
+     * The user view of the discover page
+     */
     val images = ImageCollection()
 
     Column(
@@ -120,6 +136,7 @@ fun DiscoverView() {
             Prompt()
         }
         LazyColumn(
+            // Column is lazy which enables scrolling
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 10.dp)
@@ -128,6 +145,7 @@ fun DiscoverView() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             items(5) {
+                // add all items
                 Post(
                     Modifier,
                     images.getPainter(it)
@@ -145,11 +163,17 @@ fun AutoResizingText(
     targetTextSize: TextUnit,
     maxLines: Int = Int.MAX_VALUE
 ) {
+    /**
+     * Creates a Text widget that sizes to the shape of the container depending on the
+     * length of the prompt
+     */
 
+    // state of the text
     val textSize = remember {
         mutableStateOf(targetTextSize)
     }
 
+    /* Checks if the text is overflowing and if it is, sizes it down until it is not */
     Text(
         modifier = modifier,
         text = text,
