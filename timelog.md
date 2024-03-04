@@ -23,6 +23,8 @@
 | 2024-02-28 |    1    |   1    |    1    |   1     |    1    |  1   |     Group discussion about D2 feedback     |
 | 2024-02-28 |         |        |         |         |     2   |      |      Setup Ktor for project         |
 | 2024-02-29 |         |        |         |         |         |   4   | Discovery Page       |
+| 2024-03-01 |         |        |         |         |     2   |      |      Worked on Firebase integration      |
 | 2024-03-01 |         |        |    3     |         |         |      | Navbar        |
 | 2024-03-01 |         |        |    4     |         |         |      | Discovery Page       |
 | 2024-03-02 |         |        |    4     |         |         |      | Discovery Page/UI       |
+| 2024-03-03 |     1    |    1    |    1     |     1    |     1    |   1   | Merge party 🎉     |
