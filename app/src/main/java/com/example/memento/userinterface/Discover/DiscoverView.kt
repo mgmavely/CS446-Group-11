@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.example.memento.R
+import com.example.memento.theme.MementoTheme
 
 
 class ImageCollection() {
@@ -71,7 +72,7 @@ fun Prompt() {
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(0.2f)
-            .background(MaterialTheme.colorScheme.primaryContainer),
+            .background(MaterialTheme.colorScheme.secondary),
         contentAlignment = Alignment.Center
     ) {
                 AutoResizingText(
@@ -99,7 +100,7 @@ fun Post(
         modifier = modifier
             .size(380.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.secondary)
             .padding(10.dp)
     ) {
         Image(
@@ -119,37 +120,40 @@ fun DiscoverView() {
     /**
      * The user view of the discover page
      */
-    val images = ImageCollection()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.tertiary)
-            .padding(top = 10.dp, start = 10.dp, end = 10.dp),
-        verticalArrangement = Arrangement.spacedBy(1.dp)
-    ) {
-        // Prompt at the top of the screen that doesn't change
-        Box(
-            modifier = Modifier
-            .clip(RoundedCornerShape(16.dp))
-        ) {
-            Prompt()
-        }
-        LazyColumn(
-            // Column is lazy which enables scrolling
+    MementoTheme {
+        val images = ImageCollection()
+
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 10.dp)
-                .background(MaterialTheme.colorScheme.tertiary),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .background(MaterialTheme.colorScheme.primary)
+                .padding(top = 10.dp, start = 10.dp, end = 10.dp),
+            verticalArrangement = Arrangement.spacedBy(1.dp)
         ) {
-            items(5) {
-                // add all items
-                Post(
-                    Modifier,
-                    images.getPainter(it)
-                )
+            // Prompt at the top of the screen that doesn't change
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(16.dp))
+            ) {
+                Prompt()
+            }
+            LazyColumn(
+                // Column is lazy which enables scrolling
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 10.dp)
+                    .background(MaterialTheme.colorScheme.primary),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                items(5) {
+                    // add all items
+                    Post(
+                        Modifier,
+                        images.getPainter(it)
+                    )
+                }
             }
         }
     }
