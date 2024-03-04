@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination
@@ -42,6 +43,7 @@ fun MementoApp(
         MenuBarOptions.Login.route -> false // on this screen bottom bar should be hidden
         else -> true // in all other cases show bottom bar
     }
+
     Scaffold(
         bottomBar = {
             if (showNav) WaitlessMenuBar(navController = navController)
