@@ -29,12 +29,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.memento.theme.MementoTheme
+import androidx.compose.material3.TextFieldDefaults
 
 @Preview
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,47 +48,69 @@ fun LoginView(
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("")}
 
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                    title = { Text("MEMENTO", textAlign = TextAlign.Center, fontSize = 65.sp, lineHeight = 33.sp)
+    MementoTheme {
 
-                            },
-                    modifier = Modifier.padding(top=180.dp, bottom=100.dp)
-            )
-        }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier.fillMaxWidth().padding(innerPadding),
-            horizontalAlignment = Alignment.CenterHorizontally,
+        Scaffold(
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(
+                            "MEMENTO",
+                            textAlign = TextAlign.Center,
+                            fontSize = 65.sp,
+                            lineHeight = 33.sp,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+
+                    },
+                    modifier = Modifier.padding(top = 180.dp, bottom = 100.dp)
+                )
+            }
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier.fillMaxWidth().padding(innerPadding),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
 
-            TextField(
-                username,
-                label = {Text("Username: ")},
-                onValueChange = { username = it },
+                TextField(
+                    username,
+                    colors = TextFieldDefaults.textFieldColors(focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                        focusedLabelColor = MaterialTheme.colorScheme.onBackground,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onBackground),
+                    label = { Text("Username: ") },
+                    onValueChange = { username = it },
 
                     )
 
-            TextField(
-                password,
-                label = {Text("Password: ")},
-                onValueChange = { password = it },
+                TextField(
+                    password,
+                    colors = TextFieldDefaults.textFieldColors(focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                        focusedLabelColor = MaterialTheme.colorScheme.onBackground,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onBackground),
+                    label = { Text("Password: ") },
+                    onValueChange = { password = it },
 
-                visualTransformation =  PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password))
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                )
 
-            Row () {
-                Button(
+                Row() {
+                    Button(
                         onClick = onLoginButtonClicked,
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                         modifier = Modifier.padding(12.dp),
-                        ) {Text(" Log In ", fontSize = 22.sp)}
+                    ) { Text(" Log In ", fontSize = 22.sp) }
 
-            }
-            Text("or", fontSize = 15.sp)
-            Row () {
-                Button(onClick = onLoginButtonClicked, modifier = Modifier.padding(top=12.dp),) {
-                    Text("Sign Up", fontSize = 22.sp)
+                }
+                Text("or", fontSize = 15.sp, color = MaterialTheme.colorScheme.onBackground)
+                Row() {
+                    Button(
+                        onClick = onLoginButtonClicked,
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+                        modifier = Modifier.padding(top = 12.dp),
+                    ) {
+                        Text("Sign Up", fontSize = 22.sp)
+                    }
                 }
             }
         }
