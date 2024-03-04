@@ -20,5 +20,9 @@
 | 2024-02-23 |        |         |         |         |     2    |       |  Setup skeleton for front-end dev |
 | 2024-02-24 |    1    |        |         |         |         |      | Setting up AS and updating Gradle (local) |
 | 2024-02-28 |    1    |   1    |    1    |   1     |    1    |  1   |     Group brainstorm for D3                |
+| 2024-02-28 |    1    |   1    |    1    |   1     |    1    |  1   |     Group discussion about D2 feedback     |
 | 2024-02-28 |         |        |         |         |     2   |      |      Setup Ktor for project         |
-
+| 2024-02-29 |         |        |         |         |         |   4   | Discovery Page       |
+| 2024-03-01 |         |        |    3     |         |         |      | Navbar        |
+| 2024-03-01 |         |        |    4     |         |         |      | Discovery Page       |
+| 2024-03-02 |         |        |    4     |         |         |      | Discovery Page/UI       |
