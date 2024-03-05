@@ -27,5 +27,7 @@
 | 2024-03-01 |         |        |    3     |         |         |      | Navbar        |
 | 2024-03-01 |         |        |    4     |         |         |      | Discovery Page       |
 | 2024-03-02 |         |        |    4     |         |         |      | Discovery Page/UI       |
+| 2024-03-02 |    4     |        |          |         |         |      | Home Page       |
+| 2024-03-03 |    4     |        |          |         |         |      | Camera      |
 | 2024-03-03 |     1    |    1    |    1     |     1    |     1    |   1   | Merge party 🎉     |
 | 2024-03-04 |     1    |    1    |    1     |     1    |     1    |   1   | Presentation Setup     |
