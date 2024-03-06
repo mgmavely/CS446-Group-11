@@ -32,4 +32,4 @@
 | 2024-03-03 |     1    |    1    |    1     |     1    |     1    |   1   | Merge party 🎉     |
 | 2024-03-04 |     1    |    1    |    1     |     1    |     1    |   1   | Presentation Setup     |
 | 2024-03-05 |         |        |         |         |     3   |      |     Firebase/Firestore implementation     |
-| 2024-03-06 |         |    0.5    |         |         |     3   |      |     D3 Document     |
+| 2024-03-06 |         |    0.5    |         |         |        |      |     D3 Document     |
