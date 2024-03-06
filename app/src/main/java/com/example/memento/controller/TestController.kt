@@ -1,8 +1,8 @@
 package com.example.memento.controller
 
-import org.example.model.UserModel
+import org.example.model.TestModel
 
-class UserController(val model: UserModel) {
+class TestController(val model: TestModel) {
     // we can cast `Any` later since each event has an associated type
 
 }

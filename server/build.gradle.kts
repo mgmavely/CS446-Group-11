@@ -57,6 +57,7 @@ dependencies {
 
     // Testing dependencies
     testImplementation("io.ktor:ktor-server-tests:2.3.8")
+    implementation(kotlin("script-runtime"))
 }
 
 tasks.withType<KotlinCompile> {
