@@ -31,3 +31,4 @@
 | 2024-03-03 |    4     |        |          |         |         |      | Camera      |
 | 2024-03-03 |     1    |    1    |    1     |     1    |     1    |   1   | Merge party 🎉     |
 | 2024-03-04 |     1    |    1    |    1     |     1    |     1    |   1   | Presentation Setup     |
+| 2024-03-05 |         |        |         |         |     3   |      |     Firebase/Firestore implementation     |
