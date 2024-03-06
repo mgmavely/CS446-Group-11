@@ -26,9 +26,10 @@
 | 2024-03-01 |         |        |         |         |     2   |      |      Worked on Firebase integration      |
 | 2024-03-01 |         |        |    3     |         |         |      | Navbar        |
 | 2024-03-01 |         |        |    4     |         |         |      | Discovery Page       |
-| 2024-03-02 |         |        |    4     |         |         |      | Discovery Page/UI       |
-| 2024-03-02 |    4     |        |          |         |         |      | Home Page       |
-| 2024-03-03 |    4     |        |          |         |         |      | Camera      |
+| 2024-03-02 |         |       |    4     |         |         |      | Discovery Page/UI       |
+| 2024-03-02 |    4     |    4    |          |         |         |      | Home Page       |
+| 2024-03-03 |    5     |    5    |          |         |         |      | Camera      |
 | 2024-03-03 |     1    |    1    |    1     |     1    |     1    |   1   | Merge party 🎉     |
 | 2024-03-04 |     1    |    1    |    1     |     1    |     1    |   1   | Presentation Setup     |
 | 2024-03-05 |         |        |         |         |     3   |      |     Firebase/Firestore implementation     |
+| 2024-03-06 |         |    0.5    |         |         |     3   |      |     D3 Document     |
