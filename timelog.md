@@ -17,7 +17,19 @@
 | 2024-02-08 |    1    |    1   |         |         |         |      |      Worked on Harmed Tourists of D2           |
 | 2024-02-10 |         |        |         |         |     1   |      |      Worked on Government section of D2          |
 | 2024-02-14 |         |        |         |     1    |         |      |      Worked on Harmed Tour Guides and Travel Companies of D2           |
+| 2024-02-23 |        |         |         |         |     2    |       |  Setup skeleton for front-end dev |
 | 2024-02-24 |    1    |        |         |         |         |      | Setting up AS and updating Gradle (local) |
-|            |         |        |         |         |         |      |                       |
-|            |         |        |         |         |         |      |                       |
-|            |         |        |         |         |         |      |                       |
+| 2024-02-28 |    1    |   1    |    1    |   1     |    1    |  1   |     Group brainstorm for D3                |
+| 2024-02-28 |    1    |   1    |    1    |   1     |    1    |  1   |     Group discussion about D2 feedback     |
+| 2024-02-28 |         |        |         |         |     2   |      |      Setup Ktor for project         |
+| 2024-02-29 |         |        |         |         |         |   4   | Discovery Page       |
+| 2024-03-01 |         |        |         |         |     2   |      |      Worked on Firebase integration      |
+| 2024-03-01 |         |        |    3     |         |         |      | Navbar        |
+| 2024-03-01 |         |        |    4     |         |         |      | Discovery Page       |
+| 2024-03-02 |         |       |    4     |         |         |      | Discovery Page/UI       |
+| 2024-03-02 |    4     |    4    |          |         |         |      | Home Page       |
+| 2024-03-03 |    5     |    5    |          |         |         |      | Camera      |
+| 2024-03-03 |     1    |    1    |    1     |     1    |     1    |   1   | Merge party 🎉     |
+| 2024-03-04 |     1    |    1    |    1     |     1    |     1    |   1   | Presentation Setup     |
+| 2024-03-05 |         |        |         |         |     3   |      |     Firebase/Firestore implementation     |
+| 2024-03-06 |         |    0.5    |         |         |        |      |     D3 Document     |
