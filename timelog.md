@@ -12,6 +12,9 @@
 | 2024-01-28 |   1.5      |        |         |         |         |      |  Worked on the style and mockups                   |
 | 2024-01-29 |         |        |    1    |    1    |    1    |   1  |  Finished Architecture                     |
 | 2024-01-29 |   2     |    2   |    2    |    2    |    2    |   2  |  Finishing Project idea and architecture                     |
+
+|    Date    | Antonio | Carlos | Jackson | Jeffery | Michael | Rene |         Task          |
+|------------|---------|--------|---------|---------|---------|------|-----------------------|
 | 2024-02-01 |         |    1   |         |         |         |      |      Worked on Stakeholders and final document             |
 | 2024-01-07  |   2     |    2   |    2    |    2    |    2    |   2  |  Brainstorming for D2                   |
 | 2024-02-08 |    1    |    1   |         |         |         |      |      Worked on Harmed Tourists of D2           |
@@ -22,7 +25,11 @@
 | 2024-02-28 |    1    |   1    |    1    |   1     |    1    |  1   |     Group brainstorm for D3                |
 | 2024-02-28 |    1    |   1    |    1    |   1     |    1    |  1   |     Group discussion about D2 feedback     |
 | 2024-02-28 |         |        |         |         |     2   |      |      Setup Ktor for project         |
-| 2024-02-29 |         |        |         |         |         |   4   | Discovery Page       |
+| 2024-02-29 |         |        |         |         |         |   4   | Discovery Page       | 
+
+
+|    Date    | Antonio | Carlos | Jackson | Jeffery | Michael | Rene |         Task          |
+|------------|---------|--------|---------|---------|---------|------|-----------------------|
 | 2024-03-01 |         |        |         |         |     2   |      |      Worked on Firebase integration      |
 | 2024-03-01 |         |        |    3     |         |         |      | Navbar        |
 | 2024-03-01 |         |        |    4     |         |         |      | Discovery Page       |
