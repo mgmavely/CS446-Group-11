@@ -17,7 +17,7 @@ fun MenuBarGraph(navController: NavHostController) {
         startDestination = MenuBarOptions.Login.route,
     ) {
         composable(route = MenuBarOptions.Login.route) {
-            LoginView(onLoginButtonClicked = { navController.navigate(MenuBarOptions.Home.route) })
+            LoginView(toHomePage = { navController.navigate(MenuBarOptions.Home.route) })
         }
         composable(route = MenuBarOptions.Home.route) {
             HomeView(onHomeClicked = { navController.navigate(MenuBarOptions.HomeInfo.route) })
@@ -26,7 +26,7 @@ fun MenuBarGraph(navController: NavHostController) {
             HomeInfoView()
         }
         composable(route = MenuBarOptions.Settings.route) {
-            SettingsView()
+            SettingsView( onLogoutClicked = { navController.navigate(MenuBarOptions.Login.route) } )
         }
         composable(route = MenuBarOptions.Discover.route) {
             DiscoverView()
