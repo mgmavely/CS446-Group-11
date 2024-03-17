@@ -91,6 +91,14 @@ fun HomeView(
         var minutesLeft by remember { mutableIntStateOf(0) }
 
         LaunchedEffect(true) {
+            val firstDateTime = LocalDateTime.now()
+            if (firstDateTime.minute == 0){
+                hoursLeft = 24 - firstDateTime.hour
+                minutesLeft = 0
+            } else {
+                hoursLeft = 23 - firstDateTime.hour
+                minutesLeft = 60 - firstDateTime.minute
+            }
             while (true) {
                 val currentDateTime = LocalDateTime.now()
                 if (currentDateTime.hour == 0 && currentDateTime.minute == 0) {
