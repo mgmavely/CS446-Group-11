@@ -219,22 +219,35 @@ fun HomeView(
                     }
                     
                 if (capturedImageUri != null) {
-
-                        item {Card(
+                        item {
+                                Card(
                                 colors =
                                         CardDefaults.cardColors(
                                                 containerColor = MaterialTheme.colorScheme.onBackground,
                                         ),
                                 modifier = Modifier.fillMaxWidth().padding(16.dp)
                         ) {
-
-
+                            Card(
+                                colors =
+                                        CardDefaults.cardColors(
+                                                containerColor = MaterialTheme.colorScheme.onPrimary,
+                                        ),
+                                modifier = Modifier.fillMaxWidth().padding(1.dp)
+                            ){
                             // Display captured image
-                            Column() {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                            ) {
                                 Log.d("HomeView", "Displaying captured image: $capturedImageUri")
-                                AnimatedVisibility(
-                                    visible = capturedImageUri.toString().isNotEmpty()
+                                Card(
+                                        colors =
+                                                CardDefaults.cardColors(
+                                                        containerColor = MaterialTheme.colorScheme.onBackground,
+                                                ),
+                                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp).height(300.dp)
                                 ) {
+                                        AnimatedVisibility(
+                                                visible = capturedImageUri.toString().isNotEmpty()){
                                     AsyncImage(
                                         model = capturedImageUri.toString(),
                                         contentDescription = "captured memento",
@@ -243,20 +256,21 @@ fun HomeView(
                                             .padding(
                                                 PaddingValues(top = 20.dp, bottom = 100.dp)
                                             )
-                                    )
-                                }
-                                Box(modifier = Modifier.size(100.dp, 50.dp)) {
-                                    // Contenido
-                                    Text(
+                                    )}
+                                                }
+                                // Contenido
+                                Text(
                                         "Memento captured:\n$dailyPrompt",
                                         fontWeight = FontWeight.Bold,
-                                        fontSize = 10.sp,
-                                        color = MaterialTheme.colorScheme.onPrimary
+                                        textAlign = TextAlign.Center,
+                                        fontSize = 20.sp,
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                        modifier = Modifier.padding(10.dp)
                                     )
                                 }
+                        }
                             }
                         }
-        }
         }
         else {
                 // Daily prompt
