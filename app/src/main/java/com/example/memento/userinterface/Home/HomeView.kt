@@ -284,7 +284,7 @@ fun HomeView(
                 // Capture memento
                 item {
                         Box(
-                            modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp), contentAlignment = Alignment.Center,) {
                                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     FloatingActionButton(
                                             onClick = {
