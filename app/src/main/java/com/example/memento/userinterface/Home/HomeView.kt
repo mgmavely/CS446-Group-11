@@ -13,6 +13,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material3.*
@@ -177,7 +178,6 @@ fun HomeView(
                                     .padding(innerPadding)
                                     .background(MaterialTheme.colorScheme.background)
             ) {
-
                 // Streak and time left
                 item {
                         Row(
@@ -279,7 +279,7 @@ fun HomeView(
                                                 CardDefaults.cardColors(
                                                         containerColor = MaterialTheme.colorScheme.onBackground,
                                                 ),
-                                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp).height(350.dp)
+                                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp).height(550.dp)
                                 ) {
                                         Image(
                                                 painter = rememberImagePainter(capturedImageUri),
@@ -299,6 +299,11 @@ fun HomeView(
                                 }
                         }
                             }
+                        }
+                        item {
+                                Spacer(
+                                        modifier = Modifier.height(75.dp)
+                                )
                         }
         }
         else {
