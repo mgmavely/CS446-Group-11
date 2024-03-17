@@ -225,7 +225,7 @@ fun HomeView(
                                         CardDefaults.cardColors(
                                                 containerColor = MaterialTheme.colorScheme.onBackground,
                                         ),
-                                modifier = Modifier.fillMaxWidth().padding(16.dp)
+                                modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 25.dp)
                         ) {
                             Card(
                                 colors =
