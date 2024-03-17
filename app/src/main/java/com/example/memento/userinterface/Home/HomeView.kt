@@ -74,7 +74,7 @@ fun HomeView(
         imageRef.downloadUrl.addOnSuccessListener {
             Log.d("HomeView", "Image available at ${it}")
             imageAvailable = true
-            //capturedImageUri = it
+            capturedImageUri = it
         }.addOnFailureListener {
             Log.e("HomeView", "Image not available")
             imageAvailable = false
@@ -123,10 +123,6 @@ fun HomeView(
         var daysPressed by remember { mutableIntStateOf(5) }
         var hoursLeft by remember { mutableIntStateOf(24) }
         var minutesLeft by remember { mutableIntStateOf(0) }
-
-
-
-
         
 
         LaunchedEffect(true) {
@@ -283,13 +279,12 @@ fun HomeView(
                                                 CardDefaults.cardColors(
                                                         containerColor = MaterialTheme.colorScheme.onBackground,
                                                 ),
-                                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp).height(300.dp)
+                                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp).height(350.dp)
                                 ) {
                                         Image(
-                                                painter = rememberImagePainter(imageRef),
+                                                painter = rememberImagePainter(capturedImageUri),
                                                 contentDescription = "Today's Memento",
-                                                modifier = Modifier.fillMaxWidth()
-                                                    .padding(PaddingValues(top = 20.dp, bottom = 100.dp))    
+                                                modifier = Modifier.fillMaxHeight().align(Alignment.CenterHorizontally)
                                         )
                                                 }
                                 // Contenido
