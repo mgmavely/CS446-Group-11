@@ -75,7 +75,8 @@ fun Prompt() {
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(0.2f)
-            .background(MaterialTheme.colorScheme.secondary),
+            .background(MaterialTheme.colorScheme.secondary)
+            .padding(10.dp),
         contentAlignment = Alignment.Center
     ) {
                 AutoResizingText(
@@ -149,7 +150,8 @@ fun DiscoverView() {
                 modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.primary)
-                    .padding(innerPadding),
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(1.dp)
             ) {
                 // Prompt at the top of the screen that doesn't change
@@ -171,7 +173,8 @@ fun DiscoverView() {
                     items(5) {
                         // add all items
                         Post(
-                            Modifier,
+                            modifier = Modifier
+                                .padding(top = 10.dp),
                             images.getPainter(it)
                         )
                     }
