@@ -1,6 +1,7 @@
 package org.example.userinterface.Equipment
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,8 +18,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -119,11 +122,8 @@ fun Post(
                 contentScale = ContentScale.FillWidth
             )
         }
-        Text(
-            text = caption,
-            modifier = Modifier.
-            padding(horizontal = 16.dp, vertical = 8.dp),
-            color = MaterialTheme.colorScheme.onBackground
+        Caption(
+            caption = "Here is a reallllllllly long assss cpationsdfjsd fjksld fjklsdj fklsdjklf jsdkljafksdlafjklsdjfklsdjafklsdjfklsdjfklsjfl"
         )
     }
 }
@@ -230,5 +230,21 @@ fun AutoResizingText(
         },
         fontWeight = FontWeight.Normal,
         lineHeight = 30.sp
+    )
+}
+
+@Composable
+fun Caption(caption: String) {
+    var isExpanded by remember { mutableStateOf(false) }
+    val toggleExpanded: () -> Unit = { isExpanded = !isExpanded }
+
+    Text(
+        text = caption,
+        modifier = Modifier
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clickable ( onClick = toggleExpanded ),
+        color = MaterialTheme.colorScheme.onBackground,
+        maxLines = if (isExpanded) Int.MAX_VALUE else 1,
+        overflow = if (isExpanded) TextOverflow.Visible else TextOverflow.Ellipsis
     )
 }
