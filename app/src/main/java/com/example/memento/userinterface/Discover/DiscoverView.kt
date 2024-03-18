@@ -43,8 +43,8 @@ class ImageCollection() {
     val painters: MutableList<Int> = mutableListOf()
     init {
         /* hardcoded images for now */
-        painters.add(R.drawable.dog)
         painters.add(R.drawable.campfire)
+        painters.add(R.drawable.dog)
         painters.add(R.drawable.flowers)
         painters.add(R.drawable.forest)
         painters.add(R.drawable.ocean)
@@ -83,7 +83,7 @@ fun Prompt() {
                     modifier = Modifier.
                         padding(10.dp),
                     text = promptText,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     targetTextSize = 30.sp
                 )
     }
@@ -92,7 +92,8 @@ fun Prompt() {
 @Composable
 fun Post(
     modifier: Modifier = Modifier,
-    imagePath: Int
+    imagePath: Int,
+    caption: String
 ) {
     /**
      * Represents a single post in the scrolling column
@@ -100,22 +101,31 @@ fun Post(
 
     val image = painterResource(id = imagePath)
 
-    Box(
+    Column(
         modifier = modifier
-            .size(380.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colorScheme.secondary)
-            .padding(10.dp)
+            .fillMaxWidth()
+            .background(Color.White)
     ) {
-        Image(
-            painter = image,
-            contentDescription = "post",
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(RoundedCornerShape(8.dp))
+        Box(
+            modifier = modifier
+                .size(380.dp)
+                .background(Color.White)
+                .padding(10.dp)
+        ) {
+            Image(
+                painter = image,
+                contentDescription = "post",
+                modifier = Modifier
+                    .fillMaxSize()
+            )
+        }
+        Text(
+            text = caption,
+            modifier = Modifier.
+            padding(horizontal = 16.dp, vertical = 8.dp),
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -156,8 +166,7 @@ fun DiscoverView() {
             ) {
                 // Prompt at the top of the screen that doesn't change
                 Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(16.dp))
+                    Modifier
                 ) {
                     Prompt()
                 }
@@ -175,7 +184,8 @@ fun DiscoverView() {
                         Post(
                             modifier = Modifier
                                 .padding(top = 10.dp),
-                            images.getPainter(it)
+                            images.getPainter(it),
+                            caption = "this is a test caption that is super really adkjlsf;jsdfls;sdfjksdljfksdljfkldsjfklds;jfalsdjfklasjdfklsajfdklsajf sdkjfklsdjfsd f long"
                         )
                     }
                 }
