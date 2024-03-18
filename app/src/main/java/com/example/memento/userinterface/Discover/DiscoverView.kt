@@ -145,55 +145,39 @@ fun DiscoverView() {
                 )
             }
         ) { innerPadding ->
-            LazyColumn(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.primary)
                     .padding(innerPadding),
                 verticalArrangement = Arrangement.spacedBy(1.dp)
             ) {
-                items(5) {
-                    // add all items
-                    Post(
-                        Modifier,
-                        images.getPainter(it)
-                    )
+                // Prompt at the top of the screen that doesn't change
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(16.dp))
+                ) {
+                    Prompt()
+                }
+                LazyColumn(
+                    // Column is lazy which enables scrolling
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 10.dp)
+                        .background(MaterialTheme.colorScheme.primary),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    items(5) {
+                        // add all items
+                        Post(
+                            Modifier,
+                            images.getPainter(it)
+                        )
+                    }
                 }
             }
         }
-
-//        Column(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .background(MaterialTheme.colorScheme.primary)
-//                .padding(top = 10.dp, start = 10.dp, end = 10.dp),
-//            verticalArrangement = Arrangement.spacedBy(1.dp)
-//        ) {
-//            // Prompt at the top of the screen that doesn't change
-//            Box(
-//                modifier = Modifier
-//                    .clip(RoundedCornerShape(16.dp))
-//            ) {
-//                Prompt()
-//            }
-//            LazyColumn(
-//                // Column is lazy which enables scrolling
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(top = 10.dp)
-//                    .background(MaterialTheme.colorScheme.primary),
-//                verticalArrangement = Arrangement.spacedBy(10.dp),
-//                horizontalAlignment = Alignment.CenterHorizontally
-//            ) {
-//                items(5) {
-//                    // add all items
-//                    Post(
-//                        Modifier,
-//                        images.getPainter(it)
-//                    )
-//                }
-//            }
-//        }
     }
 }
 
