@@ -42,3 +42,4 @@
 | 2024-03-06 |         |    0.5    |         |         |        |      |     D3 Document     |
 | 2024-03-11 |    1     |    1    |     1    |     1    |    1    |    1   |     Sprint Kickoff     |
 | 2024-03-11 |         |        |         |         |     3   |            |     Setup Firebase auth and session management    |
+| 2024-03-16 |         |        |         |         |     2   |            |     Firebase DB schema design    |
