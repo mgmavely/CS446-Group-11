@@ -201,7 +201,19 @@ fun SettingsView(
                     }
                     Divider(thickness = 1.dp)
                     Button(
-                        onClick = onMentalHealthPhoneClicked,
+                        onClick = {
+                            val user = auth.currentUser
+                            user?.delete()?.addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    // Account deleted successfully
+                                    auth.signOut()
+                                    onLogoutClicked()
+                                } else {
+                                    // Failed to delete account
+                                    Log.e("SettingsView", "Failed to delete account: ${task.exception}")
+                                }
+                            }
+                        },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                         modifier = Modifier
                             .padding(vertical = 10.dp)
@@ -216,3 +228,4 @@ fun SettingsView(
         }
     }
 }
+
