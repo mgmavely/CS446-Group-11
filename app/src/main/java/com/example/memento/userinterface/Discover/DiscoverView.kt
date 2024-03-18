@@ -11,7 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -114,6 +117,7 @@ fun Post(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun DiscoverView() {
@@ -124,28 +128,29 @@ fun DiscoverView() {
     MementoTheme {
         val images = ImageCollection()
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.primary)
-                .padding(top = 10.dp, start = 10.dp, end = 10.dp),
-            verticalArrangement = Arrangement.spacedBy(1.dp)
-        ) {
-            // Prompt at the top of the screen that doesn't change
-            Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(16.dp))
-            ) {
-                Prompt()
+        Scaffold(
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(
+                            "MEMENTO",
+                            textAlign = TextAlign.Center,
+                            fontSize = 65.sp,
+                            lineHeight = 33.sp,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+
+                    },
+                    modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
+                )
             }
+        ) { innerPadding ->
             LazyColumn(
-                // Column is lazy which enables scrolling
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 10.dp)
-                    .background(MaterialTheme.colorScheme.primary),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .background(MaterialTheme.colorScheme.primary)
+                    .padding(innerPadding),
+                verticalArrangement = Arrangement.spacedBy(1.dp)
             ) {
                 items(5) {
                     // add all items
@@ -156,6 +161,39 @@ fun DiscoverView() {
                 }
             }
         }
+
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .background(MaterialTheme.colorScheme.primary)
+//                .padding(top = 10.dp, start = 10.dp, end = 10.dp),
+//            verticalArrangement = Arrangement.spacedBy(1.dp)
+//        ) {
+//            // Prompt at the top of the screen that doesn't change
+//            Box(
+//                modifier = Modifier
+//                    .clip(RoundedCornerShape(16.dp))
+//            ) {
+//                Prompt()
+//            }
+//            LazyColumn(
+//                // Column is lazy which enables scrolling
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .padding(top = 10.dp)
+//                    .background(MaterialTheme.colorScheme.primary),
+//                verticalArrangement = Arrangement.spacedBy(10.dp),
+//                horizontalAlignment = Alignment.CenterHorizontally
+//            ) {
+//                items(5) {
+//                    // add all items
+//                    Post(
+//                        Modifier,
+//                        images.getPainter(it)
+//                    )
+//                }
+//            }
+//        }
     }
 }
 
