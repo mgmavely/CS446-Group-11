@@ -1,5 +1,7 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 package org.example.userinterface.Settings
+import android.content.ContentValues
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,14 +44,17 @@ import androidx.compose.ui.unit.sp
 import com.example.memento.theme.MementoTheme
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.SwitchDefaults
+import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun SettingsView(
         onMentalHealthOnlineClicked: () -> Unit = {},
-        onMentalHealthPhoneClicked: () -> Unit = {}
+        onMentalHealthPhoneClicked: () -> Unit = {},
+        onLogoutClicked: () -> Unit = {}
 ) {
+    val auth = FirebaseAuth.getInstance()
     MementoTheme {
 
         Scaffold(
@@ -183,7 +188,10 @@ fun SettingsView(
 
                 Column() {
                     Button(
-                        onClick = onMentalHealthOnlineClicked,
+                        onClick = {
+                            auth.signOut() // Sign out the user
+                            onLogoutClicked() // Execute the callback function
+                        },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                         modifier = Modifier
                             .padding(vertical = 10.dp)
@@ -193,7 +201,19 @@ fun SettingsView(
                     }
                     Divider(thickness = 1.dp)
                     Button(
-                        onClick = onMentalHealthPhoneClicked,
+                        onClick = {
+                            val user = auth.currentUser
+                            user?.delete()?.addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    // Account deleted successfully
+                                    auth.signOut()
+                                    onLogoutClicked()
+                                } else {
+                                    // Failed to delete account
+                                    Log.e("SettingsView", "Failed to delete account: ${task.exception}")
+                                }
+                            }
+                        },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                         modifier = Modifier
                             .padding(vertical = 10.dp)
@@ -208,3 +228,4 @@ fun SettingsView(
         }
     }
 }
+
