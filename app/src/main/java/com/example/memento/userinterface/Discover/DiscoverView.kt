@@ -1,6 +1,7 @@
 package org.example.userinterface.Equipment
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,11 +12,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -24,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
@@ -40,8 +47,8 @@ class ImageCollection() {
     val painters: MutableList<Int> = mutableListOf()
     init {
         /* hardcoded images for now */
-        painters.add(R.drawable.dog)
         painters.add(R.drawable.campfire)
+        painters.add(R.drawable.dog)
         painters.add(R.drawable.flowers)
         painters.add(R.drawable.forest)
         painters.add(R.drawable.ocean)
@@ -72,14 +79,15 @@ fun Prompt() {
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(0.2f)
-            .background(MaterialTheme.colorScheme.secondary),
+            .background(MaterialTheme.colorScheme.secondary)
+            .padding(10.dp),
         contentAlignment = Alignment.Center
     ) {
                 AutoResizingText(
                     modifier = Modifier.
                         padding(10.dp),
                     text = promptText,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     targetTextSize = 30.sp
                 )
     }
@@ -88,7 +96,8 @@ fun Prompt() {
 @Composable
 fun Post(
     modifier: Modifier = Modifier,
-    imagePath: Int
+    imagePath: Int,
+    caption: String
 ) {
     /**
      * Represents a single post in the scrolling column
@@ -96,24 +105,30 @@ fun Post(
 
     val image = painterResource(id = imagePath)
 
-    Box(
+    Column(
         modifier = modifier
-            .size(380.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colorScheme.secondary)
-            .padding(10.dp)
+            .fillMaxWidth()
+            .background(Color.White)
     ) {
-        Image(
-            painter = image,
-            contentDescription = "post",
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(RoundedCornerShape(8.dp))
+        Box(
+            modifier = modifier
+                .background(Color.White)
+                .padding(10.dp)
+        ) {
+            Image(
+                painter = image,
+                contentDescription = "post",
+                modifier = Modifier.fillMaxWidth(),
+                contentScale = ContentScale.FillWidth
+            )
+        }
+        Caption(
+            caption = "Here is a reallllllllly long assss cpationsdfjsd fjksld fjklsdj fklsdjklf jsdkljafksdlafjklsdjfklsdjafklsdjfklsdjfklsjfl"
         )
     }
-
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun DiscoverView() {
@@ -124,35 +139,55 @@ fun DiscoverView() {
     MementoTheme {
         val images = ImageCollection()
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.primary)
-                .padding(top = 10.dp, start = 10.dp, end = 10.dp),
-            verticalArrangement = Arrangement.spacedBy(1.dp)
-        ) {
-            // Prompt at the top of the screen that doesn't change
-            Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(16.dp))
-            ) {
-                Prompt()
+        Scaffold(
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(
+                            "MEMENTO",
+                            textAlign = TextAlign.Center,
+                            fontSize = 65.sp,
+                            lineHeight = 33.sp,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+
+                    },
+                    modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
+                )
             }
-            LazyColumn(
-                // Column is lazy which enables scrolling
+        ) { innerPadding ->
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 10.dp)
-                    .background(MaterialTheme.colorScheme.primary),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .background(MaterialTheme.colorScheme.primary)
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(1.dp)
             ) {
-                items(5) {
-                    // add all items
-                    Post(
-                        Modifier,
-                        images.getPainter(it)
-                    )
+                // Prompt at the top of the screen that doesn't change
+                Box(
+                    Modifier
+                ) {
+                    Prompt()
+                }
+                LazyColumn(
+                    // Column is lazy which enables scrolling
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 10.dp)
+                        .background(MaterialTheme.colorScheme.primary),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    items(5) {
+                        // add all items
+                        Post(
+                            modifier = Modifier
+                                .padding(top = 10.dp),
+                            images.getPainter(it),
+                            caption = "this is a test caption that is super really adkjlsf;jsdfls;sdfjksdljfksdljfkldsjfklds;jfalsdjfklasjdfklsajfdklsajf sdkjfklsdjfsd f long"
+                        )
+                    }
                 }
             }
         }
@@ -195,5 +230,21 @@ fun AutoResizingText(
         },
         fontWeight = FontWeight.Normal,
         lineHeight = 30.sp
+    )
+}
+
+@Composable
+fun Caption(caption: String) {
+    var isExpanded by remember { mutableStateOf(false) }
+    val toggleExpanded: () -> Unit = { isExpanded = !isExpanded }
+
+    Text(
+        text = caption,
+        modifier = Modifier
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clickable ( onClick = toggleExpanded ),
+        color = MaterialTheme.colorScheme.onBackground,
+        maxLines = if (isExpanded) Int.MAX_VALUE else 1,
+        overflow = if (isExpanded) TextOverflow.Visible else TextOverflow.Ellipsis
     )
 }

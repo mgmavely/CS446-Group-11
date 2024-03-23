@@ -45,3 +45,6 @@
 | 2024-03-11 |    1     |    1    |     1    |     1    |    1    |    1   |     Sprint Kickoff     |
 | 2024-03-11 |         |        |         |         |     3   |            |     Setup Firebase auth and session management    |
 | 2024-03-16 |         |        |         |         |     2   |            |     Firebase DB schema design    |
+| 2024-03-18 |         |        |         |         |     2   |            |     Architecture and Design Pattern brainstorm started  |
+| 2024-03-20 |         |        |         |         |     2   |            |     Finished Architecture and Design Pattern brainstorm    |
+| 2024-03-20 |         |        |     2    |         |        |            |     Worked on D4 Arch   |
