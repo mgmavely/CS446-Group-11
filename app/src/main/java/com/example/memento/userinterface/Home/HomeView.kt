@@ -51,6 +51,7 @@ import java.util.Objects
 @Composable
 fun HomeView(
     onHomeClicked: () -> Unit = {},
+    toHistory: () -> Unit = {}
 ) {
     MementoTheme {
 
@@ -132,6 +133,19 @@ fun HomeView(
                     .padding(innerPadding)
                     .background(MaterialTheme.colorScheme.background)
             ) {
+
+                item {
+                    Button(
+                        onClick = { toHistory() },
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+                        modifier = Modifier.padding(top = 12.dp).fillMaxWidth()
+                            .padding(16.dp),
+                    ) {
+                        Text("View Your Post History", fontSize = 22.sp, textAlign = TextAlign.Center)
+                    }
+                }
+
+
                 item {
                     Card(
                         colors = CardDefaults.cardColors(
