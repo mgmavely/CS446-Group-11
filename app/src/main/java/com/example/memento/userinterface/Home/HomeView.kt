@@ -168,7 +168,8 @@ fun HomeView(
                                         fontWeight = FontWeight.Bold
                                 )
                             },
-                            modifier = Modifier.padding(1.dp)
+                            modifier = Modifier.padding(
+                                PaddingValues(top = 1.dp, bottom = 10.dp))
                     )
                 }
         ) { innerPadding ->
