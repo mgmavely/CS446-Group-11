@@ -13,6 +13,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material3.*
@@ -32,8 +33,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
+import coil.compose.AsyncImagePainter
 import com.example.memento.BuildConfig
 import com.example.memento.theme.MementoTheme
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import com.google.firebase.storage.StorageReference
 import java.io.File
 import java.time.LocalDateTime
 import java.util.Date
@@ -55,24 +61,53 @@ fun HomeView(
                         BuildConfig.APPLICATION_ID + ".provider",
                         file
                 )
-        Log.d("HomeView", "Uri: ${BuildConfig.APPLICATION_ID}.provider")
-
         var dailyPrompt = "Daily prompt"
 
+        // Firebase
+        val storage = Firebase.storage
+        val imagesRef = storage.reference.child("images")
+
         var capturedImageUri by remember { mutableStateOf<Uri?>(null) }
+        var imageAvailable by remember { mutableStateOf(false) }
+
+        val today = SimpleDateFormat("yyyy-MM-dd").format(Date())
+        val imageRef = imagesRef.child("${today}.jpg")
+        imageRef.downloadUrl.addOnSuccessListener {
+            Log.d("HomeView", "Image available at ${it}")
+            imageAvailable = true
+            capturedImageUri = it
+        }.addOnFailureListener {
+            Log.e("HomeView", "Image not available")
+            imageAvailable = false
+        }
 
         val cameraLauncher =
                 rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { isTaken
                     ->
                     if (isTaken) {
-                        val imageFile = context.createImageFile()
-                        Log.d("HomeView", "Image file created at ${imageFile.absolutePath}")
-                        capturedImageUri = Uri.fromFile(imageFile)
-                        Log.d("HomeView", "Image captured at ${capturedImageUri?.path}")
+                        Log.d("HomeView", "Image captured successfully")
+                        capturedImageUri = uri
+                        val todayImageRef = imagesRef.child("${today}.jpg")
+                        Log.d("HomeView", "Uploading image to $todayImageRef")
+                        Log.d("HomeView", "Captured image uri: $capturedImageUri")
+                        capturedImageUri?.let { uri ->
+                            val imageStream = context.contentResolver.openInputStream(uri)
+                            Log.d("HomeView", "Image stream: $imageStream")
+                            imageStream?.let { stream ->
+                                todayImageRef.putStream(stream)
+                                    .addOnSuccessListener {
+                                        Log.d("HomeView", "Image uploaded successfully")
+                                        imageAvailable = true
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.e("HomeView", "Failed to upload image: ${e.message}")
+                                    }
+                            }
+                        }
                     } else {
                         Log.e("HomeView", "Failed to capture image")
                         Toast.makeText(context, "Failed to capture image", Toast.LENGTH_SHORT)
-                                .show()
+                            .show()
                     }
                 }
 
@@ -89,6 +124,7 @@ fun HomeView(
         var daysPressed by remember { mutableIntStateOf(5) }
         var hoursLeft by remember { mutableIntStateOf(24) }
         var minutesLeft by remember { mutableIntStateOf(0) }
+        
 
         LaunchedEffect(true) {
             val firstDateTime = LocalDateTime.now()
@@ -132,7 +168,8 @@ fun HomeView(
                                         fontWeight = FontWeight.Bold
                                 )
                             },
-                            modifier = Modifier.padding(1.dp)
+                            modifier = Modifier.padding(
+                                PaddingValues(top = 1.dp, bottom = 10.dp))
                     )
                 }
         ) { innerPadding ->
@@ -142,7 +179,6 @@ fun HomeView(
                                     .padding(innerPadding)
                                     .background(MaterialTheme.colorScheme.background)
             ) {
-
                 // Streak and time left
                 item {
                         Row(
@@ -218,7 +254,7 @@ fun HomeView(
                         }
                     }
                     
-                if (capturedImageUri != null) {
+                if (imageAvailable) {
                         item {
                                 Card(
                                 colors =
@@ -244,19 +280,13 @@ fun HomeView(
                                                 CardDefaults.cardColors(
                                                         containerColor = MaterialTheme.colorScheme.onBackground,
                                                 ),
-                                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp).height(300.dp)
+                                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp).height(550.dp)
                                 ) {
-                                        AnimatedVisibility(
-                                                visible = capturedImageUri.toString().isNotEmpty()){
-                                    AsyncImage(
-                                        model = capturedImageUri.toString(),
-                                        contentDescription = "captured memento",
-                                        modifier =
-                                        Modifier.fillMaxWidth()
-                                            .padding(
-                                                PaddingValues(top = 20.dp, bottom = 100.dp)
-                                            )
-                                    )}
+                                        Image(
+                                                painter = rememberImagePainter(capturedImageUri),
+                                                contentDescription = "Today's Memento",
+                                                modifier = Modifier.fillMaxHeight().align(Alignment.CenterHorizontally)
+                                        )
                                                 }
                                 // Contenido
                                 Text(
@@ -270,6 +300,11 @@ fun HomeView(
                                 }
                         }
                             }
+                        }
+                        item {
+                                Spacer(
+                                        modifier = Modifier.height(75.dp)
+                                )
                         }
         }
         else {
