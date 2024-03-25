@@ -62,7 +62,8 @@ fun MementoApp(
     Scaffold(
         bottomBar = {
             if (showNav) WaitlessMenuBar(navController = navController)
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.primary
     )
     {innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
