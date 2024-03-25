@@ -1,5 +1,6 @@
 package org.example
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +16,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -36,6 +38,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
@@ -61,8 +64,10 @@ fun MementoApp(
             if (showNav) WaitlessMenuBar(navController = navController)
         }
     )
-    {
-        MenuBarGraph(navController = navController)
+    {innerPadding ->
+        Box(modifier = Modifier.padding(innerPadding)) {
+            MenuBarGraph(navController = navController)
+        }
     }
 }
 
@@ -84,11 +89,12 @@ fun WaitlessMenuBar(navController: NavHostController) {
     ) {
         Surface(
             shape = RoundedCornerShape(16.dp),
-            color = Color.Transparent
+            color = MaterialTheme.colorScheme.primary
         ) {
             NavigationBar(
                 containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = MaterialTheme.colorScheme.tertiary
+                contentColor = MaterialTheme.colorScheme.tertiary,
+                tonalElevation = 0.dp
             ) {
                 screens.forEach { screen ->
                     AddItem(
@@ -122,13 +128,18 @@ fun RowScope.AddItem(
             )
         },
         icon = {
-            Icon(
-                imageVector = if (selected) screen.icon_filled else screen.icon_outlined,
-                contentDescription = "Navigation Icon",
-                modifier = Modifier.size(32.dp),
-                tint = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary
-            )
-        },
+            Surface(
+                shape = RoundedCornerShape(16.dp),
+                color = Color.Transparent
+            ) {
+                Icon(
+                    imageVector = if (selected) screen.icon_filled else screen.icon_outlined,
+                    contentDescription = "Navigation Icon",
+                    modifier = Modifier.size(32.dp),
+                    tint = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary
+                )
+            }
+               },
         modifier = Modifier.fillMaxSize(),
         selected = selected,
         onClick = {
