@@ -42,7 +42,6 @@ import com.google.firebase.auth.auth
 fun LoginView(
     toHomePage: () -> Unit = {}
 ) {
-    val auth2 = FirebaseAuth.getInstance()
     val auth: FirebaseAuth = Firebase.auth
 
     var username by remember { mutableStateOf("") }
@@ -50,7 +49,10 @@ fun LoginView(
     var signUpError by remember { mutableStateOf<String?>(null) }
 
     fun signUp(username: String, password: String) {
-        auth.createUserWithEmailAndPassword(username, password)
+        if (username.isEmpty() || password.isEmpty()) {
+            signUpError = "Username and Password cannot be blank"
+        } else {
+            auth.createUserWithEmailAndPassword(username, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     toHomePage()
@@ -67,10 +69,14 @@ fun LoginView(
                     }
                 }
             }
+        }
     }
 
     fun signIn(username: String, password: String) {
-        auth.signInWithEmailAndPassword(username, password)
+        if (username.isEmpty() || password.isEmpty()) {
+            signUpError = "Username and Password cannot be blank"
+        } else {
+            auth.signInWithEmailAndPassword(username, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     toHomePage()
@@ -86,6 +92,7 @@ fun LoginView(
                     }
                 }
             }
+        }
     }
 
     MementoTheme {
