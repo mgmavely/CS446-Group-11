@@ -53,3 +53,5 @@
 | 2024-03-20 |         |       |         |    2    |         |      | Worked on D4 Arch           |
 | 2024-03-24 |    1     |        |          |         |        |            |     Adjust camera implementation   |
 | 2024-03-25 |    1     |    1   |     1    |    1    |    1   |      1     |     Group meeting to plan tasks out for week   |
+| 2024-03-25 |          |        |        |         |    2   |            |     Setup wiring for user posts to Firebase Storage and Firestore DB   |
+| 2024-03-25 |          |        |        |         |    2   |            |     Implemented functions for user posts (toggle privacy, delete and caption)  |
