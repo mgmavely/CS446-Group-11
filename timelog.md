@@ -45,6 +45,14 @@
 | 2024-03-11 |    1     |    1    |     1    |     1    |    1    |    1   |     Sprint Kickoff     |
 | 2024-03-11 |         |        |         |         |     3   |            |     Setup Firebase auth and session management    |
 | 2024-03-16 |         |        |         |         |     2   |            |     Firebase DB schema design    |
+| 2024-03-16 |     6   |        |         |         |         |            |     Storage schema design and Camera implementation    |
 | 2024-03-18 |         |        |         |         |     2   |            |     Architecture and Design Pattern brainstorm started  |
+| 2024-03-18 |         |       |         |    4    |         |      | Worked on History Page           |
 | 2024-03-20 |         |        |         |         |     2   |            |     Finished Architecture and Design Pattern brainstorm    |
 | 2024-03-20 |         |        |     2    |         |        |            |     Worked on D4 Arch   |
+| 2024-03-20 |         |       |         |    2    |         |      | Worked on D4 Arch           |
+| 2024-03-24 |    1     |        |          |         |        |            |     Adjust camera implementation   |
+| 2024-03-25 |    1     |    1   |     1    |    1    |    1   |      1     |     Group meeting to plan tasks out for week   |
+| 2024-03-25 |          |        |        |         |    2   |            |     Setup wiring for user posts to Firebase Storage and Firestore DB   |
+| 2024-03-25 |          |        |        |         |    2   |            |     Implemented functions for user posts (toggle privacy, delete and caption)  |
+| 2024-03-26 |          |        |        |         |    1  |            |     Navbar UI fix  |
