@@ -152,7 +152,7 @@ fun HistoryView() {
             LazyColumn(
                 // Column is lazy which enables scrolling
                 modifier = Modifier
-                    .padding(top = 80.dp, bottom = 80.dp)
+                    .padding(top = 80.dp)
                     .background(MaterialTheme.colorScheme.primary),
                 verticalArrangement = Arrangement.spacedBy(30.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
