@@ -62,7 +62,7 @@ data class PostItem(
     val promptQuestion: String?,
     val promptAnswer: String?,
     val date: String?,
-    val imageRef: String?
+    val imageURL: String?
 )
 
 @Composable
@@ -79,7 +79,7 @@ fun PostDisplay(
         val promptQuestion = post.promptQuestion
         val promptAnswer = post.promptAnswer
         val promptDate = post.date
-        val promptImageRef = post.imageRef
+        val imageURL = post.imageURL
 
         Box(
             modifier = modifier
@@ -90,26 +90,15 @@ fun PostDisplay(
         ) {
 
         Column(){
-            /*  Image(
-                painter = rememberImagePainter(postImageUri),
+            Image(
+                painter = rememberImagePainter(imageURL),
                 contentDescription = "Today's Memento",
                 modifier = Modifier
                     .fillMaxHeight().fillMaxSize()
                     .clip(RoundedCornerShape(8.dp))
                     .height(250.dp)
                     .padding(10.dp)
-            ) */
-/*
-            Image(
-                painter = image,
-                contentDescription = "post",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(8.dp))
-                    .height(250.dp)
-                    .padding(10.dp)
             )
-*/
             if (promptDate != null && promptAnswer != null ) {
 
 
@@ -148,12 +137,7 @@ fun HistoryView() {
 
     val viewModel = DiscoverViewModel()
 
-    val context = LocalContext.current
-
     // Firebase
-    val storage = Firebase.storage
-    val firebaseAuth = FirebaseAuth.getInstance()
-    var capturedImageUri by remember { mutableStateOf<Uri?>(null) }
     val db = Firebase.firestore
 
     var isDataReady by remember { mutableStateOf(false) }
@@ -164,67 +148,19 @@ fun HistoryView() {
         for (document in querySnapshot) {
             val caption = document.getString("caption")
             val date = document.getString("date")
-            val userid = document.getString("userid")
+            val imageURL = document.getString("imageurl")
 
-            postsLocal = postsLocal.toMutableList().apply { add((PostItem("Prompt q here", caption, date, "${userid}_${date}.jpg"))) }
+            postsLocal = postsLocal.toMutableList().apply { add((PostItem("Prompt q here", caption, date, imageURL))) }
 
         }
         isDataReady = true
-        // Log.e("text", "$postsLocal.size")
     }
 
 
     if (isDataReady) {
-        /*
-        val imagesRef = storage.reference.child("images")
-        val urls = mutableListOf<String>()
-        for (i in 0..4) {
-
-            val imageName = postsLocal[i].imageRef ?: ""
-            val imageRef = imagesRef.child(imageName)
-            try {
-                // Get download URL for each image
-                val imageRef = ref.downloadUrl.await().toString()
-                urls.add(url)
-            } catch (e: Exception) {
-                // Handle errors, such as if download URL retrieval fails for an image
-                // You can log the error or handle it according to your app's requirements
-            }
-
-        }
-
-
-
-
-
-        var imageAvailable by remember { mutableStateOf(false) }
-        val vmImageAvailable by viewModel.imageAvailable
-        LaunchedEffect(vmImageAvailable) {
-            imageAvailable = vmImageAvailable
-        }
-
-        var imageRef = imagesRef.child("null.jpg")
-
-        imageRef = imagesRef.child("4uGdrlU5srhCHYH5dKaXPSWcEhy1_2024-03-26.jpg")
-
-        imageRef.downloadUrl.addOnSuccessListener {
-            Log.d("HomeView", "Image available at $it")
-            imageAvailable = true
-            viewModel.setImageAvailable(true)
-            capturedImageUri = it
-        }.addOnFailureListener {
-            Log.e("HomeView", "Image not available")
-            imageAvailable = false
-            viewModel.setImageAvailable(false)
-        }
-
-*/
-
-
         Log.e("text", "$postsLocal.size")
 
         MementoTheme {
-
             Scaffold(
                 topBar = {
                     CenterAlignedTopAppBar(
@@ -237,8 +173,6 @@ fun HistoryView() {
                         },
                     )
                 }) {
-
-
                 LazyColumn(
                     // Column is lazy which enables scrolling
                     modifier = Modifier
@@ -257,10 +191,6 @@ fun HistoryView() {
                         )
 
                     }
-
-
-
-
                 }
             }
         }
