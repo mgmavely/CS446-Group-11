@@ -1,4 +1,5 @@
 package org.example.userinterface.Equipment
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,8 +9,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -18,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,42 +32,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.example.memento.R
+import coil.compose.rememberImagePainter
+import com.example.memento.mvvm.viewmodel.DiscoverViewModel
 import com.example.memento.theme.MementoTheme
 
-
-class ImageCollection() {
-    /**
-     *  Represents the View's internal collection of image objects
-     */
-
-    val painters: MutableList<Int> = mutableListOf()
-    init {
-        /* hardcoded images for now */
-        painters.add(R.drawable.campfire)
-        painters.add(R.drawable.dog)
-        painters.add(R.drawable.flowers)
-        painters.add(R.drawable.forest)
-        painters.add(R.drawable.ocean)
-    }
-
-    fun getAll(): MutableList<Int> {
-        return painters
-    }
-
-    fun getPainter(index: Int): Int {
-        return if (index in 0 until painters.size) {
-            painters[index]
-        } else {
-            -1
-        }
-    }
-}
+data class PostItem(
+    val promptQuestion: String?,
+    val promptAnswer: String?,
+    val date: String?,
+    val imageURL: String?
+)
 
 @Composable
 fun Prompt() {
@@ -94,16 +73,13 @@ fun Prompt() {
 }
 
 @Composable
-fun Post(
+fun PostDisplay(
     modifier: Modifier = Modifier,
-    imagePath: Int,
-    caption: String
+    post: PostItem
 ) {
     /**
      * Represents a single post in the scrolling column
      */
-
-    val image = painterResource(id = imagePath)
 
     Column(
         modifier = modifier
@@ -115,30 +91,47 @@ fun Post(
                 .background(Color.White)
                 .padding(10.dp)
         ) {
+
+            /*
+                Image(
+                    painter = rememberImagePainter(post.imageURL),
+                    contentDescription = "post",
+                    modifier = Modifier.fillMaxWidth(),
+                    contentScale = ContentScale.FillWidth
+                )*/
+
             Image(
-                painter = image,
-                contentDescription = "post",
-                modifier = Modifier.fillMaxWidth(),
-                contentScale = ContentScale.FillWidth
+                painter = rememberImagePainter(post.imageURL),
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(8.dp))
+                    .height(250.dp)
+                    .padding(10.dp),
+                contentDescription = "image"
+            )
+
+        }
+        if (post.promptAnswer != null) {
+            Caption(
+                caption = post.promptAnswer
             )
         }
-        Caption(
-            caption = "Here is a reallllllllly long assss cpationsdfjsd fjksld fjklsdj fklsdjklf jsdkljafksdlafjklsdjfklsdjafklsdjfklsdjfklsjfl"
-        )
+
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun DiscoverView() {
+fun DiscoverView(viewModel: DiscoverViewModel = DiscoverViewModel()) {
     /**
      * The user view of the discover page
      */
+    val posts by viewModel.posts.collectAsState()
+    Log.e("text", "$posts")
 
     MementoTheme {
-        val images = ImageCollection()
-
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -179,20 +172,15 @@ fun DiscoverView() {
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    items(5) {
-                        // add all items
-                        Post(
-                            modifier = Modifier
-                                .padding(top = 10.dp),
-                            images.getPainter(it),
-                            caption = "this is a test caption that is super really adkjlsf;jsdfls;sdfjksdljfksdljfkldsjfklds;jfalsdjfklasjdfklsajfdklsajf sdkjfklsdjfsd f long"
-                        )
+                        items(posts.size) { index ->
+                            PostDisplay(Modifier, posts[index])
+                        }
                     }
                 }
             }
         }
     }
-}
+
 
 @Composable
 fun AutoResizingText(

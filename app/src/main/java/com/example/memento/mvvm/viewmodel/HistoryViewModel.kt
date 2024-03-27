@@ -21,12 +21,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import org.example.userinterface.History.PostItem
 
-data class PostItem(
-    val promptQuestion: String?,
-    val promptAnswer: String?,
-    val date: String?,
-    val imageURL: String?
-)
 class HistoryViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
