@@ -1,5 +1,8 @@
 package org.example.userinterface.History
 import android.annotation.SuppressLint
+import android.icu.text.SimpleDateFormat
+import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -7,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.Text
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,8 +25,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -31,57 +38,48 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import androidx.core.content.FileProvider
+import coil.compose.rememberImagePainter
+import com.example.memento.BuildConfig
 import com.example.memento.R
+import com.example.memento.mvvm.viewmodel.DiscoverViewModel
 import com.example.memento.theme.MementoTheme
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import org.example.userinterface.Equipment.ImageCollection
+import org.example.userinterface.Home.createImageFile
+import java.util.Date
+import java.util.Objects
 
 data class PostItem(
-    val promptQuestion: String,
-    val promptAnswer: String,
-    val date: String,
-    val image: Int
+    val promptQuestion: String?,
+    val promptAnswer: String?,
+    val date: String?,
+    val imageRef: String?
 )
-class PostCollection() {
-    /**
-     *  Represents the View's internal collection of image objects
-     */
 
-    val posts: MutableList<PostItem> = mutableListOf()
-    init {
-        /* hardcoded images for now */
-        posts.add(PostItem("What's your favourite dog", "Pug", "March 14 2024",  R.drawable.dog))
-        posts.add(PostItem("What's your favorite kind of fire", "Campfire", "March 11 2024",  R.drawable.campfire))
-        posts.add(PostItem("What's your favourite flower", "Pink one", "March 10 2024",  R.drawable.flowers))
-    }
-
-
-    fun getPainter(index: Int): PostItem {
-        return if (index in 0 until posts.size) {
-            posts[index]
-        } else {
-            PostItem("","","", -1)
-        }
-    }
-}
 @Composable
 fun PostDisplay(
     modifier: Modifier = Modifier,
-    post: PostItem
+    post: PostItem,
 ) {
     /**
      * Represents a single post in the scrolling column
      */
 
-    if (post.image != -1) {
-        val image = painterResource(id = post.image)
+
+        // val image = painterResource(id = post.image)
         val promptQuestion = post.promptQuestion
         val promptAnswer = post.promptAnswer
         val promptDate = post.date
+        val promptImageRef = post.imageRef
 
         Box(
             modifier = modifier
@@ -92,7 +90,16 @@ fun PostDisplay(
         ) {
 
         Column(){
-
+            /*  Image(
+                painter = rememberImagePainter(postImageUri),
+                contentDescription = "Today's Memento",
+                modifier = Modifier
+                    .fillMaxHeight().fillMaxSize()
+                    .clip(RoundedCornerShape(8.dp))
+                    .height(250.dp)
+                    .padding(10.dp)
+            ) */
+/*
             Image(
                 painter = image,
                 contentDescription = "post",
@@ -102,6 +109,9 @@ fun PostDisplay(
                     .height(250.dp)
                     .padding(10.dp)
             )
+*/
+            if (promptDate != null && promptAnswer != null ) {
+
 
             AutoResizingText(
                 text = promptDate, targetTextSize = 12.sp,
@@ -120,52 +130,138 @@ fun PostDisplay(
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.padding(horizontal = 10.dp)
             )
+            }
 
 
         }
     }
 
 }
-}
+
+
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun HistoryView() {
-    val images = PostCollection()
 
-    MementoTheme {
+    val viewModel = DiscoverViewModel()
 
-        Scaffold(
-            topBar = {
-                CenterAlignedTopAppBar(
-                    title = {
-                        Text(
-                            "YOUR POST HISTORY", textAlign = TextAlign.Center, fontSize = 30.sp,
-                            color = MaterialTheme.colorScheme.onBackground,
+    val context = LocalContext.current
+
+    // Firebase
+    val storage = Firebase.storage
+    val firebaseAuth = FirebaseAuth.getInstance()
+    var capturedImageUri by remember { mutableStateOf<Uri?>(null) }
+    val db = Firebase.firestore
+
+    var isDataReady by remember { mutableStateOf(false) }
+    var postsLocal by remember { mutableStateOf<List<PostItem>>(emptyList()) }
+    // call to get posts
+    val postsFirebase = db.collection("posts")
+    postsFirebase.get().addOnSuccessListener { querySnapshot ->
+        for (document in querySnapshot) {
+            val caption = document.getString("caption")
+            val date = document.getString("date")
+            val userid = document.getString("userid")
+
+            postsLocal = postsLocal.toMutableList().apply { add((PostItem("Prompt q here", caption, date, "${userid}_${date}.jpg"))) }
+
+        }
+        isDataReady = true
+        // Log.e("text", "$postsLocal.size")
+    }
+
+
+    if (isDataReady) {
+        /*
+        val imagesRef = storage.reference.child("images")
+        val urls = mutableListOf<String>()
+        for (i in 0..4) {
+
+            val imageName = postsLocal[i].imageRef ?: ""
+            val imageRef = imagesRef.child(imageName)
+            try {
+                // Get download URL for each image
+                val imageRef = ref.downloadUrl.await().toString()
+                urls.add(url)
+            } catch (e: Exception) {
+                // Handle errors, such as if download URL retrieval fails for an image
+                // You can log the error or handle it according to your app's requirements
+            }
+
+        }
+
+
+
+
+
+        var imageAvailable by remember { mutableStateOf(false) }
+        val vmImageAvailable by viewModel.imageAvailable
+        LaunchedEffect(vmImageAvailable) {
+            imageAvailable = vmImageAvailable
+        }
+
+        var imageRef = imagesRef.child("null.jpg")
+
+        imageRef = imagesRef.child("4uGdrlU5srhCHYH5dKaXPSWcEhy1_2024-03-26.jpg")
+
+        imageRef.downloadUrl.addOnSuccessListener {
+            Log.d("HomeView", "Image available at $it")
+            imageAvailable = true
+            viewModel.setImageAvailable(true)
+            capturedImageUri = it
+        }.addOnFailureListener {
+            Log.e("HomeView", "Image not available")
+            imageAvailable = false
+            viewModel.setImageAvailable(false)
+        }
+
+*/
+
+
+        Log.e("text", "$postsLocal.size")
+
+        MementoTheme {
+
+            Scaffold(
+                topBar = {
+                    CenterAlignedTopAppBar(
+                        title = {
+                            Text(
+                                "YOUR POST HISTORY" , textAlign = TextAlign.Center, fontSize = 30.sp,
+                                color = MaterialTheme.colorScheme.onBackground,
+                            )
+
+                        },
+                    )
+                }) {
+
+
+                LazyColumn(
+                    // Column is lazy which enables scrolling
+                    modifier = Modifier
+                        .padding(top = 80.dp)
+                        .background(MaterialTheme.colorScheme.primary),
+                    verticalArrangement = Arrangement.spacedBy(30.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    items(4) {
+
+                        // add all items
+                        PostDisplay(
+                            Modifier,
+                            postsLocal[it]
                         )
 
-                    },
-                )
-            }) {
+                    }
 
-            LazyColumn(
-                // Column is lazy which enables scrolling
-                modifier = Modifier
-                    .padding(top = 80.dp)
-                    .background(MaterialTheme.colorScheme.primary),
-                verticalArrangement = Arrangement.spacedBy(30.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                items(5) {
-                    // add all items
-                    PostDisplay(
-                        Modifier,
-                        images.getPainter(it)
-                    )
+
+
 
                 }
-
             }
         }
     }

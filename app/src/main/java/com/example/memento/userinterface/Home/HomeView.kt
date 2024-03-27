@@ -294,24 +294,39 @@ fun HomeView(
                                         Log.d("HomeView", "Image uploaded successfully")
                                         imageAvailable = true
 
-                                        val postsCollection = FirebaseFirestore.getInstance()
-                                        val db = Firebase.firestore
-                                        val postData = hashMapOf(
-                                            "public" to true,
-                                            "date" to today,
-                                            "time" to getCurrentTimeAsString(),
-                                            "userid" to userUid,
-                                            "caption" to ""
-                                        )
+                                        todayImageRef.downloadUrl.addOnSuccessListener {
+                                            Log.d("JEFFERY RAHHHHHHHHH", "Image available at $it")
+                                            capturedImageUri = it
 
-                                        db.collection("posts").document("${userUid}_${today}.jpg")
-                                            .set(postData)
-                                            .addOnSuccessListener { Log.d("POSTS WRITE", "DocumentSnapshot successfully written!") }
-                                            .addOnFailureListener { e -> Log.w("POSTS WRITE", "Error writing document", e) }
+                                            val db = Firebase.firestore
+                                            val postData = hashMapOf(
+                                                "public" to true,
+                                                "date" to today,
+                                                "time" to getCurrentTimeAsString(),
+                                                "userid" to userUid,
+                                                "caption" to "ha",
+                                                "imageurl" to capturedImageUri
+                                            )
+
+                                            db.collection("posts").document("${userUid}_${today}.jpg")
+                                                .set(postData)
+                                                .addOnSuccessListener { Log.d("POSTS WRITE", "DocumentSnapshot successfully written!") }
+                                                .addOnFailureListener { e -> Log.w("POSTS WRITE", "Error writing document", e) }
+
+
+
+
+
+                                        }.addOnFailureListener {
+                                            Log.e("JEFFERY", "Image not available")
+                                        }
+
                                     }
                                     .addOnFailureListener { e ->
                                         Log.e("HomeView", "Failed to upload image: ${e.message}")
                                     }
+
+
                             }
                         }
                     } else {
