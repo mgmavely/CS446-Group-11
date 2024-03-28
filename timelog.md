@@ -56,3 +56,4 @@
 | 2024-03-25 |          |        |        |         |    2   |            |     Setup wiring for user posts to Firebase Storage and Firestore DB   |
 | 2024-03-25 |          |        |        |         |    2   |            |     Implemented functions for user posts (toggle privacy, delete and caption)  |
 | 2024-03-26 |          |        |        |         |    1  |            |     Navbar UI fix  |
+| 2024-03-26 |          |        |        |         |    2  |            |     MVVM implementation for HomeView + db refactor for posts  |
