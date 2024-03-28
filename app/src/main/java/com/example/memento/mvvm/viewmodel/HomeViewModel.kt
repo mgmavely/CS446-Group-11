@@ -1,4 +1,7 @@
 package com.example.memento.mvvm.viewmodel
+import android.icu.text.SimpleDateFormat
+import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Switch
@@ -20,8 +23,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import org.example.userinterface.Equipment.PostItem
+import java.util.Date
 
-class DiscoverViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
@@ -29,12 +33,51 @@ class DiscoverViewModel : ViewModel() {
     private val _posts = MutableStateFlow<List<PostItem>>(emptyList())
     val posts: StateFlow<List<PostItem>> = _posts
 
-    init {
-        loadPosts()
-    }
+    val prompts = db.collection("prompts")
+    val imagesRef = storage.reference.child("images")
+    val currentUser = firebaseAuth.currentUser
+
+    var imageRef = imagesRef.child("null.jpg")
+    val today = SimpleDateFormat("yyyy-MM-dd").format(Date())
 
     val imageAvailable: MutableState<Boolean> = mutableStateOf(false)
+    var dailyPrompt = ""
+    var capturedImageUri: Uri? = null
 
+    init {
+        loadPosts()
+
+        if (currentUser !== null) {
+            val userUid = currentUser.uid
+            imageRef = imagesRef.child("${userUid}_${today}.jpg")
+            Log.e("USER UID FIREBASE", currentUser.uid)
+        }
+
+        prompts.whereEqualTo("timestamp", today)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                for (document in querySnapshot) {
+                    val prompt = document.getString("prompt")
+                    if (prompt != null) {
+                        dailyPrompt = prompt
+                    } else {
+                        Log.e("POSTS READ", "Prompt field is null")
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.w("POSTS READ", "Error getting documents", e)
+            }
+
+        imageRef.downloadUrl.addOnSuccessListener {
+            Log.d("HomeView", "Image available at $it")
+            setImageAvailable(true)
+            capturedImageUri = it
+        }.addOnFailureListener {
+            Log.e("HomeView", "Image not available")
+            setImageAvailable(false)
+        }
+    }
 
     fun loadPosts() {
         viewModelScope.launch {
@@ -51,10 +94,7 @@ class DiscoverViewModel : ViewModel() {
                 }
                 _posts.value = postsList
             }
-
-
         }
-
     }
 
     fun setImageAvailable(newValue: Boolean) {
@@ -69,6 +109,28 @@ class DiscoverViewModel : ViewModel() {
             val imageRef = storage.reference.child("images").child(deleteKey)
             imageRef.delete().await()
         }
+    }
+
+    fun updatePostState(): Triple<String, Boolean, Boolean> {
+        var caption = ""
+        var public = false
+        var isFetched = false
+        if (currentUser != null) {
+            db.collection("posts").document("${currentUser.uid}_${today}.jpg")
+                .get()
+                .addOnSuccessListener { document ->
+                    val fbCaption = document.getString("caption")
+                    val fbPublic  = document.getBoolean("public")
+                    if ( fbCaption !== null && fbPublic !== null) {
+                        caption = fbCaption
+                        public = fbPublic
+                        isFetched = true
+                    }
+
+                }
+                .addOnFailureListener { e -> Log.w("POSTS WRITE", "Error writing document", e) }
+        }
+        return Triple(caption, public, isFetched)
     }
 
 }

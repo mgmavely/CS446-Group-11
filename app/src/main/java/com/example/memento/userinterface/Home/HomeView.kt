@@ -64,6 +64,7 @@ import androidx.core.content.FileProvider
 import coil.compose.rememberImagePainter
 import com.example.memento.BuildConfig
 import com.example.memento.mvvm.viewmodel.DiscoverViewModel
+import com.example.memento.mvvm.viewmodel.HomeViewModel
 import com.example.memento.theme.MementoTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -91,9 +92,9 @@ fun getCurrentTimeAsString(): String {
 
 @Composable
 fun ItemWithToggleAndButton(
-    public : Boolean
+    public : Boolean,
+    viewModel: HomeViewModel
 ) {
-    val viewModel = DiscoverViewModel()
     var isPublic by remember { mutableStateOf(public) }
     val firebaseAuth = FirebaseAuth.getInstance()
     val currentUser = firebaseAuth.currentUser
@@ -186,10 +187,10 @@ fun ChatItem(
 @Composable
 fun HomeView(
     onHomeClicked: () -> Unit = {},
-    toHistory: () -> Unit = {}
+    toHistory: () -> Unit = {},
+    viewModel: HomeViewModel = HomeViewModel()
 ) {
     MementoTheme {
-        val viewModel = DiscoverViewModel()
 
         val context = LocalContext.current
         val file = context.createImageFile()
@@ -209,13 +210,11 @@ fun HomeView(
         var isFetched by remember { mutableStateOf(false) }
 
 
-        val prompts = db.collection("prompts")
+        val prompts = viewModel.prompts
 
         // Firebase
-        val storage = Firebase.storage
-        val imagesRef = storage.reference.child("images")
-        val firebaseAuth = FirebaseAuth.getInstance()
-        val currentUser = firebaseAuth.currentUser
+        val imagesRef = viewModel.imagesRef
+        val currentUser = viewModel.currentUser
         var capturedImageUri by remember { mutableStateOf<Uri?>(null) }
 
         var imageAvailable by remember { mutableStateOf(false) }
@@ -225,28 +224,12 @@ fun HomeView(
                 }
 
         val today = SimpleDateFormat("yyyy-MM-dd").format(Date())
-        var imageRef = imagesRef.child("null.jpg")
-        if (currentUser !== null) {
-            val userUid = currentUser.uid
-            imageRef = imagesRef.child("${userUid}_${today}.jpg")
-            Log.e("USER UID FIREBASE", currentUser.uid)
-        }
+        var imageRef = viewModel.imageRef
 
-        if (currentUser != null) {
-            db.collection("posts").document("${currentUser.uid}_${today}.jpg")
-                .get()
-                .addOnSuccessListener { document ->
-                    val fbCaption = document.getString("caption")
-                    val fbPublic  = document.getBoolean("public")
-                    if ( fbCaption !== null && fbPublic !== null) {
-                        caption = fbCaption
-                        public = fbPublic
-                        isFetched = true
-                    }
-
-                }
-                .addOnFailureListener { e -> Log.w("POSTS WRITE", "Error writing document", e) }
-        }
+        val updateRes = viewModel.updatePostState()
+        caption = updateRes.first
+        public = updateRes.second
+        isFetched = updateRes.third
 
         prompts.whereEqualTo("timestamp", today)
             .get()
@@ -501,7 +484,7 @@ fun HomeView(
                         }
                     }
                     
-                if (imageAvailable) {
+                if (viewModel.imageAvailable.value) {
 
                         item {
                                 Card(
@@ -523,7 +506,7 @@ fun HomeView(
                                     .padding(1.dp)
                             ){
                             if (isFetched) {
-                                ItemWithToggleAndButton(public)
+                                ItemWithToggleAndButton(public, viewModel)
                             }
                             // Display captured image
                             Column(
