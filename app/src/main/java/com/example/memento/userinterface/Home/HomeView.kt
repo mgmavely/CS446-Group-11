@@ -1,6 +1,7 @@
 package org.example.userinterface.Home
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.icu.text.SimpleDateFormat
@@ -153,98 +154,10 @@ fun HomeView(
                         BuildConfig.APPLICATION_ID + ".provider",
                         file
                 )
-
-        // Firebase
-//        val imagesRef = viewModel.imagesRef
-//        val currentUser = viewModel.currentUser
-//        var capturedImageUri by remember { mutableStateOf<Uri?>(null) }
-//
-//        var imageAvailable by remember { mutableStateOf(false) }
-//        val vmImageAvailable by viewModel.imageAvailable
-//                LaunchedEffect(vmImageAvailable) {
-//                    imageAvailable = vmImageAvailable
-//                }
-
-//        val today = SimpleDateFormat("yyyy-MM-dd").format(Date())
-//        var imageRef = viewModel.imageRef
-
-//        val updateRes = viewModel.updatePostState()
-//        caption = updateRes.first
-//        public = updateRes.second
-//        isFetched = updateRes.third
-
-
-//        imageRef.downloadUrl.addOnSuccessListener {
-//            Log.d("HomeView", "Image available at $it")
-//            imageAvailable = true
-//            viewModel.setImageAvailable(true)
-//            capturedImageUri = it
-//        }.addOnFailureListener {
-//            Log.e("HomeView", "Image not available")
-//            imageAvailable = false
-//            viewModel.setImageAvailable(false)
-//        }
-
         val cameraLauncher =
                 rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { isTaken
                     ->
                     viewModel.cameraLauncher(isTaken, context, uri)
-//                    if (isTaken && currentUser !== null) {
-//                        val userUid = currentUser.uid
-//                        Log.d("HomeView", "Image captured successfully")
-//                        capturedImageUri = uri
-//                        val todayImageRef = imagesRef.child("${userUid}_${today}.jpg")
-//                        Log.d("HomeView", "Uploading image to $todayImageRef")
-//                        Log.d("HomeView", "Captured image uri: $capturedImageUri")
-//                        capturedImageUri?.let { uri ->
-//                            val imageStream = context.contentResolver.openInputStream(uri)
-//                            Log.d("HomeView", "Image stream: $imageStream")
-//                            imageStream?.let { stream ->
-//                                todayImageRef.putStream(stream)
-//                                    .addOnSuccessListener {
-//                                        Log.d("HomeView", "Image uploaded successfully")
-//                                        imageAvailable = true
-//
-//                                        todayImageRef.downloadUrl.addOnSuccessListener {
-//                                            Log.d("JEFFERY RAHHHHHHHHH", "Image available at $it")
-//                                            capturedImageUri = it
-//
-//                                            val db = Firebase.firestore
-//                                            val postData = hashMapOf(
-//                                                "public" to true,
-//                                                "date" to today,
-//                                                "time" to viewModel.getCurrentTimeAsString(),
-//                                                "userid" to userUid,
-//                                                "caption" to "ha",
-//                                                "imageurl" to capturedImageUri
-//                                            )
-//
-//                                            db.collection("posts").document("${userUid}_${today}.jpg")
-//                                                .set(postData)
-//                                                .addOnSuccessListener { Log.d("POSTS WRITE", "DocumentSnapshot successfully written!") }
-//                                                .addOnFailureListener { e -> Log.w("POSTS WRITE", "Error writing document", e) }
-//
-//
-//
-//
-//
-//                                        }.addOnFailureListener {
-//                                            Log.e("JEFFERY", "Image not available")
-//                                        }
-//
-//                                    }
-//                                    .addOnFailureListener { e ->
-//                                        Log.e("HomeView", "Failed to upload image: ${e.message}")
-//                                    }
-//
-//
-//                            }
-//                        }
-//                    } else {
-//                        Log.e("HomeView", "Failed to capture image")
-//                        Toast.makeText(context, "Failed to capture image", Toast.LENGTH_SHORT)
-//                            .show()
-//                    }
                 }
 
         val permissionLauncher =
@@ -546,6 +459,7 @@ fun HomeView(
     }
 }
 
+@SuppressLint("SimpleDateFormat")
 fun Context.createImageFile(): File {
     // Create an image file name
     val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())

@@ -188,7 +188,8 @@ class HomeViewModel : ViewModel() {
                                     "time" to getCurrentTimeAsString(),
                                     "userid" to userUid,
                                     "caption" to "",
-                                    "imageurl" to capturedImageUri
+                                    "imageurl" to capturedImageUri,
+                                    "prompt" to dailyPrompt.value
                                 )
 
                                 db.collection("posts").document("${userUid}_${today}.jpg")
