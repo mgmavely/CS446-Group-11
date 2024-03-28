@@ -4,7 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.memento.mvvm.viewmodel.HomeViewModel
 import org.example.userinterface.Equipment.DiscoverView
+import org.example.userinterface.History.HistoryView
 import org.example.userinterface.Equipment.EquipmentInfo.HomeInfoView
 import org.example.userinterface.Home.HomeView
 import org.example.userinterface.Login.LoginView
@@ -20,7 +22,10 @@ fun MenuBarGraph(navController: NavHostController) {
             LoginView(toHomePage = { navController.navigate(MenuBarOptions.Home.route) })
         }
         composable(route = MenuBarOptions.Home.route) {
-            HomeView(onHomeClicked = { navController.navigate(MenuBarOptions.HomeInfo.route) })
+            HomeView(onHomeClicked = { navController.navigate(MenuBarOptions.HomeInfo.route) },
+                toHistory = { navController.navigate(MenuBarOptions.History.route) },
+                viewModel = HomeViewModel()
+            )
         }
         composable(route = MenuBarOptions.HomeInfo.route) {
             HomeInfoView()
@@ -30,6 +35,9 @@ fun MenuBarGraph(navController: NavHostController) {
         }
         composable(route = MenuBarOptions.Discover.route) {
             DiscoverView()
+        }
+        composable(route = MenuBarOptions.History.route) {
+            HistoryView()
         }
     }
 }

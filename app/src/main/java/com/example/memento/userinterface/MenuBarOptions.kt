@@ -48,6 +48,13 @@ sealed class MenuBarOptions (
         icon_outlined = Icons.Outlined.Person
     )
 
+    data object History: MenuBarOptions(
+        route = "history",
+        title = "History",
+        icon_filled = Icons.Default.Person,
+        icon_outlined = Icons.Outlined.Person
+    )
+
     data object Settings: MenuBarOptions(
         route = "settings",
         title = "Settings",

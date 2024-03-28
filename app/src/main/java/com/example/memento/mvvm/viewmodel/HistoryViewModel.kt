@@ -19,10 +19,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import org.example.userinterface.Equipment.PostItem
+import org.example.userinterface.History.PostItem
 
-class DiscoverViewModel : ViewModel() {
-    private val firebaseAuth = FirebaseAuth.getInstance()
+class HistoryViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
 
@@ -32,9 +31,6 @@ class DiscoverViewModel : ViewModel() {
     init {
         loadPosts()
     }
-
-    val imageAvailable: MutableState<Boolean> = mutableStateOf(false)
-
 
     fun loadPosts() {
         viewModelScope.launch {
@@ -55,10 +51,6 @@ class DiscoverViewModel : ViewModel() {
 
         }
 
-    }
-
-    fun setImageAvailable(newValue: Boolean) {
-        imageAvailable.value = newValue
     }
     fun deleteDocumentAndImage(deleteKey: String) {
         viewModelScope.launch {
