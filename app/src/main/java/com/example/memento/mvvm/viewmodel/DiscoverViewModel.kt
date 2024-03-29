@@ -1,4 +1,5 @@
 package com.example.memento.mvvm.viewmodel
+import android.icu.text.SimpleDateFormat
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Switch
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import org.example.userinterface.Equipment.PostItem
+import java.util.Date
 
 class DiscoverViewModel : ViewModel() {
     private val firebaseAuth = FirebaseAuth.getInstance()
@@ -27,9 +29,17 @@ class DiscoverViewModel : ViewModel() {
     private val storage = FirebaseStorage.getInstance()
 
     private val _posts = MutableStateFlow<List<PostItem>>(emptyList())
+    //private val _posted = MutableState<Boolean>(true)
+
+    val currentUser = firebaseAuth.currentUser
+    val today = SimpleDateFormat("yyyy-MM-dd").format(Date())
+    val documentPath = "${currentUser?.uid}_${today}.jpg"
+
     val posts: StateFlow<List<PostItem>> = _posts
+    val posted: MutableState<Boolean> = mutableStateOf(true)
 
     init {
+        verifyPost()
         loadPosts()
     }
 
@@ -57,6 +67,17 @@ class DiscoverViewModel : ViewModel() {
 
     }
 
+    fun verifyPost () {
+        db.collection("posts").document(documentPath).get()
+            .addOnSuccessListener { document ->
+                if(!document.exists()){
+                    posted.value = false
+                }
+                else{
+                    posted.value = true
+                }
+            }
+    }
     fun setImageAvailable(newValue: Boolean) {
         imageAvailable.value = newValue
     }
