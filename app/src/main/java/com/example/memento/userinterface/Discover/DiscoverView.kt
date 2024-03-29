@@ -131,7 +131,7 @@ fun DiscoverView(viewModel: DiscoverViewModel = DiscoverViewModel()) {
     val posts by viewModel.posts.collectAsState()
     Log.e("text", "$posts")
 
-    MementoTheme {
+    MementoTheme(darkTheme = false) {
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(

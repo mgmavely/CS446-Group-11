@@ -144,7 +144,7 @@ fun HomeView(
     toHistory: () -> Unit = {},
     viewModel: HomeViewModel = HomeViewModel()
 ) {
-    MementoTheme {
+    MementoTheme(darkTheme = false) {
 
         val context = LocalContext.current
         val file = context.createImageFile()

@@ -96,7 +96,7 @@ fun LoginView(
         }
     }
 
-    MementoTheme {
+    MementoTheme(darkTheme = false) {
 
         Scaffold(
             topBar = {

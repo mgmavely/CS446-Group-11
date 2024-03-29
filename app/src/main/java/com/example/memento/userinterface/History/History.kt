@@ -108,7 +108,7 @@ fun HistoryView(viewModel: HistoryViewModel = HistoryViewModel()) {
 
     val posts by viewModel.posts.collectAsState()
 
-    MementoTheme {
+    MementoTheme(darkTheme = false) {
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
