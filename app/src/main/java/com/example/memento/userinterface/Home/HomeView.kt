@@ -70,6 +70,8 @@ import java.io.File
 import java.time.LocalDateTime
 import java.util.Date
 import java.util.Objects
+import androidx.compose.ui.res.stringResource
+import com.example.memento.R
 
 @Composable
 fun ItemWithToggleAndButton(
@@ -137,7 +139,6 @@ fun ChatItem(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun HomeView(
     onHomeClicked: () -> Unit = {},
@@ -238,7 +239,7 @@ fun HomeView(
                         modifier = Modifier.padding(top = 12.dp).fillMaxWidth()
                             .padding(16.dp),
                     ) {
-                        Text("View Your Post History", fontSize = 22.sp, textAlign = TextAlign.Center)
+                        Text(text = stringResource(id = R.string.post_history), fontSize = 22.sp, textAlign = TextAlign.Center)
                     }
                 }
                 
