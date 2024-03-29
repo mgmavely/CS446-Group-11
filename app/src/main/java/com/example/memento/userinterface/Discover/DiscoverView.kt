@@ -211,7 +211,7 @@ fun DiscoverView(viewModel: DiscoverViewModel = DiscoverViewModel()) {
                     Box(
                         Modifier
                     ) {
-                        Prompt()
+                        Prompt(viewModel = viewModel)
                     }
                     LazyColumn(
                         // Column is lazy which enables scrolling
