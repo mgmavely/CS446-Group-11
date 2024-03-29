@@ -284,7 +284,8 @@ fun HomeView(
                                     Text(
                                             "$daysPressed \ndays streak",
                                             fontWeight = FontWeight.Bold,
-                                            textAlign = TextAlign.Center
+                                            textAlign = TextAlign.Center,
+                                            color = MaterialTheme.colorScheme.onPrimary
                                     )
                                 }
                             }
@@ -319,6 +320,7 @@ fun HomeView(
                                             minutesLeft.toString().padStart(2, '0')
                                         }\n time left",
                                             fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.onPrimary,
                                             textAlign = TextAlign.Center
                                     )
                                 }
@@ -399,6 +401,7 @@ fun HomeView(
                             Text(
                                     viewModel.dailyPrompt.value,
                                     fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onPrimary,
                                     modifier = Modifier.padding(vertical = 15.dp, horizontal = 10.dp)
                             )
                         }
@@ -428,7 +431,11 @@ fun HomeView(
                                             },
                                             containerColor = MaterialTheme.colorScheme.onBackground,
                                             contentColor = MaterialTheme.colorScheme.onPrimary,
-                                    ) { Icon(Icons.Filled.Create, "capture memento") }
+                                    ) { Icon(
+                                        imageVector = Icons.Filled.Create,
+                                        contentDescription = "capture memento",
+                                        tint = MaterialTheme.colorScheme.onSecondary
+                                    ) }
     
                                     Spacer(modifier = Modifier.height(7.dp))
     
