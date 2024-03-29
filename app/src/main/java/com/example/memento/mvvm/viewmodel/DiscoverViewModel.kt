@@ -1,13 +1,6 @@
 package com.example.memento.mvvm.viewmodel
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
@@ -20,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import org.example.userinterface.Equipment.PostItem
+import java.util.Date
 
 class DiscoverViewModel : ViewModel() {
     private val firebaseAuth = FirebaseAuth.getInstance()
@@ -28,12 +22,29 @@ class DiscoverViewModel : ViewModel() {
 
     private val _posts = MutableStateFlow<List<PostItem>>(emptyList())
     val posts: StateFlow<List<PostItem>> = _posts
+    val prompt: MutableState<String> = mutableStateOf("Daily Prompt")
+    val today = android.icu.text.SimpleDateFormat("yyyy-MM-dd").format(Date())
 
     init {
         loadPosts()
+        loadPrompt()
     }
 
     val imageAvailable: MutableState<Boolean> = mutableStateOf(false)
+
+
+    fun loadPrompt() {
+        println(today)
+        db.collection("prompts")
+            .whereEqualTo("timestamp", today)
+            .get()
+            .addOnSuccessListener {
+                documents ->
+                for (doc in documents) {
+                    prompt.value = doc.getString("prompt") ?: "Daily Prompt"
+                }
+            }
+    }
 
 
     fun loadPosts() {
