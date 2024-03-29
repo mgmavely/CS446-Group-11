@@ -131,9 +131,6 @@ fun DiscoverView(viewModel: DiscoverViewModel = DiscoverViewModel()) {
     val posts by viewModel.posts.collectAsState()
     Log.e("text", "$posts")
 
-    //viewModel.verifyPost()
-    //val posted by viewModel.posted.collectAsState()
-
     if(!viewModel.posted.value){
         MementoTheme {
             Scaffold(
@@ -162,9 +159,20 @@ fun DiscoverView(viewModel: DiscoverViewModel = DiscoverViewModel()) {
                     verticalArrangement = Arrangement.spacedBy(1.dp)
                 ) {
                     Box(
-                        Modifier
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.2f)
+                            .background(MaterialTheme.colorScheme.secondary)
+                            .padding(10.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Text("Make a public post today to discover others!")
+                        AutoResizingText(
+                            modifier = Modifier.
+                            padding(10.dp),
+                            text = "Make a public post today to discover others!",
+                            color = MaterialTheme.colorScheme.onBackground,
+                            targetTextSize = 30.sp
+                        )
                     }
                 }
             }

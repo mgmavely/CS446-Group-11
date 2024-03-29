@@ -33,10 +33,10 @@ class DiscoverViewModel : ViewModel() {
 
     val currentUser = firebaseAuth.currentUser
     val today = SimpleDateFormat("yyyy-MM-dd").format(Date())
-    val documentPath = "${currentUser?.uid}_${today}.jpg"
+    //val documentPath = "${currentUser?.uid}_${today}.jpg"
 
     val posts: StateFlow<List<PostItem>> = _posts
-    val posted: MutableState<Boolean> = mutableStateOf(true)
+    val posted: MutableState<Boolean> = mutableStateOf(false)
 
     init {
         verifyPost()
@@ -68,9 +68,12 @@ class DiscoverViewModel : ViewModel() {
     }
 
     fun verifyPost () {
-        db.collection("posts").document(documentPath).get()
-            .addOnSuccessListener { document ->
-                if(!document.exists()){
+        db.collection("posts")
+            .whereEqualTo("public", true)
+            .whereEqualTo("userid", "${currentUser?.uid}")
+            .whereEqualTo("date", "${today}").get()
+            .addOnSuccessListener { documents ->
+                if(documents.isEmpty()){
                     posted.value = false
                 }
                 else{
