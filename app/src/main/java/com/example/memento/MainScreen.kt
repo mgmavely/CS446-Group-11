@@ -50,10 +50,12 @@ fun MementoApp(
         else -> true // in all other cases show bottom bar
     }
 
-    MementoTheme(darkTheme = false) {
+    MementoTheme(darkTheme = isDarkMode) {
     Scaffold(
         bottomBar = {
-            if (showNav) MementoMenuBar(navController = navController)
+            if (showNav) MementoMenuBar(
+                navController = navController,
+                isDarkMode = isDarkMode,)
         },
         containerColor = MaterialTheme.colorScheme.primary
     )
@@ -67,7 +69,9 @@ fun MementoApp(
 
 
 @Composable
-fun MementoMenuBar(navController: NavHostController) {
+fun MementoMenuBar(
+    navController: NavHostController,
+    isDarkMode: Boolean) {
     val screens = listOf(
         MenuBarOptions.Settings,
         MenuBarOptions.Home,
@@ -75,7 +79,7 @@ fun MementoMenuBar(navController: NavHostController) {
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    MementoTheme(darkTheme = false) {
+    MementoTheme(darkTheme = isDarkMode) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         color = MaterialTheme.colorScheme.secondary,

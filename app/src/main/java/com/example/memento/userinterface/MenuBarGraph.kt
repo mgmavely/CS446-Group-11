@@ -23,13 +23,14 @@ fun MenuBarGraph(
             startDestination = MenuBarOptions.Login.route,
         ) {
             composable(route = MenuBarOptions.Login.route) {
-                LoginView(toHomePage = { navController.navigate(MenuBarOptions.Home.route) })
+                LoginView(toHomePage = { navController.navigate(MenuBarOptions.Home.route) },                 isDarkMode = isDarkMode,)
             }
             composable(route = MenuBarOptions.Home.route) {
                 HomeView(
                     onHomeClicked = { navController.navigate(MenuBarOptions.HomeInfo.route) },
                     toHistory = { navController.navigate(MenuBarOptions.History.route) },
-                    viewModel = HomeViewModel()
+                    viewModel = HomeViewModel(),
+                    isDarkMode = isDarkMode
                 )
             }
             composable(route = MenuBarOptions.HomeInfo.route) {
@@ -45,10 +46,10 @@ fun MenuBarGraph(
                 )
             }
             composable(route = MenuBarOptions.Discover.route) {
-                DiscoverView()
+                DiscoverView(isDarkMode = isDarkMode)
             }
             composable(route = MenuBarOptions.History.route) {
-                HistoryView()
+                HistoryView(isDarkMode = isDarkMode)
             }
         }
 }

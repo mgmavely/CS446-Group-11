@@ -142,9 +142,10 @@ fun ChatItem(
 fun HomeView(
     onHomeClicked: () -> Unit = {},
     toHistory: () -> Unit = {},
-    viewModel: HomeViewModel = HomeViewModel()
-) {
-    MementoTheme(darkTheme = false) {
+    viewModel: HomeViewModel = HomeViewModel(),
+    isDarkMode: Boolean,
+    ) {
+    MementoTheme(darkTheme = isDarkMode) {
 
         val context = LocalContext.current
         val file = context.createImageFile()

@@ -124,14 +124,17 @@ fun PostDisplay(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun DiscoverView(viewModel: DiscoverViewModel = DiscoverViewModel()) {
+fun DiscoverView(
+    viewModel: DiscoverViewModel = DiscoverViewModel(),
+    isDarkMode: Boolean,
+) {
     /**
      * The user view of the discover page
      */
     val posts by viewModel.posts.collectAsState()
     Log.e("text", "$posts")
 
-    MementoTheme(darkTheme = false) {
+    MementoTheme(darkTheme = isDarkMode) {
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
