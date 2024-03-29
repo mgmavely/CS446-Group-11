@@ -1,4 +1,5 @@
 package com.example.memento.mvvm.viewmodel
+
 import android.icu.text.SimpleDateFormat
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -9,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
@@ -37,13 +39,29 @@ class DiscoverViewModel : ViewModel() {
 
     val posts: StateFlow<List<PostItem>> = _posts
     val posted: MutableState<Boolean> = mutableStateOf(false)
+    val prompt: MutableState<String> = mutableStateOf("Daily Prompt")
 
     init {
         verifyPost()
         loadPosts()
+        loadPrompt()
     }
 
     val imageAvailable: MutableState<Boolean> = mutableStateOf(false)
+
+
+    fun loadPrompt() {
+        println(today)
+        db.collection("prompts")
+            .whereEqualTo("timestamp", today)
+            .get()
+            .addOnSuccessListener {
+                documents ->
+                for (doc in documents) {
+                    prompt.value = doc.getString("prompt") ?: "Daily Prompt"
+                }
+            }
+    }
 
 
     fun loadPosts() {

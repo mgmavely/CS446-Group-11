@@ -47,12 +47,12 @@ data class PostItem(
 )
 
 @Composable
-fun Prompt() {
+fun Prompt(viewModel: DiscoverViewModel) {
     /**
      * Represents the prompt that stays at the top of the scrolling screen
      */
 
-    var promptText = "Take a picture of something beautiful..." /* hardcoded text for now */
+    var promptText = viewModel.prompt.value /* hardcoded text for now */
 
     Box(
         modifier = Modifier
@@ -174,6 +174,7 @@ fun DiscoverView(viewModel: DiscoverViewModel = DiscoverViewModel()) {
                             targetTextSize = 30.sp
                         )
                     }
+                    Prompt(viewModel = viewModel)
                 }
             }
         }

@@ -56,3 +56,8 @@
 | 2024-03-25 |          |        |        |         |    2   |            |     Setup wiring for user posts to Firebase Storage and Firestore DB   |
 | 2024-03-25 |          |        |        |         |    2   |            |     Implemented functions for user posts (toggle privacy, delete and caption)  |
 | 2024-03-26 |          |        |        |         |    1  |            |     Navbar UI fix  |
+| 2024-03-26 |          |        |        |     3    |     |            |    Refactored history and discover page to use MVVM  |
+| 2024-03-27 |          |        |        |     1    |     |            |    Implemented posting of image url to firebase collection when user uploads |
+| 2024-03-27 |          |        |        |     6    |     |            |    Implemented pulling of posts from firebase to discover and history |
+| 2024-03-27 |          |        |        |         |    2  |            |     MVVM implementation for HomeView + db refactor for posts  |
+| 2024-03-29 |          |        |        |         |    0.5 |            |     Discover page prompt now loading today's prompt |
