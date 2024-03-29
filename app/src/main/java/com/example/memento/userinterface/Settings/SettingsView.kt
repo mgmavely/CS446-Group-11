@@ -73,7 +73,7 @@ fun SettingsView(
                         colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.secondary),
                         modifier = Modifier.padding(horizontal = 25.dp),
                         onCheckedChange = {
-                            toggleDarkMode(checked)
+                            toggleDarkMode(!isDarkMode)
                         }
                     )
                     Divider(thickness = 1.dp)
