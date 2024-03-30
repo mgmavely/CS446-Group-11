@@ -1,4 +1,5 @@
 package com.example.memento.mvvm.viewmodel
+import android.app.AlertDialog
 import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
@@ -47,6 +48,7 @@ class HomeViewModel : ViewModel() {
     var isFetched: MutableState<Boolean> = mutableStateOf(false)
 
     val documentPath = "${currentUser?.uid}_${today}.jpg"
+    var isTaken: MutableState<Boolean> = mutableStateOf(false)
 
     init {
         loadPosts()
@@ -108,6 +110,10 @@ class HomeViewModel : ViewModel() {
     fun setImageAvailable(newValue: Boolean) {
         imageAvailable.value = newValue
     }
+
+    fun setIsTaken(newValue: Boolean) {
+        isTaken.value = newValue
+    }
     fun deleteDocumentAndImage() {
         viewModelScope.launch {
             // Delete document from Firestore
@@ -117,6 +123,7 @@ class HomeViewModel : ViewModel() {
             val imageRef = storage.reference.child("images").child(documentPath)
             imageRef.delete().await()
             setImageAvailable(false)
+            setIsTaken(false)
         }
     }
 
@@ -214,6 +221,23 @@ class HomeViewModel : ViewModel() {
             Toast.makeText(context, "Failed to capture image", Toast.LENGTH_SHORT)
                 .show()
         }
+    }
+
+    fun showPopupBeforeTakingPicture(context: Context) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Alert")
+        builder.setMessage("Posting images online makes them accessible to the public, so exercise discretion and consider privacy implications.")
+        builder.setPositiveButton("I Understand") { dialog, _ ->
+            // If the user clicks "Yes", call the camera launcher
+            setIsTaken(true)
+            dialog.dismiss()
+        }
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            // If the user clicks "Cancel", dismiss the dialog
+            dialog.dismiss()
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 
     fun getCurrentTimeAsString(): String {

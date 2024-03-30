@@ -73,7 +73,7 @@ fun LoginView(
     }
 
     fun signIn(username: String, password: String) {
-        toHomePage()
+        //toHomePage()
         if (username.isEmpty() || password.isEmpty()) {
             signUpError = "Username and Password cannot be blank"
         } else {

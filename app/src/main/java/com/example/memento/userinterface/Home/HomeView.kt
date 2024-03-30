@@ -416,7 +416,10 @@ fun HomeView(
                                                                     context,
                                                                     Manifest.permission.CAMERA
                                                             )
-                                                    if (permissionCheckResult ==
+                                                    if (!viewModel.isTaken.value) {
+                                                        viewModel.showPopupBeforeTakingPicture(context)
+                                                    }
+                                                    else if (permissionCheckResult ==
                                                                     PackageManager.PERMISSION_GRANTED
                                                     ) {
                                                     cameraLauncher.launch(uri)
