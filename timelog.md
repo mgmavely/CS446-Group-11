@@ -61,3 +61,4 @@
 | 2024-03-27 |          |        |        |     6    |     |            |    Implemented pulling of posts from firebase to discover and history |
 | 2024-03-27 |          |        |        |         |    2  |            |     MVVM implementation for HomeView + db refactor for posts  |
 | 2024-03-29 |          |        |        |         |    0.5 |            |     Discover page prompt now loading today's prompt |
+| 2024-03-29 |          |        |        |         |    1 |            |     Added warning before user takes photo |
