@@ -54,100 +54,75 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.rememberImagePainter
 import com.example.memento.BuildConfig
+import com.example.memento.R
 import com.example.memento.mvvm.viewmodel.HomeViewModel
 import com.example.memento.theme.MementoTheme
-import kotlinx.coroutines.delay
 import java.io.File
 import java.time.LocalDateTime
 import java.util.Date
 import java.util.Objects
-import androidx.compose.ui.res.stringResource
-import com.example.memento.R
+import kotlinx.coroutines.delay
 
 @Composable
-fun ItemWithToggleAndButton(
-    public : Boolean,
-    viewModel: HomeViewModel
-) {
-    LaunchedEffect(public) {
-        viewModel.updatePublicToggle(public)
-    }
+fun ItemWithToggleAndButton(public: Boolean, viewModel: HomeViewModel) {
+    LaunchedEffect(public) { viewModel.updatePublicToggle(public) }
 
-    Column(
-        modifier = Modifier.padding(16.dp)
-    ) {
+    Column(modifier = Modifier.padding(16.dp)) {
         // Row containing switch and button
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
             // Toggle with label "Public"
             Text(text = "Public", color = Color.Black, modifier = Modifier.weight(1f))
             Spacer(modifier = Modifier.width(8.dp))
             Switch(
-                checked = viewModel.public.value,
-                onCheckedChange = { viewModel.public.value = it }
+                    checked = viewModel.public.value,
+                    onCheckedChange = { viewModel.public.value = it }
             )
 
             Spacer(modifier = Modifier.width(16.dp))
 
             // Button with "X" label
-            Button(onClick = {
-                viewModel.deleteDocumentAndImage()
-
-            }) {
-                Text(text = "X")
-            }
+            Button(onClick = { viewModel.deleteDocumentAndImage() }) { Text(text = "X") }
         }
     }
 }
 
 @Composable
-fun ChatItem(
-    captionText : String,
-    viewModel: HomeViewModel
-) {
+fun ChatItem(captionText: String, viewModel: HomeViewModel) {
     var message by remember { mutableStateOf(captionText) }
     Log.e("CHAT TEXT", captionText)
 
-    Row(
-        modifier = Modifier.padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+    Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
         BasicTextField(
-            value = message,
-            onValueChange = { message = it },
-            modifier = Modifier.weight(1f)
+                value = message,
+                onValueChange = { message = it },
+                modifier = Modifier.weight(1f)
         )
         Spacer(modifier = Modifier.width(8.dp))
         Button(
-            onClick = { viewModel.updateCaption(message) },
-            modifier = Modifier.wrapContentWidth()
-        ) {
-            Text(text = "Send")
-        }
+                onClick = { viewModel.updateCaption(message) },
+                modifier = Modifier.wrapContentWidth()
+        ) { Text(text = "Send") }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeView(
-    onHomeClicked: () -> Unit = {},
-    toHistory: () -> Unit = {},
-    viewModel: HomeViewModel = HomeViewModel(),
-    isDarkMode: Boolean,
-    ) {
+        onHomeClicked: () -> Unit = {},
+        toHistory: () -> Unit = {},
+        viewModel: HomeViewModel = HomeViewModel(),
+        isDarkMode: Boolean,
+) {
     MementoTheme(darkTheme = isDarkMode) {
-
         val context = LocalContext.current
         val file = context.createImageFile()
         val uri =
@@ -175,11 +150,10 @@ fun HomeView(
         var daysPressed by remember { mutableIntStateOf(5) }
         var hoursLeft by remember { mutableIntStateOf(24) }
         var minutesLeft by remember { mutableIntStateOf(0) }
-        
 
         LaunchedEffect(true) {
             val firstDateTime = LocalDateTime.now()
-            if (firstDateTime.minute == 0){
+            if (firstDateTime.minute == 0) {
                 hoursLeft = 24 - firstDateTime.hour
                 minutesLeft = 0
             } else {
@@ -219,250 +193,246 @@ fun HomeView(
                                         fontWeight = FontWeight.Bold
                                 )
                             },
-                            modifier = Modifier.padding(
-                                PaddingValues(top = 1.dp, bottom = 10.dp))
+                            modifier = Modifier.padding(PaddingValues(top = 1.dp, bottom = 10.dp))
                     )
                 }
         ) { innerPadding ->
             LazyColumn(
                     modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                        .background(MaterialTheme.colorScheme.background)
+                            Modifier.fillMaxSize()
+                                    .padding(innerPadding)
+                                    .background(MaterialTheme.colorScheme.background)
             ) {
-                
                 item {
                     Button(
-                        onClick = { toHistory() },
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
-                        modifier = Modifier.padding(top = 12.dp).fillMaxWidth()
-                            .padding(16.dp),
+                            onClick = { toHistory() },
+                            colors =
+                                    ButtonDefaults.buttonColors(
+                                            containerColor = MaterialTheme.colorScheme.secondary
+                                    ),
+                            modifier = Modifier.padding(top = 12.dp).fillMaxWidth().padding(16.dp),
                     ) {
-                        Text(text = stringResource(id = R.string.post_history), fontSize = 22.sp, textAlign = TextAlign.Center)
+                        Text(
+                                text = stringResource(id = R.string.post_history),
+                                fontSize = 22.sp,
+                                textAlign = TextAlign.Center
+                        )
                     }
                 }
-                
-                
-                
+
                 // Streak and time left
                 item {
-                        Row(
-                                horizontalArrangement = Arrangement.Center,
-                                modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 2.5.dp, horizontal = 50.dp)
-                        ) {
-                            Card(
-                                    colors =
-                                            CardDefaults.cardColors(
-                                                    containerColor =
-                                                            MaterialTheme.colorScheme.secondary,
-                                            ),
-                                    modifier = Modifier
-                                        .padding(20.dp)
-                                        .weight(1f)
-                                        .heightIn(max = 200.dp)
-                            ) {
-                                Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.Center
-                                ) {
-                                    Image(
-                                            painter =
-                                                    painterResource(
-                                                            id =
-                                                                    com.example
-                                                                            .memento
-                                                                            .R
-                                                                            .drawable
-                                                                            .ic_lightning
-                                                    ),
-                                            contentDescription = "streak",
-                                            modifier = Modifier.size(100.dp)
-                                    )
-                                    Text(
-                                            "$daysPressed \ndays streak",
-                                            fontWeight = FontWeight.Bold,
-                                            textAlign = TextAlign.Center,
-                                            color = MaterialTheme.colorScheme.onPrimary
-                                    )
-                                }
-                            }
-    
-                            Spacer(modifier = Modifier.width(16.dp))
-    
-                            Card(
-                                    colors =
-                                            CardDefaults.cardColors(
-                                                    containerColor =
-                                                            MaterialTheme.colorScheme.secondary,
-                                            ),
-                                    modifier = Modifier
-                                        .padding(20.dp)
-                                        .weight(1f)
-                                        .heightIn(max = 200.dp)
-                            ) {
-                                Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.Center
-                                ) {
-                                    Image(
-                                            painter =
-                                                    painterResource(
-                                                            id = com.example.memento.R.drawable.ic_clock
-                                                    ),
-                                            contentDescription = "time left",
-                                            modifier = Modifier.size(100.dp)
-                                    )
-                                    Text(
-                                            "$hoursLeft:${
-                                            minutesLeft.toString().padStart(2, '0')
-                                        }\n time left",
-                                            fontWeight = FontWeight.Bold,
-                                            color = MaterialTheme.colorScheme.onPrimary,
-                                            textAlign = TextAlign.Center
-                                    )
-                                }
-                            }
-                        }
-                    }
-                    
-                if (viewModel.imageAvailable.value) {
-
-                        item {
-                                Card(
-                                colors =
-                                        CardDefaults.cardColors(
-                                                containerColor = MaterialTheme.colorScheme.onBackground,
-                                        ),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 20.dp, vertical = 25.dp)
-                        ) {
-                            Card(
-                                colors =
-                                        CardDefaults.cardColors(
-                                                containerColor = MaterialTheme.colorScheme.onPrimary,
-                                        ),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(1.dp)
-                            ){
-                            ItemWithToggleAndButton(viewModel.public.value, viewModel)
-                            // Display captured image
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                            ) {
-                                Log.d("HomeView", "Displaying captured image: ${viewModel.capturedImageUri}")
-                                Card(
-                                        colors =
-                                                CardDefaults.cardColors(
-                                                        containerColor = MaterialTheme.colorScheme.onBackground,
-                                                ),
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(horizontal = 8.dp)
-                                            .height(550.dp)
-                                ) {
-                                        Image(
-                                                painter = rememberImagePainter(viewModel.capturedImageUri),
-                                                contentDescription = "Today's Memento",
-                                                modifier = Modifier
-                                                    .fillMaxHeight()
-                                                    .align(Alignment.CenterHorizontally)
-                                        )
-                                                }
-                                // Contenido
-                                ChatItem(viewModel.caption.value, viewModel)
-
-                                }
-                        }
-                            }
-                        }
-                        item {
-                                Spacer(
-                                        modifier = Modifier.height(75.dp)
-                                )
-                        }
-        }
-        else {
-                // Daily prompt
-                item {
+                    Row(
+                            horizontalArrangement = Arrangement.Center,
+                            modifier =
+                                    Modifier.fillMaxWidth()
+                                            .padding(vertical = 2.5.dp, horizontal = 50.dp)
+                    ) {
                         Card(
                                 colors =
                                         CardDefaults.cardColors(
-                                                containerColor = MaterialTheme.colorScheme.secondary,
+                                                containerColor =
+                                                        MaterialTheme.colorScheme.secondary,
                                         ),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp)
+                                modifier = Modifier.padding(20.dp).weight(1f).heightIn(max = 200.dp)
+                        ) {
+                            Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                            ) {
+                                Image(
+                                        painter =
+                                                painterResource(
+                                                        id =
+                                                                com.example
+                                                                        .memento
+                                                                        .R
+                                                                        .drawable
+                                                                        .ic_lightning
+                                                ),
+                                        contentDescription = "streak",
+                                        modifier = Modifier.size(100.dp)
+                                )
+                                Text(
+                                        text =
+                                                "${daysPressed}\n${stringResource(id = R.string.days_streak)}",
+                                        fontWeight = FontWeight.Bold,
+                                        textAlign = TextAlign.Center,
+                                        color = MaterialTheme.colorScheme.onPrimary
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.width(16.dp))
+
+                        Card(
+                                colors =
+                                        CardDefaults.cardColors(
+                                                containerColor =
+                                                        MaterialTheme.colorScheme.secondary,
+                                        ),
+                                modifier = Modifier.padding(20.dp).weight(1f).heightIn(max = 200.dp)
+                        ) {
+                            Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                            ) {
+                                Image(
+                                        painter =
+                                                painterResource(
+                                                        id = com.example.memento.R.drawable.ic_clock
+                                                ),
+                                        contentDescription = "time left",
+                                        modifier = Modifier.size(100.dp)
+                                )
+                                Text(
+                                        "$hoursLeft:${
+                                            minutesLeft.toString().padStart(2, '0')
+                                        }\n${stringResource(id = R.string.time_left)}",
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onPrimary,
+                                        textAlign = TextAlign.Center
+                                )
+                            }
+                        }
+                    }
+                }
+
+                if (viewModel.imageAvailable.value) {
+
+                    item {
+                        Card(
+                                colors =
+                                        CardDefaults.cardColors(
+                                                containerColor =
+                                                        MaterialTheme.colorScheme.onBackground,
+                                        ),
+                                modifier =
+                                        Modifier.fillMaxWidth()
+                                                .padding(horizontal = 20.dp, vertical = 25.dp)
+                        ) {
+                            Card(
+                                    colors =
+                                            CardDefaults.cardColors(
+                                                    containerColor =
+                                                            MaterialTheme.colorScheme.onPrimary,
+                                            ),
+                                    modifier = Modifier.fillMaxWidth().padding(1.dp)
+                            ) {
+                                ItemWithToggleAndButton(viewModel.public.value, viewModel)
+                                // Display captured image
+                                Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    Card(
+                                            colors =
+                                                    CardDefaults.cardColors(
+                                                            containerColor =
+                                                                    MaterialTheme.colorScheme
+                                                                            .onBackground,
+                                                    ),
+                                            modifier =
+                                                    Modifier.fillMaxWidth()
+                                                            .padding(horizontal = 8.dp)
+                                                            .height(550.dp)
+                                    ) {
+                                        Image(
+                                                painter =
+                                                        rememberImagePainter(
+                                                                viewModel.capturedImageUri
+                                                        ),
+                                                contentDescription = "Today's Memento",
+                                                modifier =
+                                                        Modifier.fillMaxHeight()
+                                                                .align(Alignment.CenterHorizontally)
+                                        )
+                                    }
+                                    // Contenido
+                                    ChatItem(viewModel.caption.value, viewModel)
+                                }
+                            }
+                        }
+                    }
+                    item { Spacer(modifier = Modifier.height(75.dp)) }
+                } else {
+                    // Daily prompt
+                    item {
+                        Card(
+                                colors =
+                                        CardDefaults.cardColors(
+                                                containerColor =
+                                                        MaterialTheme.colorScheme.secondary,
+                                        ),
+                                modifier = Modifier.fillMaxWidth().padding(16.dp)
                         ) {
                             Text(
                                     viewModel.dailyPrompt.value,
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.onPrimary,
-                                    modifier = Modifier.padding(vertical = 15.dp, horizontal = 10.dp)
+                                    modifier =
+                                            Modifier.padding(vertical = 15.dp, horizontal = 10.dp)
                             )
                         }
                     }
-                // Capture memento
-                item {
+                    // Capture memento
+                    item {
                         Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 10.dp), contentAlignment = Alignment.Center,) {
-                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    FloatingActionButton(
-                                            onClick = {
-                                                    val permissionCheckResult =
-                                                            ContextCompat.checkSelfPermission(
-                                                                    context,
-                                                                    Manifest.permission.CAMERA
-                                                            )
-                                                    if (permissionCheckResult ==
-                                                                    PackageManager.PERMISSION_GRANTED
-                                                    ) {
-                                                    cameraLauncher.launch(uri)
-                                                    } else {
-                                                    // Request a permission
-                                                    permissionLauncher.launch(Manifest.permission.CAMERA)
-                                                    }
-                                            },
-                                            containerColor = MaterialTheme.colorScheme.onBackground,
-                                            contentColor = MaterialTheme.colorScheme.onPrimary,
-                                    ) { Icon(
-                                        imageVector = Icons.Filled.Create,
-                                        contentDescription = "capture memento",
-                                        tint = MaterialTheme.colorScheme.onSecondary
-                                    ) }
-    
-                                    Spacer(modifier = Modifier.height(7.dp))
-    
-                                    Text(
-                                            "CAPTURE MEMENTO",
-                                            fontWeight = FontWeight.Bold,
-                                            fontSize = 10.sp,
-                                            color = MaterialTheme.colorScheme.onBackground
+                                modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp),
+                                contentAlignment = Alignment.Center,
+                        ) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                FloatingActionButton(
+                                        onClick = {
+                                            val permissionCheckResult =
+                                                    ContextCompat.checkSelfPermission(
+                                                            context,
+                                                            Manifest.permission.CAMERA
+                                                    )
+                                            if (permissionCheckResult ==
+                                                            PackageManager.PERMISSION_GRANTED
+                                            ) {
+                                                cameraLauncher.launch(uri)
+                                            } else {
+                                                // Request a permission
+                                                permissionLauncher.launch(
+                                                        Manifest.permission.CAMERA
+                                                )
+                                            }
+                                        },
+                                        containerColor = MaterialTheme.colorScheme.onBackground,
+                                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                                ) {
+                                    Icon(
+                                            imageVector = Icons.Filled.Create,
+                                            contentDescription = "capture memento",
+                                            tint = MaterialTheme.colorScheme.onSecondary
                                     )
-                                    }
+                                }
+
+                                Spacer(modifier = Modifier.height(7.dp))
+
+                                Text(
+                                    stringResource(id = R.string.capture),
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 10.sp,
+                                        color = MaterialTheme.colorScheme.onBackground
+                                )
                             }
+                        }
                     }
-                item {
-                Image(
-                        painter =
-                                painterResource(id = com.example.memento.R.drawable.`when`),
-                        contentDescription = "when is your... memento :)?",
-                        modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                PaddingValues(top = 20.dp, bottom = 100.dp)
-                            )
-                )
+                    item {
+                        Image(
+                                painter =
+                                        painterResource(id = com.example.memento.R.drawable.`when`),
+                                contentDescription = "when is your... memento :)?",
+                                modifier =
+                                        Modifier.fillMaxWidth()
+                                                .padding(
+                                                        PaddingValues(top = 20.dp, bottom = 100.dp)
+                                                )
+                        )
+                    }
                 }
-            }
             }
         }
     }

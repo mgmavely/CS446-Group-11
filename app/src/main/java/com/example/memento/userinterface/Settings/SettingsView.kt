@@ -53,7 +53,7 @@ fun SettingsView(
             topBar = {
                 CenterAlignedTopAppBar(
                     title = {
-                        Text("SETTINGS", textAlign = TextAlign.Center, fontSize = 40.sp
+                        Text(stringResource(id = R.string.settings), textAlign = TextAlign.Center, fontSize = 40.sp
                         ,color = MaterialTheme.colorScheme.onBackground,)
 
                     },
@@ -90,13 +90,13 @@ fun SettingsView(
 
                 Column(modifier = Modifier) {
                     Text(
-                        "Notifications", fontSize = 18.sp,
+                        stringResource(id = R.string.notifications), fontSize = 18.sp,
                         color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.padding(horizontal = 10.dp)
                     )
 
                     Text(
-                        "Enable Notifications", fontSize = 15.sp,
+                        stringResource(id = R.string.en_notifications), fontSize = 15.sp,
                         color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.padding(horizontal = 10.dp)
                     )
@@ -110,7 +110,7 @@ fun SettingsView(
                     )
 
                     Text(
-                        "Temporarily Mute Notifications", fontSize = 15.sp,
+                        stringResource(id = R.string.te_notifications), fontSize = 15.sp,
                         color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.padding(horizontal = 10.dp)
                     )
@@ -128,7 +128,7 @@ fun SettingsView(
 
                 Column() {
                     Text(
-                        "Mental Health Resources", fontSize = 18.sp,
+                        stringResource(id = R.string.m_h_resources), fontSize = 18.sp,
                         color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.padding(horizontal = 10.dp)
                     )
@@ -137,7 +137,7 @@ fun SettingsView(
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                         modifier = Modifier.padding(top = 12.dp).padding(horizontal = 25.dp),
                     ) {
-                        Text("Online Mental Health Resources", fontSize = 14.sp)
+                        Text(stringResource(id = R.string.o_resources), fontSize = 14.sp)
                     }
                     Button(
                         onClick = onMentalHealthPhoneClicked,
@@ -146,14 +146,14 @@ fun SettingsView(
                             .padding(top = 5.dp)
                             .padding(horizontal = 25.dp),
                     ) {
-                        Text("Mental Health Related Phone Lines", fontSize = 14.sp)
+                        Text(stringResource(id = R.string.m_h_phone), fontSize = 14.sp)
                     }
                     Divider(thickness = 1.dp)
                 }
 
                 Column() {
                     Text(
-                        "Legal", fontSize = 18.sp,
+                        stringResource(id = R.string.legal), fontSize = 18.sp,
                         color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.padding(horizontal = 10.dp)
                     )
@@ -164,7 +164,7 @@ fun SettingsView(
                             .padding(top = 12.dp)
                             .padding(horizontal = 25.dp),
                     ) {
-                        Text("Privacy Policy", fontSize = 14.sp)
+                        Text(stringResource(id = R.string.privacy_policy), fontSize = 14.sp)
                     }
                     Button(
                         onClick = onMentalHealthPhoneClicked,
@@ -173,7 +173,7 @@ fun SettingsView(
                             .padding(top = 5.dp)
                             .padding(horizontal = 25.dp),
                     ) {
-                        Text("Terms Of Service", fontSize = 14.sp)
+                        Text(stringResource(id = R.string.t_o_s), fontSize = 14.sp)
                     }
                     Divider(thickness = 1.dp)
                 }
@@ -189,7 +189,7 @@ fun SettingsView(
                             .padding(vertical = 10.dp)
                             .align(alignment = Alignment.CenterHorizontally),
                     ) {
-                        Text("Log Out", fontSize = 14.sp)
+                        Text(stringResource(id = R.string.log_out), fontSize = 14.sp)
                     }
                     Divider(thickness = 1.dp)
                     Button(
@@ -211,7 +211,7 @@ fun SettingsView(
                             .padding(vertical = 10.dp)
                             .align(alignment = Alignment.CenterHorizontally),
                     ) {
-                        Text("Delete Account", fontSize = 14.sp)
+                        Text(stringResource(id = R.string.delete_account), fontSize = 14.sp)
                     }
                     Divider(thickness = 1.dp)
                 }
