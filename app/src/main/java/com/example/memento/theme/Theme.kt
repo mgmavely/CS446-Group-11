@@ -18,11 +18,11 @@ import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
     primary = Pink60,
-    secondary = Pink40,
+    secondary = Pink80,
     tertiary = Pink80,
     background = Pink60,
     surface = Pink60,
-    onPrimary = Garnet,
+    onPrimary = White,
     onSecondary = White,
     onTertiary = Garnet,
     onBackground = Garnet,
@@ -35,9 +35,9 @@ private val LightColorScheme = lightColorScheme(
     tertiary = Pink80,
     background = Pink40,
     surface = Pink40,
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
+    onPrimary = White,
+    onSecondary = White,
+    onTertiary = White,
     onBackground = Garnet,
     onSurface = Pink60
 )

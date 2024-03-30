@@ -66,7 +66,7 @@ fun Prompt(viewModel: DiscoverViewModel) {
                     modifier = Modifier.
                         padding(10.dp),
                     text = promptText,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = MaterialTheme.colorScheme.onSecondary,
                     targetTextSize = 30.sp
                 )
     }
