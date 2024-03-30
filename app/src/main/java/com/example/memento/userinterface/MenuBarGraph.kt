@@ -16,7 +16,7 @@ import org.example.userinterface.Settings.SettingsView
 fun MenuBarGraph(
     navController: NavHostController,
     isDarkMode: Boolean,
-    toggleDarkMode: (Boolean) -> Unit
+    toggleDarkMode: (Boolean) -> Unit,
 ) {
         NavHost(
             navController = navController,
@@ -42,7 +42,7 @@ fun MenuBarGraph(
                     onMentalHealthPhoneClicked = {},
                     onLogoutClicked = { navController.navigate(MenuBarOptions.Login.route) },
                     isDarkMode = isDarkMode,
-                    toggleDarkMode = toggleDarkMode
+                    toggleDarkMode = toggleDarkMode,
                 )
             }
             composable(route = MenuBarOptions.Discover.route) {

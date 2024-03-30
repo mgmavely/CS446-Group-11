@@ -45,6 +45,7 @@ fun MementoApp(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val (isDarkMode, toggleDarkMode) = remember { mutableStateOf(false) }
 
+
     showNav = when (navBackStackEntry?.destination?.route) {
         MenuBarOptions.Login.route -> false // on this screen bottom bar should be hidden
         else -> true // in all other cases show bottom bar
@@ -61,11 +62,13 @@ fun MementoApp(
     )
     {innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            MenuBarGraph(navController = navController, isDarkMode = isDarkMode, toggleDarkMode = toggleDarkMode)
+            MenuBarGraph(navController = navController, isDarkMode = isDarkMode, toggleDarkMode = toggleDarkMode,)
         }
     }
 }
 }
+
+
 
 
 @Composable
