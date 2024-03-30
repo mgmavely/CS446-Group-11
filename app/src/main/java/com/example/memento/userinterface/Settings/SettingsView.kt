@@ -30,7 +30,6 @@ import com.example.memento.theme.MementoTheme
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.SwitchDefaults
 import com.google.firebase.auth.FirebaseAuth
-import SettingsViewModel
 import android.content.Intent
 import androidx.compose.ui.res.stringResource
 import com.example.memento.R
@@ -44,11 +43,9 @@ fun SettingsView(
     onLogoutClicked: () -> Unit = {},
     isDarkMode: Boolean,
     toggleDarkMode: (Boolean) -> Unit,
-    viewModel: SettingsViewModel = SettingsViewModel(),
 
 ) {
     val auth = FirebaseAuth.getInstance()
-    var currentLanguage by viewModel.currentLanguage
 
     MementoTheme(darkTheme = isDarkMode) {
 
@@ -90,35 +87,6 @@ fun SettingsView(
                     )
                     Divider(thickness = 1.dp)
                 }
-
-                Column(modifier = Modifier) {
-                    Text(
-                        "Select Language", fontSize = 18.sp,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(horizontal = 10.dp)
-                    )
-                    Row(
-                        modifier = Modifier.padding(horizontal = 25.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        LanguageSwitchButton(
-                            text = "English",
-                            onClick = {
-                                viewModel.currentLanguage.value = Language.ENGLISH },
-                            isSelected = viewModel.currentLanguage.value == Language.ENGLISH
-                        )
-
-                        Spacer(modifier = Modifier.width(16.dp))
-                        LanguageSwitchButton(
-                            text = "Español",
-                            onClick = { viewModel.currentLanguage.value = Language.SPANISH },
-                            isSelected = viewModel.currentLanguage.value == Language.SPANISH
-                        )
-
-                    }
-                    Divider(thickness = 1.dp)
-                }
-
 
                 Column(modifier = Modifier) {
                     Text(
@@ -252,23 +220,3 @@ fun SettingsView(
         }
     }
 }
-
-@Composable
-fun LanguageSwitchButton(
-    text: String,
-    onClick: () -> Unit,
-    isSelected: Boolean
-) {
-    Button(
-        onClick = onClick,
-        enabled = !isSelected,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.secondary,
-            contentColor = MaterialTheme.colorScheme.onSecondary
-        )
-    ) {
-        Text(text = text)
-    }
-}
-
-
