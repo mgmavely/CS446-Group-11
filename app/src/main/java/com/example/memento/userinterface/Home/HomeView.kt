@@ -172,7 +172,8 @@ fun HomeView(
                     }
                 }
 
-        var daysPressed by remember { mutableIntStateOf(5) }
+        var daysPressed by remember { mutableIntStateOf(0) }
+        var TodayPressed by remember { mutableIntStateOf(0) }
         var hoursLeft by remember { mutableIntStateOf(24) }
         var minutesLeft by remember { mutableIntStateOf(0) }
         
@@ -188,20 +189,26 @@ fun HomeView(
             }
             while (true) {
                 val currentDateTime = LocalDateTime.now()
-                if (currentDateTime.hour == 0 && currentDateTime.minute == 0) {
+                if (minutesLeft == 0) {
+                    minutesLeft = 59
+                    hoursLeft--
+                } else {
+                    minutesLeft--
+                }
+                if (TodayPressed == 1){
+                    daysPressed++
+                    TodayPressed = 2}
+
+                if (hoursLeft == 0 && minutesLeft == 0) {
                     hoursLeft = 24
                     minutesLeft = 0
-                } else {
-                    if (minutesLeft == 0) {
-                        minutesLeft = 59
-                        hoursLeft--
-                    } else {
-                        minutesLeft--
+
+                    if (TodayPressed == 0){
+                        daysPressed = 0
                     }
-                    if (hoursLeft == 0 && minutesLeft == 0) {
-                        hoursLeft = 24
-                        minutesLeft = 0
-                    }
+
+                    TodayPressed = 0
+
                 }
                 delay(60000)
             }
@@ -427,6 +434,7 @@ fun HomeView(
                                                     else if (permissionCheckResult ==
                                                                     PackageManager.PERMISSION_GRANTED
                                                     ) {
+                                                        TodayPressed = 1
                                                     cameraLauncher.launch(uri)
                                                     } else {
                                                     // Request a permission
