@@ -62,3 +62,5 @@
 | 2024-03-27 |          |        |        |         |    2  |            |     MVVM implementation for HomeView + db refactor for posts  |
 | 2024-03-29 |          |        |        |         |    0.5 |            |     Discover page prompt now loading today's prompt |
 | 2024-03-29 |          |        |        |         |    1 |            |     Added warning before user takes photo |
+| 2024-03-29 |     3    |        |        |         |    1 |            |     Globalization and light/dark |
+| 2024-03-30 |     3    |        |        |         |    1 |            |     Globalization and light/dark |
