@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.memento.mvvm.viewmodel.LoginViewModel
 import com.example.memento.theme.MementoTheme
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -41,61 +42,63 @@ import com.google.firebase.auth.auth
 @Composable
 fun LoginView(
     isDarkMode: Boolean,
-    toHomePage: () -> Unit = {}
+    toHomePage: () -> Unit = {},
+    viewModel: LoginViewModel = LoginViewModel()
 ) {
-    val auth: FirebaseAuth = Firebase.auth
+    viewModel.setHomeFn(toHomePage)
+//    val auth: FirebaseAuth = Firebase.auth
+//
+//    var username by remember { mutableStateOf("") }
+//    var password by remember { mutableStateOf("")}
+//    var signUpError by remember { mutableStateOf<String?>(null) }
 
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("")}
-    var signUpError by remember { mutableStateOf<String?>(null) }
+//    fun signUp(username: String, password: String) {
+//        if (username.isEmpty() || password.isEmpty()) {
+//            signUpError = "Username and Password cannot be blank"
+//        } else {
+//            auth.createUserWithEmailAndPassword(username, password)
+//            .addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    toHomePage()
+//                } else {
+//                    // Sign up failed
+//                    val exception = task.exception
+//                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+//                    signUpError = if (exception is FirebaseAuthException) {
+//                        // Handle specific authentication errors
+//                        exception.localizedMessage ?: "Unknown error occurred"
+//                    } else {
+//                        // Handle generic errors
+//                        "Sign up failed"
+//                    }
+//                }
+//            }
+//        }
+//    }
 
-    fun signUp(username: String, password: String) {
-        if (username.isEmpty() || password.isEmpty()) {
-            signUpError = "Username and Password cannot be blank"
-        } else {
-            auth.createUserWithEmailAndPassword(username, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    toHomePage()
-                } else {
-                    // Sign up failed
-                    val exception = task.exception
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    signUpError = if (exception is FirebaseAuthException) {
-                        // Handle specific authentication errors
-                        exception.localizedMessage ?: "Unknown error occurred"
-                    } else {
-                        // Handle generic errors
-                        "Sign up failed"
-                    }
-                }
-            }
-        }
-    }
-
-    fun signIn(username: String, password: String) {
-        toHomePage()
-        if (username.isEmpty() || password.isEmpty()) {
-            signUpError = "Username and Password cannot be blank"
-        } else {
-            auth.signInWithEmailAndPassword(username, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    toHomePage()
-                } else {
-                    // Sign in failed
-                    val exception = task.exception
-                    signUpError = if (exception is FirebaseAuthException) {
-                        // Handle specific authentication errors
-                        exception.localizedMessage ?: "Unknown error occurred"
-                    } else {
-                        // Handle generic errors
-                        "Sign in failed"
-                    }
-                }
-            }
-        }
-    }
+//    fun signIn(username: String, password: String) {
+//        //toHomePage()
+//        if (username.isEmpty() || password.isEmpty()) {
+//            signUpError = "Username and Password cannot be blank"
+//        } else {
+//            auth.signInWithEmailAndPassword(username, password)
+//            .addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    toHomePage()
+//                } else {
+//                    // Sign in failed
+//                    val exception = task.exception
+//                    signUpError = if (exception is FirebaseAuthException) {
+//                        // Handle specific authentication errors
+//                        exception.localizedMessage ?: "Unknown error occurred"
+//                    } else {
+//                        // Handle generic errors
+//                        "Sign in failed"
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     MementoTheme(darkTheme = isDarkMode) {
 
@@ -124,22 +127,22 @@ fun LoginView(
             ) {
 
                 TextField(
-                    username,
+                    viewModel.username.value,
                     colors = TextFieldDefaults.textFieldColors(focusedTextColor = MaterialTheme.colorScheme.onBackground,
                         focusedLabelColor = MaterialTheme.colorScheme.onBackground,
                         unfocusedTextColor = MaterialTheme.colorScheme.onBackground),
                     label = { Text("Username: ") },
-                    onValueChange = { username = it },
+                    onValueChange = { viewModel.username.value = it },
 
                     )
 
                 TextField(
-                    password,
+                    viewModel.password.value,
                     colors = TextFieldDefaults.textFieldColors(focusedTextColor = MaterialTheme.colorScheme.onBackground,
                         focusedLabelColor = MaterialTheme.colorScheme.onBackground,
                         unfocusedTextColor = MaterialTheme.colorScheme.onBackground),
                     label = { Text("Password: ") },
-                    onValueChange = { password = it },
+                    onValueChange = { viewModel.password.value = it },
 
                     visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
@@ -147,7 +150,7 @@ fun LoginView(
 
                 Row() {
                     Button(
-                        onClick = { signIn(username, password) },
+                        onClick = { viewModel.signIn(viewModel.username.value, viewModel.password.value) },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                         modifier = Modifier.padding(12.dp),
                     ) { Text(" Log In ", fontSize = 22.sp) }
@@ -156,7 +159,7 @@ fun LoginView(
                 Text("or", fontSize = 15.sp, color = MaterialTheme.colorScheme.onBackground)
                 Row() {
                     Button(
-                        onClick = { signUp(username, password) },
+                        onClick = { viewModel.signUp(viewModel.username.value, viewModel.password.value) },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                         modifier = Modifier.padding(top = 12.dp),
                     ) {
@@ -164,7 +167,7 @@ fun LoginView(
                     }
                 }
                 Row (){
-                    signUpError?.let { error ->
+                    viewModel.signUpError.value?.let { error ->
                         Text(
                             text = error,
                             color = Color.Red,

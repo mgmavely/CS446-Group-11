@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import com.example.memento.theme.MementoTheme
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.SwitchDefaults
+import com.example.memento.mvvm.viewmodel.SettingsViewModel
 import com.google.firebase.auth.FirebaseAuth
 import android.content.Intent
 import androidx.compose.ui.res.stringResource
@@ -43,6 +44,7 @@ fun SettingsView(
     onLogoutClicked: () -> Unit = {},
     isDarkMode: Boolean,
     toggleDarkMode: (Boolean) -> Unit,
+    viewModel: SettingsViewModel = SettingsViewModel()
 
 ) {
     val auth = FirebaseAuth.getInstance()
@@ -181,7 +183,7 @@ fun SettingsView(
                 Column() {
                     Button(
                         onClick = {
-                            auth.signOut() // Sign out the user
+                            viewModel.auth.signOut() // Sign out the user
                             onLogoutClicked() // Execute the callback function
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
@@ -194,11 +196,11 @@ fun SettingsView(
                     Divider(thickness = 1.dp)
                     Button(
                         onClick = {
-                            val user = auth.currentUser
+                            val user = viewModel.auth.currentUser
                             user?.delete()?.addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     // Account deleted successfully
-                                    auth.signOut()
+                                    viewModel.auth.signOut()
                                     onLogoutClicked()
                                 } else {
                                     // Failed to delete account
