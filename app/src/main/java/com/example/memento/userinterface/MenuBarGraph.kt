@@ -13,31 +13,43 @@ import org.example.userinterface.Login.LoginView
 import org.example.userinterface.Settings.SettingsView
 
 @Composable
-fun MenuBarGraph(navController: NavHostController) {
-    NavHost(
-        navController = navController,
-        startDestination = MenuBarOptions.Login.route,
-    ) {
-        composable(route = MenuBarOptions.Login.route) {
-            LoginView(toHomePage = { navController.navigate(MenuBarOptions.Home.route) })
+fun MenuBarGraph(
+    navController: NavHostController,
+    isDarkMode: Boolean,
+    toggleDarkMode: (Boolean) -> Unit,
+) {
+        NavHost(
+            navController = navController,
+            startDestination = MenuBarOptions.Login.route,
+        ) {
+            composable(route = MenuBarOptions.Login.route) {
+                LoginView(toHomePage = { navController.navigate(MenuBarOptions.Home.route) },                 isDarkMode = isDarkMode,)
+            }
+            composable(route = MenuBarOptions.Home.route) {
+                HomeView(
+                    onHomeClicked = { navController.navigate(MenuBarOptions.HomeInfo.route) },
+                    toHistory = { navController.navigate(MenuBarOptions.History.route) },
+                    viewModel = HomeViewModel(),
+                    isDarkMode = isDarkMode
+                )
+            }
+            composable(route = MenuBarOptions.HomeInfo.route) {
+                HomeInfoView()
+            }
+            composable(route = MenuBarOptions.Settings.route) {
+                SettingsView(
+                    onMentalHealthOnlineClicked = {},
+                    onMentalHealthPhoneClicked = {},
+                    onLogoutClicked = { navController.navigate(MenuBarOptions.Login.route) },
+                    isDarkMode = isDarkMode,
+                    toggleDarkMode = toggleDarkMode,
+                )
+            }
+            composable(route = MenuBarOptions.Discover.route) {
+                DiscoverView(isDarkMode = isDarkMode)
+            }
+            composable(route = MenuBarOptions.History.route) {
+                HistoryView(isDarkMode = isDarkMode)
+            }
         }
-        composable(route = MenuBarOptions.Home.route) {
-            HomeView(onHomeClicked = { navController.navigate(MenuBarOptions.HomeInfo.route) },
-                toHistory = { navController.navigate(MenuBarOptions.History.route) },
-                viewModel = HomeViewModel()
-            )
-        }
-        composable(route = MenuBarOptions.HomeInfo.route) {
-            HomeInfoView()
-        }
-        composable(route = MenuBarOptions.Settings.route) {
-            SettingsView( onLogoutClicked = { navController.navigate(MenuBarOptions.Login.route) } )
-        }
-        composable(route = MenuBarOptions.Discover.route) {
-            DiscoverView()
-        }
-        composable(route = MenuBarOptions.History.route) {
-            HistoryView()
-        }
-    }
 }

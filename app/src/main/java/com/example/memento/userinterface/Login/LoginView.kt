@@ -41,6 +41,7 @@ import com.google.firebase.auth.auth
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginView(
+    isDarkMode: Boolean,
     toHomePage: () -> Unit = {},
     viewModel: LoginViewModel = LoginViewModel()
 ) {
@@ -99,7 +100,7 @@ fun LoginView(
 //        }
 //    }
 
-    MementoTheme {
+    MementoTheme(darkTheme = isDarkMode) {
 
         Scaffold(
             topBar = {

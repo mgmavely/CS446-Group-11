@@ -1,27 +1,22 @@
 package org.example
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -33,14 +28,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.memento.R
+import com.example.memento.theme.MementoTheme
 
 import org.example.userinterface.MenuBarGraph
 import org.example.userinterface.MenuBarOptions
@@ -53,27 +43,38 @@ fun MementoApp(
 ) {
     var showNav by rememberSaveable { mutableStateOf(true) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val (isDarkMode, toggleDarkMode) = remember { mutableStateOf(false) }
+
+
     showNav = when (navBackStackEntry?.destination?.route) {
         MenuBarOptions.Login.route -> false // on this screen bottom bar should be hidden
         else -> true // in all other cases show bottom bar
     }
 
+    MementoTheme(darkTheme = isDarkMode) {
     Scaffold(
         bottomBar = {
-            if (showNav) MementoMenuBar(navController = navController)
+            if (showNav) MementoMenuBar(
+                navController = navController,
+                isDarkMode = isDarkMode,)
         },
         containerColor = MaterialTheme.colorScheme.primary
     )
     {innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            MenuBarGraph(navController = navController)
+            MenuBarGraph(navController = navController, isDarkMode = isDarkMode, toggleDarkMode = toggleDarkMode,)
         }
     }
 }
+}
+
+
 
 
 @Composable
-fun MementoMenuBar(navController: NavHostController) {
+fun MementoMenuBar(
+    navController: NavHostController,
+    isDarkMode: Boolean) {
     val screens = listOf(
         MenuBarOptions.Settings,
         MenuBarOptions.Home,
@@ -81,6 +82,7 @@ fun MementoMenuBar(navController: NavHostController) {
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+    MementoTheme(darkTheme = isDarkMode) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         color = MaterialTheme.colorScheme.secondary,
@@ -110,6 +112,7 @@ fun MementoMenuBar(navController: NavHostController) {
                         )
                     }
                 }
+            }
             }
 //        Surface(
 //            shape = RoundedCornerShape(16.dp),

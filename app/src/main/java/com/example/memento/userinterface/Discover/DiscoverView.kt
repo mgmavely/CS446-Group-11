@@ -66,7 +66,7 @@ fun Prompt(viewModel: DiscoverViewModel) {
                     modifier = Modifier.
                         padding(10.dp),
                     text = promptText,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = MaterialTheme.colorScheme.onSecondary,
                     targetTextSize = 30.sp
                 )
     }
@@ -124,15 +124,19 @@ fun PostDisplay(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun DiscoverView(viewModel: DiscoverViewModel = DiscoverViewModel()) {
+fun DiscoverView(
+    viewModel: DiscoverViewModel = DiscoverViewModel(),
+    isDarkMode: Boolean,
+) {
     /**
      * The user view of the discover page
      */
     val posts by viewModel.posts.collectAsState()
     Log.e("text", "$posts")
 
+
     if(!viewModel.posted.value){
-        MementoTheme {
+        MementoTheme(darkTheme = isDarkMode) {
             Scaffold(
                 topBar = {
                     CenterAlignedTopAppBar(
@@ -144,7 +148,6 @@ fun DiscoverView(viewModel: DiscoverViewModel = DiscoverViewModel()) {
                                 lineHeight = 33.sp,
                                 color = MaterialTheme.colorScheme.onBackground
                             )
-
                         },
                         modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
                     )

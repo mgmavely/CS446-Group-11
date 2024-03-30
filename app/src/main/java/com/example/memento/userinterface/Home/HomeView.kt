@@ -70,6 +70,8 @@ import java.io.File
 import java.time.LocalDateTime
 import java.util.Date
 import java.util.Objects
+import androidx.compose.ui.res.stringResource
+import com.example.memento.R
 
 @Composable
 fun ItemWithToggleAndButton(
@@ -137,14 +139,14 @@ fun ChatItem(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun HomeView(
     onHomeClicked: () -> Unit = {},
     toHistory: () -> Unit = {},
-    viewModel: HomeViewModel = HomeViewModel()
-) {
-    MementoTheme {
+    viewModel: HomeViewModel = HomeViewModel(),
+    isDarkMode: Boolean,
+    ) {
+    MementoTheme(darkTheme = isDarkMode) {
 
         val context = LocalContext.current
         val file = context.createImageFile()
@@ -237,7 +239,7 @@ fun HomeView(
                         modifier = Modifier.padding(top = 12.dp).fillMaxWidth()
                             .padding(16.dp),
                     ) {
-                        Text("View Your Post History", fontSize = 22.sp, textAlign = TextAlign.Center)
+                        Text(text = stringResource(id = R.string.post_history), fontSize = 22.sp, textAlign = TextAlign.Center)
                     }
                 }
                 
@@ -283,7 +285,8 @@ fun HomeView(
                                     Text(
                                             "$daysPressed \ndays streak",
                                             fontWeight = FontWeight.Bold,
-                                            textAlign = TextAlign.Center
+                                            textAlign = TextAlign.Center,
+                                            color = MaterialTheme.colorScheme.onPrimary
                                     )
                                 }
                             }
@@ -318,6 +321,7 @@ fun HomeView(
                                             minutesLeft.toString().padStart(2, '0')
                                         }\n time left",
                                             fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.onPrimary,
                                             textAlign = TextAlign.Center
                                     )
                                 }
@@ -398,6 +402,7 @@ fun HomeView(
                             Text(
                                     viewModel.dailyPrompt.value,
                                     fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onPrimary,
                                     modifier = Modifier.padding(vertical = 15.dp, horizontal = 10.dp)
                             )
                         }
@@ -430,7 +435,11 @@ fun HomeView(
                                             },
                                             containerColor = MaterialTheme.colorScheme.onBackground,
                                             contentColor = MaterialTheme.colorScheme.onPrimary,
-                                    ) { Icon(Icons.Filled.Create, "capture memento") }
+                                    ) { Icon(
+                                        imageVector = Icons.Filled.Create,
+                                        contentDescription = "capture memento",
+                                        tint = MaterialTheme.colorScheme.onSecondary
+                                    ) }
     
                                     Spacer(modifier = Modifier.height(7.dp))
     

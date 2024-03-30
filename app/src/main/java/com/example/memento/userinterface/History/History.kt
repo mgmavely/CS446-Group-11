@@ -104,11 +104,15 @@ fun PostDisplay(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun HistoryView(viewModel: HistoryViewModel = HistoryViewModel()) {
+fun HistoryView(
+    viewModel: HistoryViewModel = HistoryViewModel(),
+    isDarkMode: Boolean,
+
+) {
 
     val posts by viewModel.posts.collectAsState()
 
-    MementoTheme {
+    MementoTheme(darkTheme = isDarkMode) {
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
