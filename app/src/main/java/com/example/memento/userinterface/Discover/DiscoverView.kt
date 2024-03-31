@@ -165,7 +165,7 @@ fun DiscoverView(
                             modifier = Modifier.
                             padding(10.dp),
                             text = "Make a public post today to discover others!",
-                            color = MaterialTheme.colorScheme.onBackground,
+                            color = MaterialTheme.colorScheme.onSecondary,
                             targetTextSize = 30.sp
                         )
                     }
