@@ -1,6 +1,7 @@
 package com.example.memento.mvvm.viewmodel
 
 import android.icu.text.SimpleDateFormat
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Switch
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -31,7 +33,6 @@ class DiscoverViewModel : ViewModel() {
     private val storage = FirebaseStorage.getInstance()
 
     private val _posts = MutableStateFlow<List<PostItem>>(emptyList())
-    //private val _posted = MutableState<Boolean>(true)
 
     val currentUser = firebaseAuth.currentUser
     val today = SimpleDateFormat("yyyy-MM-dd").format(Date())
@@ -69,15 +70,16 @@ class DiscoverViewModel : ViewModel() {
             val db = Firebase.firestore
 
             // call to get posts
-            db.collection("posts").get().addOnSuccessListener { querySnapshot ->
+            db.collection("posts").orderBy("time", Query.Direction.DESCENDING).get().addOnSuccessListener { querySnapshot ->
                 val postsList = querySnapshot.map { document ->
                     PostItem("Prompt q here",
                         document.getString("caption"),
                         document.getString("date"),
                         document.getString("imageurl")
                     )
+
                 }
-                _posts.value = postsList
+                _posts.value = postsList.filter { it.date == today }
             }
 
 
