@@ -47,12 +47,10 @@ data class PostItem(
 )
 
 @Composable
-fun Prompt(viewModel: DiscoverViewModel) {
+fun Prompt(promptText: String) {
     /**
      * Represents the prompt that stays at the top of the scrolling screen
      */
-
-    var promptText = viewModel.prompt.value /* hardcoded text for now */
 
     Box(
         modifier = Modifier
@@ -92,13 +90,6 @@ fun PostDisplay(
                 .padding(10.dp)
         ) {
 
-            /*
-                Image(
-                    painter = rememberImagePainter(post.imageURL),
-                    contentDescription = "post",
-                    modifier = Modifier.fillMaxWidth(),
-                    contentScale = ContentScale.FillWidth
-                )*/
 
             Image(
                 painter = rememberImagePainter(post.imageURL),
@@ -132,6 +123,7 @@ fun DiscoverView(
      * The user view of the discover page
      */
     val posts by viewModel.posts.collectAsState()
+    val promptText = viewModel.prompt.value
     Log.e("text", "$posts")
 
 
@@ -177,14 +169,14 @@ fun DiscoverView(
                             targetTextSize = 30.sp
                         )
                     }
-                    Prompt(viewModel = viewModel)
+                    Prompt(promptText)
                 }
             }
         }
     }
 
     else {
-        MementoTheme {
+        MementoTheme(darkTheme = isDarkMode) {
             Scaffold(
                 topBar = {
                     CenterAlignedTopAppBar(
@@ -214,7 +206,7 @@ fun DiscoverView(
                     Box(
                         Modifier
                     ) {
-                        Prompt(viewModel = viewModel)
+                        Prompt(promptText)
                     }
                     LazyColumn(
                         // Column is lazy which enables scrolling
