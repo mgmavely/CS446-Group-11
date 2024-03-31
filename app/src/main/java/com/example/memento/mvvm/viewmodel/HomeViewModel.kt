@@ -18,6 +18,7 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import org.example.userinterface.Equipment.PostItem
 import java.time.LocalTime
@@ -51,46 +52,48 @@ class HomeViewModel : ViewModel() {
     var isTaken: MutableState<Boolean> = mutableStateOf(false)
 
     init {
-        loadPosts()
+        runBlocking {
+            loadPosts()
 
-        if (currentUser !== null) {
-            val userUid = currentUser.uid
-            imageRef = imagesRef.child("${userUid}_${today}.jpg")
-            Log.e("USER UID FIREBASE", currentUser.uid)
-        }
+            if (currentUser !== null) {
+                val userUid = currentUser.uid
+                imageRef = imagesRef.child("${userUid}_${today}.jpg")
+                Log.e("USER UID FIREBASE", currentUser.uid)
+            }
 
-        prompts.whereEqualTo("timestamp", today)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                for (document in querySnapshot) {
-                    val prompt = document.getString("prompt")
-                    if (prompt != null) {
-                        dailyPrompt.value = prompt
-                        Log.e("Step 1", dailyPrompt.value)
-                        //refresh()
-                    } else {
-                        Log.e("POSTS READ", "Prompt field is null")
-                        setImageAvailable(false)
+            prompts.whereEqualTo("timestamp", today)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    for (document in querySnapshot) {
+                        val prompt = document.getString("prompt")
+                        if (prompt != null) {
+                            dailyPrompt.value = prompt
+                            Log.e("Step 1", dailyPrompt.value)
+                            //refresh()
+                        } else {
+                            Log.e("POSTS READ", "Prompt field is null")
+                            setImageAvailable(false)
+                        }
                     }
                 }
-            }
-            .addOnFailureListener { e ->
-                Log.w("POSTS READ", "Error getting documents", e)
-            }
+                .addOnFailureListener { e ->
+                    Log.w("POSTS READ", "Error getting documents", e)
+                }
 
-        imageRef.downloadUrl.addOnSuccessListener {
-            Log.d("HomeView", "Image available at $it")
-            setImageAvailable(true)
-            capturedImageUri = it
-        }.addOnFailureListener {
-            Log.e("HomeView", "Image not available")
-            setImageAvailable(false)
+            imageRef.downloadUrl.addOnSuccessListener {
+                Log.d("HomeView", "Image available at $it")
+                setImageAvailable(true)
+                capturedImageUri = it
+            }.addOnFailureListener {
+                Log.e("HomeView", "Image not available")
+                setImageAvailable(false)
+            }
+            updatePostState()
         }
-        updatePostState()
     }
 
     fun loadPosts() {
-        viewModelScope.launch {
+        runBlocking {
             val db = Firebase.firestore
 
             // call to get posts
@@ -238,6 +241,10 @@ class HomeViewModel : ViewModel() {
         }
         val dialog = builder.create()
         dialog.show()
+    }
+
+    fun togglePublic() {
+        public.value = !public.value
     }
 
     fun getCurrentTimeAsString(): String {

@@ -94,8 +94,8 @@ fun ItemWithToggleAndButton(
             Text(text = "Public", color = Color.Black, modifier = Modifier.weight(1f))
             Spacer(modifier = Modifier.width(8.dp))
             Switch(
-                checked = viewModel.public.value,
-                onCheckedChange = { viewModel.public.value = it }
+                checked = public,
+                onCheckedChange = { viewModel.togglePublic() }
             )
 
             Spacer(modifier = Modifier.width(16.dp))
