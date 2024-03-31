@@ -123,7 +123,6 @@ fun DiscoverView(
      * The user view of the discover page
      */
     val posts by viewModel.posts.collectAsState()
-    val promptText = viewModel.prompt.value
     Log.e("text", "$posts")
 
 
@@ -169,7 +168,7 @@ fun DiscoverView(
                             targetTextSize = 30.sp
                         )
                     }
-                    Prompt(promptText)
+                    Prompt(viewModel.prompt.value)
                 }
             }
         }
@@ -206,7 +205,7 @@ fun DiscoverView(
                     Box(
                         Modifier
                     ) {
-                        Prompt(promptText)
+                        Prompt(viewModel.prompt.value)
                     }
                     LazyColumn(
                         // Column is lazy which enables scrolling
