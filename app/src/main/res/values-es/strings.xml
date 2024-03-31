@@ -13,9 +13,9 @@
     <string name="username_and_password">Nombre de usuario y contraseña no pueden estar blancos</string>
     <string name="unknown">Se produjo un error desconocido</string>
     <string name="sign_failed">Error al registrarse</string>
-    <string name="username">Nombre de usuario: </string>
-    <string name="password">Contraseña: </string>
-    <string name="log_in">Iniciar sesión: </string>
+    <string name="username">Nombre de usuario:</string>
+    <string name="password">Contraseña:</string>
+    <string name="log_in">Iniciar sesión</string>
     <string name="or">o</string>
     <string name="sign_up">Registrarse</string>
     <string name="settings">AJUSTES</string>
