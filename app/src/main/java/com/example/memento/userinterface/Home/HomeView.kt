@@ -205,12 +205,12 @@ fun HomeView(
             ) {
                 item {
                     Button(
-                            onClick = { toHistory() },
-                            colors =
-                                    ButtonDefaults.buttonColors(
-                                            containerColor = MaterialTheme.colorScheme.secondary
-                                    ),
-                            modifier = Modifier.padding(top = 12.dp).fillMaxWidth().padding(16.dp),
+                        onClick = { toHistory() },
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+                        modifier = Modifier
+                            .padding(top = 12.dp)
+                            .fillMaxWidth()
+                            .padding(16.dp),
                     ) {
                         Text(
                                 text = stringResource(id = R.string.post_history),
@@ -240,26 +240,30 @@ fun HomeView(
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     verticalArrangement = Arrangement.Center
                             ) {
-                                Image(
-                                        painter =
-                                                painterResource(
-                                                        id =
-                                                                com.example
-                                                                        .memento
-                                                                        .R
-                                                                        .drawable
-                                                                        .ic_lightning
-                                                ),
-                                        contentDescription = "streak",
+
+                                Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                ) {
+                                    Image(
+                                        painter = painterResource(
+                                            id = if (isDarkMode) {
+                                                com.example.memento.R.drawable.ic_lightningd
+                                            } else {
+                                                com.example.memento.R.drawable.ic_lightning
+                                            }
+                                        ),
+                                        contentDescription = "time left",
                                         modifier = Modifier.size(100.dp)
-                                )
-                                Text(
-                                        text =
-                                                "${daysPressed}\n${stringResource(id = R.string.days_streak)}",
-                                        fontWeight = FontWeight.Bold,
-                                        textAlign = TextAlign.Center,
-                                        color = MaterialTheme.colorScheme.onPrimary
-                                )
+                                    )
+
+                                    Text(
+                                            "$daysPressed \ndays streak",
+                                            fontWeight = FontWeight.Bold,
+                                            textAlign = TextAlign.Center,
+                                            color = MaterialTheme.colorScheme.onPrimary
+                                    )
+                                }
                             }
                         }
 
@@ -277,16 +281,24 @@ fun HomeView(
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     verticalArrangement = Arrangement.Center
                             ) {
-                                Image(
-                                        painter =
-                                                painterResource(
-                                                        id = com.example.memento.R.drawable.ic_clock
-                                                ),
+                                Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                ) {
+                                    Image(
+                                        painter = painterResource(
+                                            id = if (isDarkMode) {
+                                                com.example.memento.R.drawable.ic_clockd
+                                            } else {
+                                                com.example.memento.R.drawable.ic_clock
+                                            }
+                                        ),
                                         contentDescription = "time left",
                                         modifier = Modifier.size(100.dp)
-                                )
-                                Text(
-                                        "$hoursLeft:${
+                                    )
+
+                                    Text(
+                                            "$hoursLeft:${
                                             minutesLeft.toString().padStart(2, '0')
                                         }\n${stringResource(id = R.string.time_left)}",
                                         fontWeight = FontWeight.Bold,
@@ -377,35 +389,44 @@ fun HomeView(
                     // Capture memento
                     item {
                         Box(
-                                modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp),
-                                contentAlignment = Alignment.Center,
-                        ) {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                FloatingActionButton(
-                                        onClick = {
-                                            val permissionCheckResult =
-                                                    ContextCompat.checkSelfPermission(
-                                                            context,
-                                                            Manifest.permission.CAMERA
-                                                    )
-                                            if (permissionCheckResult ==
-                                                            PackageManager.PERMISSION_GRANTED
-                                            ) {
-                                                cameraLauncher.launch(uri)
-                                            } else {
-                                                // Request a permission
-                                                permissionLauncher.launch(
-                                                        Manifest.permission.CAMERA
-                                                )
-                                            }
-                                        },
-                                        containerColor = MaterialTheme.colorScheme.onBackground,
-                                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                                ) {
-                                    Icon(
-                                            imageVector = Icons.Filled.Create,
-                                            contentDescription = "capture memento",
-                                            tint = MaterialTheme.colorScheme.onSecondary
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 10.dp), contentAlignment = Alignment.Center,) {
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    FloatingActionButton(
+                                            onClick = {
+                                                    val permissionCheckResult =
+                                                            ContextCompat.checkSelfPermission(
+                                                                    context,
+                                                                    Manifest.permission.CAMERA
+                                                            )
+                                                    if (!viewModel.isTaken.value) {
+                                                        viewModel.showPopupBeforeTakingPicture(context)
+                                                    }
+                                                    else if (permissionCheckResult ==
+                                                                    PackageManager.PERMISSION_GRANTED
+                                                    ) {
+                                                    cameraLauncher.launch(uri)
+                                                    } else {
+                                                    // Request a permission
+                                                    permissionLauncher.launch(Manifest.permission.CAMERA)
+                                                    }
+                                            },
+                                            containerColor = MaterialTheme.colorScheme.onBackground,
+                                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                                    ) { Icon(
+                                        imageVector = Icons.Filled.Create,
+                                        contentDescription = "capture memento",
+                                        tint = MaterialTheme.colorScheme.onSecondary
+                                    ) }
+    
+                                    Spacer(modifier = Modifier.height(7.dp))
+    
+                                    Text(
+                                            "CAPTURE MEMENTO",
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 10.sp,
+                                            color = MaterialTheme.colorScheme.onBackground
                                     )
                                 }
 
@@ -432,6 +453,20 @@ fun HomeView(
                                                 )
                         )
                     }
+                item {
+                    Image(
+                        painter = if (isDarkMode) {
+                            painterResource(id = com.example.memento.R.drawable.whend)
+                        } else {
+                            painterResource(id = com.example.memento.R.drawable.`when`)
+                        },
+                        contentDescription = "when is your... memento :)?",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                PaddingValues(top = 20.dp, bottom = 100.dp)
+                            )
+                    )
                 }
             }
         }

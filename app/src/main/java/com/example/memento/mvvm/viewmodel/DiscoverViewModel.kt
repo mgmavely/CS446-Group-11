@@ -1,10 +1,22 @@
 package com.example.memento.mvvm.viewmodel
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+
+import android.icu.text.SimpleDateFormat
+import android.util.Log
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -21,11 +33,17 @@ class DiscoverViewModel : ViewModel() {
     private val storage = FirebaseStorage.getInstance()
 
     private val _posts = MutableStateFlow<List<PostItem>>(emptyList())
+
+    val currentUser = firebaseAuth.currentUser
+    val today = SimpleDateFormat("yyyy-MM-dd").format(Date())
+    //val documentPath = "${currentUser?.uid}_${today}.jpg"
+
     val posts: StateFlow<List<PostItem>> = _posts
+    val posted: MutableState<Boolean> = mutableStateOf(false)
     val prompt: MutableState<String> = mutableStateOf("Daily Prompt")
-    val today = android.icu.text.SimpleDateFormat("yyyy-MM-dd").format(Date())
 
     init {
+        verifyPost()
         loadPosts()
         loadPrompt()
     }
@@ -52,15 +70,16 @@ class DiscoverViewModel : ViewModel() {
             val db = Firebase.firestore
 
             // call to get posts
-            db.collection("posts").get().addOnSuccessListener { querySnapshot ->
+            db.collection("posts").orderBy("time", Query.Direction.DESCENDING).get().addOnSuccessListener { querySnapshot ->
                 val postsList = querySnapshot.map { document ->
                     PostItem("Prompt q here",
                         document.getString("caption"),
                         document.getString("date"),
                         document.getString("imageurl")
                     )
+
                 }
-                _posts.value = postsList
+                _posts.value = postsList.filter { it.date == today }
             }
 
 
@@ -68,6 +87,20 @@ class DiscoverViewModel : ViewModel() {
 
     }
 
+    fun verifyPost () {
+        db.collection("posts")
+            .whereEqualTo("public", true)
+            .whereEqualTo("userid", "${currentUser?.uid}")
+            .whereEqualTo("date", "${today}").get()
+            .addOnSuccessListener { documents ->
+                if(documents.isEmpty()){
+                    posted.value = false
+                }
+                else{
+                    posted.value = true
+                }
+            }
+    }
     fun setImageAvailable(newValue: Boolean) {
         imageAvailable.value = newValue
     }

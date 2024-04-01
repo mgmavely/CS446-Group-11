@@ -47,12 +47,10 @@ data class PostItem(
 )
 
 @Composable
-fun Prompt(viewModel: DiscoverViewModel) {
+fun Prompt(promptText: String) {
     /**
      * Represents the prompt that stays at the top of the scrolling screen
      */
-
-    var promptText = viewModel.prompt.value /* hardcoded text for now */
 
     Box(
         modifier = Modifier
@@ -66,7 +64,7 @@ fun Prompt(viewModel: DiscoverViewModel) {
                     modifier = Modifier.
                         padding(10.dp),
                     text = promptText,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = MaterialTheme.colorScheme.onSecondary,
                     targetTextSize = 30.sp
                 )
     }
@@ -92,13 +90,6 @@ fun PostDisplay(
                 .padding(10.dp)
         ) {
 
-            /*
-                Image(
-                    painter = rememberImagePainter(post.imageURL),
-                    contentDescription = "post",
-                    modifier = Modifier.fillMaxWidth(),
-                    contentScale = ContentScale.FillWidth
-                )*/
 
             Image(
                 painter = rememberImagePainter(post.imageURL),
@@ -134,47 +125,97 @@ fun DiscoverView(
     val posts by viewModel.posts.collectAsState()
     Log.e("text", "$posts")
 
-    MementoTheme(darkTheme = isDarkMode) {
-        Scaffold(
-            topBar = {
-                CenterAlignedTopAppBar(
-                    title = {
-                        Text(
-                            "MEMENTO",
-                            textAlign = TextAlign.Center,
-                            fontSize = 65.sp,
-                            lineHeight = 33.sp,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
 
-                    },
-                    modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
-                )
-            }
-        ) { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.primary)
-                    .padding(innerPadding)
-                    .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(1.dp)
-            ) {
-                // Prompt at the top of the screen that doesn't change
-                Box(
-                    Modifier
-                ) {
-                    Prompt(viewModel = viewModel)
+    if(!viewModel.posted.value){
+        MementoTheme(darkTheme = isDarkMode) {
+            Scaffold(
+                topBar = {
+                    CenterAlignedTopAppBar(
+                        title = {
+                            Text(
+                                "MEMENTO",
+                                textAlign = TextAlign.Center,
+                                fontSize = 65.sp,
+                                lineHeight = 33.sp,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+                        },
+                        modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
+                    )
                 }
-                LazyColumn(
-                    // Column is lazy which enables scrolling
+            ) { innerPadding ->
+                Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 10.dp)
-                        .background(MaterialTheme.colorScheme.primary),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .background(MaterialTheme.colorScheme.primary)
+                        .padding(innerPadding)
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(1.dp)
                 ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.2f)
+                            .background(MaterialTheme.colorScheme.secondary)
+                            .padding(10.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        AutoResizingText(
+                            modifier = Modifier.
+                            padding(10.dp),
+                            text = "Make a public post today to discover others!",
+                            color = MaterialTheme.colorScheme.onSecondary,
+                            targetTextSize = 30.sp
+                        )
+                    }
+                    Prompt(viewModel.prompt.value)
+                }
+            }
+        }
+    }
+
+    else {
+        MementoTheme(darkTheme = isDarkMode) {
+            Scaffold(
+                topBar = {
+                    CenterAlignedTopAppBar(
+                        title = {
+                            Text(
+                                "MEMENTO",
+                                textAlign = TextAlign.Center,
+                                fontSize = 65.sp,
+                                lineHeight = 33.sp,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+
+                        },
+                        modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
+                    )
+                }
+            ) { innerPadding ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.primary)
+                        .padding(innerPadding)
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(1.dp)
+                ) {
+                    // Prompt at the top of the screen that doesn't change
+                    Box(
+                        Modifier
+                    ) {
+                        Prompt(viewModel.prompt.value)
+                    }
+                    LazyColumn(
+                        // Column is lazy which enables scrolling
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 10.dp)
+                            .background(MaterialTheme.colorScheme.primary),
+                        verticalArrangement = Arrangement.spacedBy(10.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         items(posts.size) { index ->
                             PostDisplay(Modifier, posts[index])
                         }
@@ -183,6 +224,7 @@ fun DiscoverView(
             }
         }
     }
+}
 
 
 @Composable
@@ -233,7 +275,7 @@ fun Caption(caption: String) {
         text = caption,
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clickable ( onClick = toggleExpanded ),
+            .clickable(onClick = toggleExpanded),
         color = MaterialTheme.colorScheme.onBackground,
         maxLines = if (isExpanded) Int.MAX_VALUE else 1,
         overflow = if (isExpanded) TextOverflow.Visible else TextOverflow.Ellipsis

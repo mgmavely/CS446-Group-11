@@ -10,6 +10,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.Text
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -38,13 +39,15 @@ import com.example.memento.R
 import coil.compose.rememberImagePainter
 import com.example.memento.mvvm.viewmodel.HistoryViewModel
 import com.example.memento.theme.MementoTheme
+import org.example.userinterface.Equipment.Caption
 
 
 data class PostItem(
     val promptQuestion: String?,
     val promptAnswer: String?,
     val date: String?,
-    val imageURL: String?
+    val imageURL: String?,
+    val userid: String?
 )
 
 @Composable
@@ -52,54 +55,71 @@ fun PostDisplay(
     modifier: Modifier = Modifier,
     post: PostItem,
 ) {
-    val promptQuestion = post.promptQuestion
-    val promptAnswer = post.promptAnswer
+    val promptQuestion = post.promptQuestion ?: ""
+    val promptAnswer = post.promptAnswer ?: ""
     val promptDate = post.date
     val imageURL = post.imageURL
 
-    Box(
-        modifier = modifier.clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colorScheme.secondary).padding(10.dp)
+    Box() {
 
-        ) {
+        Column(
+            modifier = modifier
+            .fillMaxWidth().padding(10.dp)){
 
-        Column(){
-            Image(
-                painter = rememberImagePainter(imageURL),
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(8.dp))
-                    .height(250.dp)
-                    .padding(10.dp),
-                contentDescription = "image"
-            )
-            if (promptDate != null && promptAnswer != null ) {
+            Box(
+                modifier = modifier
+                    .background(Color.White)
 
-                AutoResizingText(
-                    text = promptDate, targetTextSize = 12.sp,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                )
+            ) {
+                Column() {
+                    if (promptDate != null) {
+                        AutoResizingText(
+                            text = promptDate, targetTextSize = 12.sp,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.padding(horizontal = 10.dp)
+                        )
+                    }
 
-                AutoResizingText(
-                    text = "Q:" + promptQuestion, targetTextSize = 20.sp,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                )
+                    AutoResizingText(
+                        text = promptQuestion, targetTextSize = 20.sp,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.padding(horizontal = 10.dp)
+                    )
 
-                AutoResizingText(
-                    text = "A: " + promptAnswer, targetTextSize = 20.sp,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                )
+                    Image(
+                        painter = rememberImagePainter(imageURL),
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(8.dp))
+                            .height(250.dp)
+                            .padding(10.dp),
+                        contentDescription = "image"
+                    )
+
+                if (promptAnswer != null ) {
+
+                        AutoResizingText(
+                            text = promptAnswer, targetTextSize = 20.sp,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.padding(horizontal = 10.dp)
+                        )
+
+                    }
+
+                }
+
+
+
             }
+
+
 
 
         }
     }
 
 }
-
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -109,7 +129,6 @@ fun PostDisplay(
 fun HistoryView(
     viewModel: HistoryViewModel = HistoryViewModel(),
     isDarkMode: Boolean,
-
 ) {
 
     val posts by viewModel.posts.collectAsState()
