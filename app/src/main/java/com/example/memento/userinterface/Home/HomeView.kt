@@ -126,26 +126,26 @@ fun HomeView(
         val context = LocalContext.current
         val file = context.createImageFile()
         val uri =
-                FileProvider.getUriForFile(
-                        Objects.requireNonNull(context),
-                        BuildConfig.APPLICATION_ID + ".provider",
-                        file
-                )
+            FileProvider.getUriForFile(
+                Objects.requireNonNull(context),
+                BuildConfig.APPLICATION_ID + ".provider",
+                file
+            )
         val cameraLauncher =
-                rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { isTaken
-                    ->
-                    viewModel.cameraLauncher(isTaken, context, uri)
-                }
+            rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { isTaken
+                ->
+                viewModel.cameraLauncher(isTaken, context, uri)
+            }
 
         val permissionLauncher =
-                rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {
-                    if (it) {
-                        Toast.makeText(context, "Permission Granted", Toast.LENGTH_SHORT).show()
-                        cameraLauncher.launch(uri)
-                    } else {
-                        Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show()
-                    }
+            rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {
+                if (it) {
+                    Toast.makeText(context, "Permission Granted", Toast.LENGTH_SHORT).show()
+                    cameraLauncher.launch(uri)
+                } else {
+                    Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show()
                 }
+            }
 
         var daysPressed by remember { mutableIntStateOf(5) }
         var hoursLeft by remember { mutableIntStateOf(24) }
@@ -182,26 +182,26 @@ fun HomeView(
         }
 
         Scaffold(
-                topBar = {
-                    CenterAlignedTopAppBar(
-                            title = {
-                                Text(
-                                        "MEMENTO",
-                                        textAlign = TextAlign.Center,
-                                        fontSize = 20.sp,
-                                        color = MaterialTheme.colorScheme.onBackground,
-                                        fontWeight = FontWeight.Bold
-                                )
-                            },
-                            modifier = Modifier.padding(PaddingValues(top = 1.dp, bottom = 10.dp))
-                    )
-                }
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(
+                            "MEMENTO",
+                            textAlign = TextAlign.Center,
+                            fontSize = 20.sp,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            fontWeight = FontWeight.Bold
+                        )
+                    },
+                    modifier = Modifier.padding(PaddingValues(top = 1.dp, bottom = 10.dp))
+                )
+            }
         ) { innerPadding ->
             LazyColumn(
-                    modifier =
-                            Modifier.fillMaxSize()
-                                    .padding(innerPadding)
-                                    .background(MaterialTheme.colorScheme.background)
+                modifier =
+                Modifier.fillMaxSize()
+                    .padding(innerPadding)
+                    .background(MaterialTheme.colorScheme.background)
             ) {
                 item {
                     Button(
@@ -213,9 +213,9 @@ fun HomeView(
                             .padding(16.dp),
                     ) {
                         Text(
-                                text = stringResource(id = R.string.post_history),
-                                fontSize = 22.sp,
-                                textAlign = TextAlign.Center
+                            text = stringResource(id = R.string.post_history),
+                            fontSize = 22.sp,
+                            textAlign = TextAlign.Center
                         )
                     }
                 }
@@ -223,27 +223,27 @@ fun HomeView(
                 // Streak and time left
                 item {
                     Row(
-                            horizontalArrangement = Arrangement.Center,
-                            modifier =
-                                    Modifier.fillMaxWidth()
-                                            .padding(vertical = 2.5.dp, horizontal = 50.dp)
+                        horizontalArrangement = Arrangement.Center,
+                        modifier =
+                        Modifier.fillMaxWidth()
+                            .padding(vertical = 2.5.dp, horizontal = 50.dp)
                     ) {
                         Card(
-                                colors =
-                                        CardDefaults.cardColors(
-                                                containerColor =
-                                                        MaterialTheme.colorScheme.secondary,
-                                        ),
-                                modifier = Modifier.padding(20.dp).weight(1f).heightIn(max = 200.dp)
+                            colors =
+                            CardDefaults.cardColors(
+                                containerColor =
+                                MaterialTheme.colorScheme.secondary,
+                            ),
+                            modifier = Modifier.padding(20.dp).weight(1f).heightIn(max = 200.dp)
                         ) {
                             Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
                             ) {
 
                                 Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.Center
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
                                 ) {
                                     Image(
                                         painter = painterResource(
@@ -258,10 +258,10 @@ fun HomeView(
                                     )
 
                                     Text(
-                                            "$daysPressed \ndays streak",
-                                            fontWeight = FontWeight.Bold,
-                                            textAlign = TextAlign.Center,
-                                            color = MaterialTheme.colorScheme.onPrimary
+                                        "$daysPressed \ndays streak",
+                                        fontWeight = FontWeight.Bold,
+                                        textAlign = TextAlign.Center,
+                                        color = MaterialTheme.colorScheme.onPrimary
                                     )
                                 }
                             }
@@ -270,20 +270,20 @@ fun HomeView(
                         Spacer(modifier = Modifier.width(16.dp))
 
                         Card(
-                                colors =
-                                        CardDefaults.cardColors(
-                                                containerColor =
-                                                        MaterialTheme.colorScheme.secondary,
-                                        ),
-                                modifier = Modifier.padding(20.dp).weight(1f).heightIn(max = 200.dp)
+                            colors =
+                            CardDefaults.cardColors(
+                                containerColor =
+                                MaterialTheme.colorScheme.secondary,
+                            ),
+                            modifier = Modifier.padding(20.dp).weight(1f).heightIn(max = 200.dp)
                         ) {
                             Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
                             ) {
                                 Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.Center
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
                                 ) {
                                     Image(
                                         painter = painterResource(
@@ -298,135 +298,138 @@ fun HomeView(
                                     )
 
                                     Text(
-                                            "$hoursLeft:${
+                                        "$hoursLeft:${
                                             minutesLeft.toString().padStart(2, '0')
                                         }\n${stringResource(id = R.string.time_left)}",
                                         fontWeight = FontWeight.Bold,
                                         color = MaterialTheme.colorScheme.onPrimary,
                                         textAlign = TextAlign.Center
-                                )
+                                    )
+                                }
                             }
                         }
                     }
                 }
 
-                if (viewModel.imageAvailable.value) {
-
-                    item {
-                        Card(
-                                colors =
-                                        CardDefaults.cardColors(
-                                                containerColor =
-                                                        MaterialTheme.colorScheme.onBackground,
-                                        ),
-                                modifier =
-                                        Modifier.fillMaxWidth()
-                                                .padding(horizontal = 20.dp, vertical = 25.dp)
-                        ) {
+                    if (viewModel.imageAvailable.value) {
+                        item {
                             Card(
-                                    colors =
-                                            CardDefaults.cardColors(
-                                                    containerColor =
-                                                            MaterialTheme.colorScheme.onPrimary,
-                                            ),
-                                    modifier = Modifier.fillMaxWidth().padding(1.dp)
+                                colors =
+                                CardDefaults.cardColors(
+                                    containerColor =
+                                    MaterialTheme.colorScheme.onBackground,
+                                ),
+                                modifier =
+                                Modifier.fillMaxWidth()
+                                    .padding(horizontal = 20.dp, vertical = 25.dp)
                             ) {
-                                ItemWithToggleAndButton(viewModel.public.value, viewModel)
-                                // Display captured image
-                                Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                Card(
+                                    colors =
+                                    CardDefaults.cardColors(
+                                        containerColor =
+                                        MaterialTheme.colorScheme.onPrimary,
+                                    ),
+                                    modifier = Modifier.fillMaxWidth().padding(1.dp)
                                 ) {
-                                    Card(
-                                            colors =
-                                                    CardDefaults.cardColors(
-                                                            containerColor =
-                                                                    MaterialTheme.colorScheme
-                                                                            .onBackground,
-                                                    ),
-                                            modifier =
-                                                    Modifier.fillMaxWidth()
-                                                            .padding(horizontal = 8.dp)
-                                                            .height(550.dp)
+                                    ItemWithToggleAndButton(viewModel.public.value, viewModel)
+                                    // Display captured image
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
                                     ) {
-                                        Image(
+                                        Card(
+                                            colors =
+                                            CardDefaults.cardColors(
+                                                containerColor =
+                                                MaterialTheme.colorScheme
+                                                    .onBackground,
+                                            ),
+                                            modifier =
+                                            Modifier.fillMaxWidth()
+                                                .padding(horizontal = 8.dp)
+                                                .height(550.dp)
+                                        ) {
+                                            Image(
                                                 painter =
-                                                        rememberImagePainter(
-                                                                viewModel.capturedImageUri
-                                                        ),
+                                                rememberImagePainter(
+                                                    viewModel.capturedImageUri
+                                                ),
                                                 contentDescription = "Today's Memento",
                                                 modifier =
-                                                        Modifier.fillMaxHeight()
-                                                                .align(Alignment.CenterHorizontally)
-                                        )
+                                                Modifier.fillMaxHeight()
+                                                    .align(Alignment.CenterHorizontally)
+                                            )
+                                        }
+                                        // Contenido
+                                        ChatItem(viewModel.caption.value, viewModel)
                                     }
-                                    // Contenido
-                                    ChatItem(viewModel.caption.value, viewModel)
                                 }
                             }
                         }
-                    }
-                    item { Spacer(modifier = Modifier.height(75.dp)) }
-                } else {
-                    // Daily prompt
-                    item {
-                        Card(
+                        item { Spacer(modifier = Modifier.height(75.dp)) }
+                    } else {
+                        // Daily prompt
+                        item {
+                            Card(
                                 colors =
-                                        CardDefaults.cardColors(
-                                                containerColor =
-                                                        MaterialTheme.colorScheme.secondary,
-                                        ),
+                                CardDefaults.cardColors(
+                                    containerColor =
+                                    MaterialTheme.colorScheme.secondary,
+                                ),
                                 modifier = Modifier.fillMaxWidth().padding(16.dp)
-                        ) {
-                            Text(
+                            ) {
+                                Text(
                                     viewModel.dailyPrompt.value,
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.onPrimary,
                                     modifier =
-                                            Modifier.padding(vertical = 15.dp, horizontal = 10.dp)
-                            )
+                                    Modifier.padding(vertical = 15.dp, horizontal = 10.dp)
+                                )
+                            }
                         }
-                    }
-                    // Capture memento
-                    item {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 10.dp), contentAlignment = Alignment.Center,) {
-                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        // Capture memento
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 10.dp),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     FloatingActionButton(
-                                            onClick = {
-                                                    val permissionCheckResult =
-                                                            ContextCompat.checkSelfPermission(
-                                                                    context,
-                                                                    Manifest.permission.CAMERA
-                                                            )
-                                                    if (!viewModel.isTaken.value) {
-                                                        viewModel.showPopupBeforeTakingPicture(context)
-                                                    }
-                                                    else if (permissionCheckResult ==
-                                                                    PackageManager.PERMISSION_GRANTED
-                                                    ) {
-                                                    cameraLauncher.launch(uri)
-                                                    } else {
-                                                    // Request a permission
-                                                    permissionLauncher.launch(Manifest.permission.CAMERA)
-                                                    }
-                                            },
-                                            containerColor = MaterialTheme.colorScheme.onBackground,
-                                            contentColor = MaterialTheme.colorScheme.onPrimary,
-                                    ) { Icon(
-                                        imageVector = Icons.Filled.Create,
-                                        contentDescription = "capture memento",
-                                        tint = MaterialTheme.colorScheme.onSecondary
-                                    ) }
-    
+                                        onClick = {
+                                            val permissionCheckResult =
+                                                ContextCompat.checkSelfPermission(
+                                                    context,
+                                                    Manifest.permission.CAMERA
+                                                )
+                                            if (!viewModel.isTaken.value) {
+                                                viewModel.showPopupBeforeTakingPicture(context)
+                                            } else if (permissionCheckResult ==
+                                                PackageManager.PERMISSION_GRANTED
+                                            ) {
+                                                cameraLauncher.launch(uri)
+                                            } else {
+                                                // Request a permission
+                                                permissionLauncher.launch(Manifest.permission.CAMERA)
+                                            }
+                                        },
+                                        containerColor = MaterialTheme.colorScheme.onBackground,
+                                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Filled.Create,
+                                            contentDescription = "capture memento",
+                                            tint = MaterialTheme.colorScheme.onSecondary
+                                        )
+                                    }
+
                                     Spacer(modifier = Modifier.height(7.dp))
-    
+
                                     Text(
-                                            "CAPTURE MEMENTO",
-                                            fontWeight = FontWeight.Bold,
-                                            fontSize = 10.sp,
-                                            color = MaterialTheme.colorScheme.onBackground
+                                        "CAPTURE MEMENTO",
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 10.sp,
+                                        color = MaterialTheme.colorScheme.onBackground
                                     )
                                 }
 
@@ -434,44 +437,18 @@ fun HomeView(
 
                                 Text(
                                     stringResource(id = R.string.capture),
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 10.sp,
-                                        color = MaterialTheme.colorScheme.onBackground
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 10.sp,
+                                    color = MaterialTheme.colorScheme.onBackground
                                 )
                             }
                         }
                     }
-                    item {
-                        Image(
-                                painter =
-                                        painterResource(id = com.example.memento.R.drawable.`when`),
-                                contentDescription = "when is your... memento :)?",
-                                modifier =
-                                        Modifier.fillMaxWidth()
-                                                .padding(
-                                                        PaddingValues(top = 20.dp, bottom = 100.dp)
-                                                )
-                        )
-                    }
-                item {
-                    Image(
-                        painter = if (isDarkMode) {
-                            painterResource(id = com.example.memento.R.drawable.whend)
-                        } else {
-                            painterResource(id = com.example.memento.R.drawable.`when`)
-                        },
-                        contentDescription = "when is your... memento :)?",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                PaddingValues(top = 20.dp, bottom = 100.dp)
-                            )
-                    )
                 }
             }
         }
     }
-}
+
 
 @SuppressLint("SimpleDateFormat")
 fun Context.createImageFile(): File {

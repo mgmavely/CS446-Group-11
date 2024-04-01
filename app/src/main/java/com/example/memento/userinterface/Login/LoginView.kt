@@ -49,62 +49,9 @@ fun LoginView(
 ) {
     viewModel.setHomeFn(toHomePage)
 
-    val signUpErrorString = stringResource(id = R.string.username_and_password)
-    val unknown: String = stringResource(id = R.string.unknown)
-    val signFailed = stringResource(id = R.string.sign_failed)
-    val usernameString = stringResource(id = R.string.username)
-    val passwordString = stringResource(id = R.string.password)
     val logIn = stringResource(id = R.string.log_in)
     val signUp = stringResource(id = R.string.sign_up)
     val or = stringResource(id = R.string.or)
-
-    fun signUp(username: String, password: String) {
-        if (username.isEmpty() || password.isEmpty()) {
-            signUpError = signUpErrorString
-        } else {
-            auth.createUserWithEmailAndPassword(username, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    toHomePage()
-                } else {
-                    // Sign up failed
-                    val exception = task.exception
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    signUpError = if (exception is FirebaseAuthException) {
-                        // Handle specific authentication errors
-                        exception.localizedMessage ?: unknown
-                    } else {
-                        // Handle generic errors
-                        signFailed
-                    }
-                }
-            }
-        }
-    }
-
-    fun signIn(username: String, password: String) {
-        toHomePage()
-        if (username.isEmpty() || password.isEmpty()) {
-            signUpError = signUpErrorString
-        } else {
-            auth.signInWithEmailAndPassword(username, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    toHomePage()
-                } else {
-                    // Sign in failed
-                    val exception = task.exception
-                    signUpError = if (exception is FirebaseAuthException) {
-                        // Handle specific authentication errors
-                        exception.localizedMessage ?: unknown
-                    } else {
-                        // Handle generic errors
-                        signFailed
-                    }
-                }
-            }
-        }
-    }
 
     MementoTheme(darkTheme = isDarkMode) {
 
