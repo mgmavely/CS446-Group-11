@@ -67,4 +67,6 @@
 | 2024-03-30 |          |        |        |         |    1.5 |            |     Recorded and edited videos for presentation |
 | 2024-03-31 |     3    |        |        |         |    1 |            |     Globalization and light/dark issues  |
 | 2024-04-01 |     2    |    2    |    2     |     2    |     2    |   2   | Presentation Setup     |
-| 2024-04-01 |    0.5   |        |        |         |    1 |            |     HomeView image issue  |
+| 2024-04-01 |    0.5   |        |        |         |      |            |     HomeView image issue  |
+| 2024-04-01 |    1   |        |        |         |      |            |     Play Store images design  |
+
