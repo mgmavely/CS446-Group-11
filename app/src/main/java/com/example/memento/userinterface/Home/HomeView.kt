@@ -426,21 +426,13 @@ fun HomeView(
                                     Spacer(modifier = Modifier.height(7.dp))
 
                                     Text(
-                                        "CAPTURE MEMENTO",
+                                        stringResource(id = R.string.capture),
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 10.sp,
                                         color = MaterialTheme.colorScheme.onBackground
                                     )
                                 }
-
                                 Spacer(modifier = Modifier.height(7.dp))
-
-                                Text(
-                                    stringResource(id = R.string.capture),
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 10.sp,
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
                             }
                         }
                     }

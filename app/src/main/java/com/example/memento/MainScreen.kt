@@ -81,9 +81,6 @@ fun MementoMenuBar(
         MenuBarOptions.Home,
         MenuBarOptions.Discover
     )
-    screens.forEach { screen ->
-        Text(text = stringResource(id = screen.title))
-    }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     MementoTheme(darkTheme = isDarkMode) {
@@ -113,29 +110,11 @@ fun MementoMenuBar(
                             screen = screen,
                             currentDestination = currentDestination,
                             navController = navController
-                        )
+                            )
+                        }
                     }
                 }
             }
-            }
-//        Surface(
-//            shape = RoundedCornerShape(16.dp),
-//            color = MaterialTheme.colorScheme.primary
-//        ) {
-//            NavigationBar(
-//                containerColor = MaterialTheme.colorScheme.secondary,
-//                contentColor = MaterialTheme.colorScheme.tertiary,
-//                tonalElevation = 0.dp
-//            ) {
-//                screens.forEach { screen ->
-//                    AddItem(
-//                        screen = screen,
-//                        currentDestination = currentDestination,
-//                        navController = navController,
-//                    )
-//                }
-//            }
-//        }
         }
     }
 }
@@ -180,38 +159,4 @@ fun AddItem(
             )
         }
     }
-
-//
-//    NavigationBarItem(
-//        label = {
-//            Text(
-//                text = screen.title,
-//                style = MaterialTheme.typography.bodyMedium,
-//                fontWeight = FontWeight.Bold,
-//                color = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary
-//            )
-//        },
-//        icon = {
-//            Surface(
-//                shape =  RoundedCornerShape(16.dp),
-//                color = Color.Transparent
-//            ) {
-//                Icon(
-//                    imageVector = if (selected) screen.icon_filled else screen.icon_outlined,
-//                    contentDescription = "Navigation Icon",
-//                    modifier = Modifier.size(32.dp),
-//                    tint = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary
-//                )
-//            }
-//               },
-//        modifier = Modifier.fillMaxSize()
-//            .then(indicatorModifier),
-//        selected = selected,
-//        onClick = {
-//            navController.navigate(screen.route) {
-//                popUpTo(navController.graph.findStartDestination().id)
-//                launchSingleTop = true
-//            }
-//        }
-//    )
 }
