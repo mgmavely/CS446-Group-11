@@ -64,3 +64,4 @@
 | 2024-03-29 |          |        |        |         |    1 |            |     Added warning before user takes photo |
 | 2024-03-29 |     3    |        |        |         |    1 |            |     Globalization and light/dark |
 | 2024-03-30 |     3    |        |        |         |    1 |            |     Globalization and light/dark |
+| 2024-03-30 |          |        |        |         |    1.5 |            |     Recorded and edited videos for presentation |
