@@ -32,8 +32,51 @@ import androidx.compose.material3.SwitchDefaults
 import com.example.memento.mvvm.viewmodel.SettingsViewModel
 import com.google.firebase.auth.FirebaseAuth
 import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Surface
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.example.memento.R
+
+
+const val PrivacyPolicyString = "Memento respects your privacy and will protect any personal information you provide through our services. When you use Memento we may collect personal information such as your email address. Your image responses to daily prompts may be visible to other users based on your privacy settings. Firebase provides robust security features to safeguard your data. We do not sell, trade, or rent your personal information to third parties."
+const val TermsOfServicesString = "By using our app, you agree to abide by these terms and conditions governing the use of our service, including the posting of image responses to daily prompts. You are solely responsible for the content you post, and you must ensure that your posts comply with applicable laws and do not infringe upon the rights of others."
+
+@Composable
+fun Popup(onDismiss: () -> Unit, text: String) {
+    Dialog(
+        onDismissRequest = { onDismiss() },
+        properties = DialogProperties(dismissOnClickOutside = true)
+    ) {
+        Surface(
+            modifier = Modifier
+                .padding(16.dp)
+                .size(400.dp),
+            color = MaterialTheme.colorScheme.onBackground,
+            shape = MaterialTheme.shapes.medium
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(text)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
+    }
+}
+
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
@@ -47,7 +90,12 @@ fun SettingsView(
     viewModel: SettingsViewModel = SettingsViewModel()
 
 ) {
-    val auth = FirebaseAuth.getInstance()
+
+    val scrollState = rememberScrollState()
+    var showPrivacyPopup by remember { mutableStateOf(false) }
+    var showTermsOfService by remember { mutableStateOf(false) }
+    val openResourcesUrlLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
+
 
     MementoTheme(darkTheme = isDarkMode) {
 
@@ -67,6 +115,7 @@ fun SettingsView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(innerPadding)
+                    .verticalScroll(scrollState)
             ) {
                 Divider(thickness = 3.dp)
 
@@ -87,6 +136,22 @@ fun SettingsView(
                             toggleDarkMode(!isDarkMode)
                         }
                     )
+                    Divider(thickness = 1.dp)
+                }
+
+                Column() {
+                    Text(
+                        "Language", fontSize = 18.sp,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.padding(horizontal = 10.dp)
+                    )
+                    Text(
+                        "The app's language can be changed between Englsih and Spanish in Android settings",
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp)
+                    )
+
                     Divider(thickness = 1.dp)
                 }
 
@@ -135,14 +200,22 @@ fun SettingsView(
                         modifier = Modifier.padding(horizontal = 10.dp)
                     )
                     Button(
-                        onClick = onMentalHealthOnlineClicked,
+                        onClick = {
+                            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW)
+                            intent.data = android.net.Uri.parse("https://www.canada.ca/en/public-health/services/mental-health-services/mental-health-get-help.html")
+                            openResourcesUrlLauncher.launch(intent)
+                        },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                         modifier = Modifier.padding(top = 12.dp).padding(horizontal = 25.dp),
                     ) {
                         Text("Online Mental Health Resources", fontSize = 14.sp)
                     }
                     Button(
-                        onClick = onMentalHealthPhoneClicked,
+                        onClick = {
+                            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW)
+                            intent.data = android.net.Uri.parse("https://www.camh.ca/en/health-info/crisis-resources")
+                            openResourcesUrlLauncher.launch(intent)
+                        },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                         modifier = Modifier
                             .padding(top = 5.dp)
@@ -160,7 +233,7 @@ fun SettingsView(
                         modifier = Modifier.padding(horizontal = 10.dp)
                     )
                     Button(
-                        onClick = onMentalHealthOnlineClicked,
+                        onClick = { showPrivacyPopup = true },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                         modifier = Modifier
                             .padding(top = 12.dp)
@@ -168,8 +241,13 @@ fun SettingsView(
                     ) {
                         Text("Privacy Policy", fontSize = 14.sp)
                     }
+
+                    if (showPrivacyPopup) {
+                        Popup(onDismiss = { showPrivacyPopup = false}, text = PrivacyPolicyString)
+                    }
+
                     Button(
-                        onClick = onMentalHealthPhoneClicked,
+                        onClick = { showTermsOfService = true },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                         modifier = Modifier
                             .padding(top = 5.dp)
@@ -177,6 +255,11 @@ fun SettingsView(
                     ) {
                         Text("Terms Of Service", fontSize = 14.sp)
                     }
+
+                    if (showTermsOfService) {
+                        Popup(onDismiss = { showTermsOfService= false}, text = TermsOfServicesString)
+                    }
+
                     Divider(thickness = 1.dp)
                 }
 
