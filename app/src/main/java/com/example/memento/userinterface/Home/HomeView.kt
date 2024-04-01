@@ -236,7 +236,9 @@ fun HomeView(
                     Button(
                         onClick = { toHistory() },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
-                        modifier = Modifier.padding(top = 12.dp).fillMaxWidth()
+                        modifier = Modifier
+                            .padding(top = 12.dp)
+                            .fillMaxWidth()
                             .padding(16.dp),
                     ) {
                         Text(text = stringResource(id = R.string.post_history), fontSize = 22.sp, textAlign = TextAlign.Center)
@@ -270,18 +272,17 @@ fun HomeView(
                                         verticalArrangement = Arrangement.Center
                                 ) {
                                     Image(
-                                            painter =
-                                                    painterResource(
-                                                            id =
-                                                                    com.example
-                                                                            .memento
-                                                                            .R
-                                                                            .drawable
-                                                                            .ic_lightning
-                                                    ),
-                                            contentDescription = "streak",
-                                            modifier = Modifier.size(100.dp)
+                                        painter = painterResource(
+                                            id = if (isDarkMode) {
+                                                com.example.memento.R.drawable.ic_lightningd
+                                            } else {
+                                                com.example.memento.R.drawable.ic_lightning
+                                            }
+                                        ),
+                                        contentDescription = "time left",
+                                        modifier = Modifier.size(100.dp)
                                     )
+
                                     Text(
                                             "$daysPressed \ndays streak",
                                             fontWeight = FontWeight.Bold,
@@ -309,13 +310,17 @@ fun HomeView(
                                         verticalArrangement = Arrangement.Center
                                 ) {
                                     Image(
-                                            painter =
-                                                    painterResource(
-                                                            id = com.example.memento.R.drawable.ic_clock
-                                                    ),
-                                            contentDescription = "time left",
-                                            modifier = Modifier.size(100.dp)
+                                        painter = painterResource(
+                                            id = if (isDarkMode) {
+                                                com.example.memento.R.drawable.ic_clockd
+                                            } else {
+                                                com.example.memento.R.drawable.ic_clock
+                                            }
+                                        ),
+                                        contentDescription = "time left",
+                                        modifier = Modifier.size(100.dp)
                                     )
+
                                     Text(
                                             "$hoursLeft:${
                                             minutesLeft.toString().padStart(2, '0')
@@ -453,17 +458,20 @@ fun HomeView(
                             }
                     }
                 item {
-                Image(
-                        painter =
-                                painterResource(id = com.example.memento.R.drawable.`when`),
+                    Image(
+                        painter = if (isDarkMode) {
+                            painterResource(id = com.example.memento.R.drawable.whend)
+                        } else {
+                            painterResource(id = com.example.memento.R.drawable.`when`)
+                        },
                         contentDescription = "when is your... memento :)?",
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .fillMaxWidth()
                             .padding(
                                 PaddingValues(top = 20.dp, bottom = 100.dp)
                             )
-                )
+                    )
+
                 }
             }
             }
