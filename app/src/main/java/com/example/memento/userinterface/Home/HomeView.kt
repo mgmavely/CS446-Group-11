@@ -435,6 +435,21 @@ fun HomeView(
                                 Spacer(modifier = Modifier.height(7.dp))
                             }
                         }
+                        item {
+                            Image(
+                                painter = if (isDarkMode) {
+                                    painterResource(id = com.example.memento.R.drawable.whend)
+                                } else {
+                                    painterResource(id = com.example.memento.R.drawable.`when`)
+                                },
+                                contentDescription = "when is your... memento :)?",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        PaddingValues(top = 20.dp, bottom = 100.dp)
+                                    )
+                            )
+                        }
                     }
                 }
             }
