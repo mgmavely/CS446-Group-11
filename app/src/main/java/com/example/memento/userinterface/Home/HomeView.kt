@@ -258,7 +258,7 @@ fun HomeView(
                                     )
 
                                     Text(
-                                        "$daysPressed \ndays streak",
+                                        "$daysPressed\n${stringResource(id = R.string.days_streak)}",
                                         fontWeight = FontWeight.Bold,
                                         textAlign = TextAlign.Center,
                                         color = MaterialTheme.colorScheme.onPrimary
