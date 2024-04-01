@@ -34,4 +34,5 @@
     <string name="discover">Discover</string>
     <string name="history">History</string>
     <string name="settingsn">Settings</string>
+    <string name="make_post">Make a public post today to discover others</string>
 </resources>

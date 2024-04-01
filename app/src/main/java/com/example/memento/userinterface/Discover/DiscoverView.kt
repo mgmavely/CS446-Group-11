@@ -32,10 +32,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import com.example.memento.R
 import com.example.memento.mvvm.viewmodel.DiscoverViewModel
 import com.example.memento.theme.MementoTheme
 
@@ -163,7 +165,7 @@ fun DiscoverView(
                         AutoResizingText(
                             modifier = Modifier.
                             padding(10.dp),
-                            text = "Make a public post today to discover others!",
+                            text = stringResource(id = R.string.make_post),
                             color = MaterialTheme.colorScheme.onSecondary,
                             targetTextSize = 30.sp
                         )
