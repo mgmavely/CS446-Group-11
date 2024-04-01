@@ -1,5 +1,37 @@
 <resources>
-    <string name="app_name">memento</string>
+    <string name="app_name" translatable="false">memento</string>
     <string name="post_history">View Your Post History</string>
+    <string name="post_history_page">Your Post History</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="days_streak">days streak</string>
+    <string name="time_left">time left</string>
+    <string name="capture">CAPTURE MEMENTO</string>
+    <string name="enter_field">Enter new field</string>
+    <string name="submit">Submit</string>
+    <string name="field">Field: </string>
+    <string name="username_and_password">Username and Password cannot be blank</string>
+    <string name="unknown">Unknown error occurred</string>
+    <string name="sign_failed">Sign up failed</string>
+    <string name="username">Username: </string>
+    <string name="password">Passoword: </string>
+    <string name="log_in">Log In: </string>
+    <string name="or">or</string>
+    <string name="sign_up">Sign up</string>
+    <string name="settings">SETTINGS</string>
+    <string name="notifications">Notifications</string>
+    <string name="en_notifications">Enable Notifications</string>
+    <string name="te_notifications">Temporarily Mute Notifications</string>
+    <string name="m_h_resources">Mental Health Resources</string>
+    <string name="o_resources">Online Mental Health Resources</string>
+    <string name="m_h_phone">Mental Health Related Phone Lines</string>
+    <string name="legal">Legal</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="t_o_s">Terms Of Service</string>
+    <string name="log_out">Log out</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="home">Home</string>
+    <string name="home_info">Home Info</string>
+    <string name="discover">Discover</string>
+    <string name="history">History</string>
+    <string name="settingsn">Settings</string>
 </resources>

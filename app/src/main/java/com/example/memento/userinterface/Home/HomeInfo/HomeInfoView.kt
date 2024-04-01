@@ -22,7 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import com.example.memento.mvvm.viewmodel.TestViewModel
+import com.example.memento.R
 
 @Preview
 @Composable
@@ -45,19 +47,19 @@ fun HomeInfoView() {
             TextField(
                 value = newField,
                 onValueChange = { newField = it },
-                label = { Text("Enter new field") }
+                label = { Text(stringResource(id = R.string.enter_field))}
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = {
                 localViewModel.addNewField(newField)
                 newField = ""
             }) {
-                Text("Submit")
+                Text(stringResource(id = R.string.submit))
             }
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn(modifier = Modifier.weight(1f)) {
                 items(texts) { text ->
-                    Text(text = "Field: ${text.data}")
+                    Text(text = "${stringResource(id = R.string.field)}${text.data}")
                 }
             }
         }

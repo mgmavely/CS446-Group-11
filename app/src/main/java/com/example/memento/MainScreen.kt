@@ -21,6 +21,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -80,6 +81,9 @@ fun MementoMenuBar(
         MenuBarOptions.Home,
         MenuBarOptions.Discover
     )
+    screens.forEach { screen ->
+        Text(text = stringResource(id = screen.title))
+    }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     MementoTheme(darkTheme = isDarkMode) {
@@ -169,7 +173,7 @@ fun AddItem(
                 tint = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary
             )
             Text(
-                text = screen.title,
+                text = stringResource(id = screen.title),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 color = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary

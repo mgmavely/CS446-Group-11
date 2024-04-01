@@ -34,6 +34,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
+import com.example.memento.R
 import coil.compose.rememberImagePainter
 import com.example.memento.mvvm.viewmodel.HistoryViewModel
 import com.example.memento.theme.MementoTheme
@@ -136,7 +138,7 @@ fun HistoryView(
             topBar = {
                 CenterAlignedTopAppBar(
                     title = {
-                        Text("YOUR POST HISTORY" , textAlign = TextAlign.Center, fontSize = 30.sp,
+                        Text(stringResource(id = R.string.post_history_page) , textAlign = TextAlign.Center, fontSize = 30.sp,
                                 color = MaterialTheme.colorScheme.onBackground,
                             )
                         },

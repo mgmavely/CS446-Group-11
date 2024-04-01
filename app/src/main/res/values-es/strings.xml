@@ -1,5 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="post_history">Consultar historial de posts</string>
+    <string name="app_name" translatable="false">memento</string>
+    <string name="post_history">Ver historial de Publicaciones</string>
+    <string name="post_history_page">Historial de Publicaciones</string>
     <string name="dark_mode">Modo Oscuro</string>
+    <string name="days_streak">días seguidos</string>
+    <string name="time_left">tiempo restante</string>
+    <string name="capture">CAPTURAR MEMENTO</string>
+    <string name="enter_field">Nuevo campo</string>
+    <string name="submit">Enviar</string>
+    <string name="field">Campo: </string>
+    <string name="username_and_password">Nombre de usuario y contraseña no pueden estar blancos</string>
+    <string name="unknown">Se produjo un error desconocido</string>
+    <string name="sign_failed">Error al registrarse</string>
+    <string name="username">Nombre de usuario:</string>
+    <string name="password">Contraseña:</string>
+    <string name="log_in">Iniciar sesión</string>
+    <string name="or">o</string>
+    <string name="sign_up">Registrarse</string>
+    <string name="settings">AJUSTES</string>
+    <string name="notifications">Notificaciones</string>
+    <string name="en_notifications">Activar Notificaciones</string>
+    <string name="te_notifications">Silenciar Notificaciones Temporalmente</string>
+    <string name="m_h_resources">Recursos de Salud Mental</string>
+    <string name="o_resources">Recursos de Salud Mental online</string>
+    <string name="m_h_phone">Líneas telefónicas de salud mental</string>
+    <string name="legal">Legal</string>
+    <string name="privacy_policy">Política de Privacidad</string>
+    <string name="t_o_s">Términos de Servicio</string>
+    <string name="log_out">Cerrar Sesión</string>
+    <string name="delete_account">Eliminar cuenta</string>
+    <string name="home">Inicio</string>
+    <string name="home_info">Info Inicio</string>
+    <string name="discover">Descubrir</string>
+    <string name="history">Historial</string>
+    <string name="settingsn">Ajustes</string>
 </resources>
