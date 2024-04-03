@@ -38,8 +38,10 @@ class DiscoverViewModel : ViewModel() {
 
     init {
         verifyPost()
-//        _posts.value = loader.loadPosts(db)
-        loadPosts()
+        viewModelScope.launch {
+            _posts.value = loader.loadPosts(Firebase.firestore)
+        }
+//        loadPosts()
         loadPrompt()
 
     }
