@@ -24,7 +24,7 @@ class PostLoader : Loader<List<PostItem>> {
                 )
             }
             posts.value = postsList
-        }
+        }.await()
         return posts.value
     }
 }
@@ -68,7 +68,7 @@ class TimePostLoader : Loader<List<PostItem>> {
 
             }
             posts.value = postsList.filter { it.date == today }
-        }
+        }.await()
         return posts.value
     }
 }
