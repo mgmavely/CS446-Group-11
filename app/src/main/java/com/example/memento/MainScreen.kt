@@ -69,9 +69,6 @@ fun MementoApp(
 }
 }
 
-
-
-
 @Composable
 fun MementoMenuBar(
     navController: NavHostController,

@@ -9,6 +9,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.memento.Loader
+import com.example.memento.PostLoader
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -50,8 +52,13 @@ class HomeViewModel : ViewModel() {
     val documentPath = "${currentUser?.uid}_${today}.jpg"
     var isTaken: MutableState<Boolean> = mutableStateOf(false)
 
+    val loader: Loader<List<PostItem>> = PostLoader()
+
     init {
-        loadPosts()
+//        loadPosts()
+        viewModelScope.launch {
+            _posts.value = loader.loadPosts(Firebase.firestore)
+        }
 
         if (currentUser !== null) {
             val userUid = currentUser.uid
@@ -133,8 +140,8 @@ class HomeViewModel : ViewModel() {
                 .get()
                 .addOnSuccessListener { document ->
                     val fbCaption = document.getString("caption")
-                    val fbPublic  = document.getBoolean("public")
-                    if ( fbCaption !== null && fbPublic !== null) {
+                    val fbPublic = document.getBoolean("public")
+                    if (fbCaption !== null && fbPublic !== null) {
                         caption.value = fbCaption
                         public.value = fbPublic
                         isFetched.value = true
@@ -143,7 +150,6 @@ class HomeViewModel : ViewModel() {
                 }
                 .addOnFailureListener { e -> Log.w("POSTS WRITE", "Error writing document", e) }
         }
-        // return Triple(caption.value, public, isFetched)
     }
 
     fun updatePublicToggle(public: Boolean) {
