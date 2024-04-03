@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -47,6 +48,124 @@ data class PostItem(
     val date: String?,
     val imageURL: String?
 )
+
+interface DecoratorComponent{
+    @Composable
+    fun Decorate(decorateContent: @Composable ColumnScope.() -> Unit)
+}
+
+class BaseDecorator(
+    private val viewModel: DiscoverViewModel,
+    private val isDarkMode: Boolean
+) : DecoratorComponent {
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    override fun Decorate(decorateContent: @Composable ColumnScope.() -> Unit) {
+        MementoTheme(darkTheme = isDarkMode) {
+            Scaffold(
+                topBar = {
+                    CenterAlignedTopAppBar(
+                        title = {
+                            Text(
+                                "MEMENTO",
+                                textAlign = TextAlign.Center,
+                                fontSize = 65.sp,
+                                lineHeight = 33.sp,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+                        },
+                        modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
+                    )
+                }
+            ) { innerPadding ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.primary)
+                        .padding(innerPadding)
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(1.dp)
+                ) {
+                    decorateContent()
+                }
+            }
+        }
+    }
+}
+
+class NoPostsDecorator(
+    private val viewModel: DiscoverViewModel,
+    private val isDarkMode: Boolean
+) : DecoratorComponent {
+    private val wrappee = BaseDecorator(viewModel, isDarkMode)
+
+    @Composable
+    override fun Decorate(decorateContent: @Composable ColumnScope.() -> Unit) {
+        wrappee.Decorate() {
+            NoPostDecorate()
+        }
+    }
+
+    @Composable
+    fun ColumnScope.NoPostDecorate() {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.2f)
+                .background(MaterialTheme.colorScheme.secondary)
+                .padding(10.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            AutoResizingText(
+                modifier = Modifier.
+                padding(10.dp),
+                text = stringResource(id = R.string.make_post),
+                color = MaterialTheme.colorScheme.onSecondary,
+                targetTextSize = 30.sp
+            )
+        }
+        Prompt(viewModel.prompt.value)
+    }
+}
+
+class PostsDecorator(
+    private val viewModel: DiscoverViewModel,
+    private val isDarkMode: Boolean
+) : DecoratorComponent {
+    private val wrappee = BaseDecorator(viewModel, isDarkMode)
+
+    @Composable
+    override fun Decorate(decorateContent: @Composable ColumnScope.() -> Unit) {
+        wrappee.Decorate {
+            NoPostDecorate()
+        }
+    }
+
+    @Composable
+    fun ColumnScope.NoPostDecorate() {
+        val posts by viewModel.posts.collectAsState()
+        Log.e("text", "$posts")
+        // Prompt at the top of the screen that doesn't change
+        Box(
+            Modifier
+        ) {
+            Prompt(viewModel.prompt.value)
+        }
+        LazyColumn(
+            // Column is lazy which enables scrolling
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 10.dp)
+                .background(MaterialTheme.colorScheme.primary),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            items(posts.size) { index ->
+                PostDisplay(Modifier, posts[index])
+            }
+        }
+    }
+}
 
 @Composable
 fun Prompt(promptText: String) {
@@ -115,118 +234,136 @@ fun PostDisplay(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun DiscoverView(
     viewModel: DiscoverViewModel = DiscoverViewModel(),
-    isDarkMode: Boolean,
+    isDarkMode: Boolean
 ) {
-    /**
-     * The user view of the discover page
-     */
-    val posts by viewModel.posts.collectAsState()
-    Log.e("text", "$posts")
+    if (!viewModel.posted.value) {
+        NoPostsDecorator(viewModel, isDarkMode).Decorate {
 
-
-    if(!viewModel.posted.value){
-        MementoTheme(darkTheme = isDarkMode) {
-            Scaffold(
-                topBar = {
-                    CenterAlignedTopAppBar(
-                        title = {
-                            Text(
-                                "MEMENTO",
-                                textAlign = TextAlign.Center,
-                                fontSize = 65.sp,
-                                lineHeight = 33.sp,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
-                        },
-                        modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
-                    )
-                }
-            ) { innerPadding ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.primary)
-                        .padding(innerPadding)
-                        .padding(horizontal = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(1.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.2f)
-                            .background(MaterialTheme.colorScheme.secondary)
-                            .padding(10.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        AutoResizingText(
-                            modifier = Modifier.
-                            padding(10.dp),
-                            text = stringResource(id = R.string.make_post),
-                            color = MaterialTheme.colorScheme.onSecondary,
-                            targetTextSize = 30.sp
-                        )
-                    }
-                    Prompt(viewModel.prompt.value)
-                }
-            }
         }
-    }
+    } else {
+        PostsDecorator(viewModel, isDarkMode).Decorate {
 
-    else {
-        MementoTheme(darkTheme = isDarkMode) {
-            Scaffold(
-                topBar = {
-                    CenterAlignedTopAppBar(
-                        title = {
-                            Text(
-                                "MEMENTO",
-                                textAlign = TextAlign.Center,
-                                fontSize = 65.sp,
-                                lineHeight = 33.sp,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
-
-                        },
-                        modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
-                    )
-                }
-            ) { innerPadding ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.primary)
-                        .padding(innerPadding)
-                        .padding(horizontal = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(1.dp)
-                ) {
-                    // Prompt at the top of the screen that doesn't change
-                    Box(
-                        Modifier
-                    ) {
-                        Prompt(viewModel.prompt.value)
-                    }
-                    LazyColumn(
-                        // Column is lazy which enables scrolling
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 10.dp)
-                            .background(MaterialTheme.colorScheme.primary),
-                        verticalArrangement = Arrangement.spacedBy(10.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        items(posts.size) { index ->
-                            PostDisplay(Modifier, posts[index])
-                        }
-                    }
-                }
-            }
         }
     }
 }
+
+
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Preview
+//@Composable
+//fun DiscoverView(
+//    viewModel: DiscoverViewModel = DiscoverViewModel(),
+//    isDarkMode: Boolean,
+//) {
+//    /**
+//     * The user view of the discover page
+//     */
+//    val posts by viewModel.posts.collectAsState()
+//    Log.e("text", "$posts")
+//
+//
+//    if(!viewModel.posted.value){
+//        MementoTheme(darkTheme = isDarkMode) {
+//            Scaffold(
+//                topBar = {
+//                    CenterAlignedTopAppBar(
+//                        title = {
+//                            Text(
+//                                "MEMENTO",
+//                                textAlign = TextAlign.Center,
+//                                fontSize = 65.sp,
+//                                lineHeight = 33.sp,
+//                                color = MaterialTheme.colorScheme.onBackground
+//                            )
+//                        },
+//                        modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
+//                    )
+//                }
+//            ) { innerPadding ->
+//                Column(
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .background(MaterialTheme.colorScheme.primary)
+//                        .padding(innerPadding)
+//                        .padding(horizontal = 16.dp),
+//                    verticalArrangement = Arrangement.spacedBy(1.dp)
+//                ) {
+//                    Box(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .fillMaxHeight(0.2f)
+//                            .background(MaterialTheme.colorScheme.secondary)
+//                            .padding(10.dp),
+//                        contentAlignment = Alignment.Center
+//                    ) {
+//                        AutoResizingText(
+//                            modifier = Modifier.
+//                            padding(10.dp),
+//                            text = stringResource(id = R.string.make_post),
+//                            color = MaterialTheme.colorScheme.onSecondary,
+//                            targetTextSize = 30.sp
+//                        )
+//                    }
+//                    Prompt(viewModel.prompt.value)
+//                }
+//            }
+//        }
+//    }
+//
+//    else {
+//        MementoTheme(darkTheme = isDarkMode) {
+//            Scaffold(
+//                topBar = {
+//                    CenterAlignedTopAppBar(
+//                        title = {
+//                            Text(
+//                                "MEMENTO",
+//                                textAlign = TextAlign.Center,
+//                                fontSize = 65.sp,
+//                                lineHeight = 33.sp,
+//                                color = MaterialTheme.colorScheme.onBackground
+//                            )
+//
+//                        },
+//                        modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
+//                    )
+//                }
+//            ) { innerPadding ->
+//                Column(
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .background(MaterialTheme.colorScheme.primary)
+//                        .padding(innerPadding)
+//                        .padding(horizontal = 16.dp),
+//                    verticalArrangement = Arrangement.spacedBy(1.dp)
+//                ) {
+//                    // Prompt at the top of the screen that doesn't change
+//                    Box(
+//                        Modifier
+//                    ) {
+//                        Prompt(viewModel.prompt.value)
+//                    }
+//                    LazyColumn(
+//                        // Column is lazy which enables scrolling
+//                        modifier = Modifier
+//                            .fillMaxSize()
+//                            .padding(top = 10.dp)
+//                            .background(MaterialTheme.colorScheme.primary),
+//                        verticalArrangement = Arrangement.spacedBy(10.dp),
+//                        horizontalAlignment = Alignment.CenterHorizontally
+//                    ) {
+//                        items(posts.size) { index ->
+//                            PostDisplay(Modifier, posts[index])
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 
 
 @Composable
