@@ -1,19 +1,12 @@
 package com.example.memento.mvvm.viewmodel
 
 import android.icu.text.SimpleDateFormat
-import android.util.Log
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.memento.Loader
+import com.example.memento.TimePostLoader
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -36,16 +29,19 @@ class DiscoverViewModel : ViewModel() {
 
     val currentUser = firebaseAuth.currentUser
     val today = SimpleDateFormat("yyyy-MM-dd").format(Date())
-    //val documentPath = "${currentUser?.uid}_${today}.jpg"
 
     val posts: StateFlow<List<PostItem>> = _posts
     val posted: MutableState<Boolean> = mutableStateOf(false)
     val prompt: MutableState<String> = mutableStateOf("Daily Prompt")
 
+    val loader: Loader<List<PostItem>> = TimePostLoader()
+
     init {
         verifyPost()
+//        _posts.value = loader.loadPosts(db)
         loadPosts()
         loadPrompt()
+
     }
 
     val imageAvailable: MutableState<Boolean> = mutableStateOf(false)

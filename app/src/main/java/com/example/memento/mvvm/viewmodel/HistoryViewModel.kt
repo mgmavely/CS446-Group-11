@@ -10,6 +10,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.memento.DatePostLoader
+import com.example.memento.Loader
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -31,8 +33,13 @@ class HistoryViewModel : ViewModel() {
     private val _posts = MutableStateFlow<List<PostItem>>(emptyList())
     val posts: StateFlow<List<PostItem>> = _posts
 
+    val loader: Loader<List<PostItem>> = DatePostLoader()
+
     init {
-        loadPosts()
+        viewModelScope.launch {
+            _posts.value = loader.loadPosts(Firebase.firestore)
+        }
+//         loadPosts()
     }
 
     fun loadPosts() {

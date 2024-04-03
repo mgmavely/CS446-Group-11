@@ -133,8 +133,8 @@ class HomeViewModel : ViewModel() {
                 .get()
                 .addOnSuccessListener { document ->
                     val fbCaption = document.getString("caption")
-                    val fbPublic  = document.getBoolean("public")
-                    if ( fbCaption !== null && fbPublic !== null) {
+                    val fbPublic = document.getBoolean("public")
+                    if (fbCaption !== null && fbPublic !== null) {
                         caption.value = fbCaption
                         public.value = fbPublic
                         isFetched.value = true
@@ -143,7 +143,6 @@ class HomeViewModel : ViewModel() {
                 }
                 .addOnFailureListener { e -> Log.w("POSTS WRITE", "Error writing document", e) }
         }
-        // return Triple(caption.value, public, isFetched)
     }
 
     fun updatePublicToggle(public: Boolean) {
