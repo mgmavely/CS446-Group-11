@@ -27,7 +27,9 @@
     <string name="m_h_phone">Líneas telefónicas de salud mental</string>
     <string name="legal">Legal</string>
     <string name="privacy_policy">Política de Privacidad</string>
+    <string name="privacy_policy_paragraph">Memento respeta su privacidad y protegerá cualquier información personal que proporcione a través de nuestros servicios. Cuando utiliza Memento, podemos recopilar información personal como su dirección de correo electrónico. Sus respuestas en imágenes a las indicaciones diarias pueden ser visibles para otros usuarios según su configuración de privacidad. Firebase proporciona funciones de seguridad sólidas para proteger sus datos. No vendemos, comercializamos ni alquilamos su información personal a terceros.</string>
     <string name="t_o_s">Términos de Servicio</string>
+    <string name="t_o_s_paragraph">Al utilizar nuestra aplicación, usted acepta cumplir con estos términos y condiciones que rigen el uso de nuestro servicio, incluida la publicación de respuestas en imágenes a las indicaciones diarias. Usted es el único responsable del contenido que publica y debe asegurarse de que sus publicaciones cumplan con las leyes aplicables y no infrinjan los derechos de otros.</string>
     <string name="log_out">Cerrar Sesión</string>
     <string name="delete_account">Eliminar cuenta</string>
     <string name="home">Inicio</string>

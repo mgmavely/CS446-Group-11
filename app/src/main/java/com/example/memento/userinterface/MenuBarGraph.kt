@@ -38,8 +38,6 @@ fun MenuBarGraph(
             }
             composable(route = MenuBarOptions.Settings.route) {
                 SettingsView(
-                    onMentalHealthOnlineClicked = {},
-                    onMentalHealthPhoneClicked = {},
                     onLogoutClicked = { navController.navigate(MenuBarOptions.Login.route) },
                     isDarkMode = isDarkMode,
                     toggleDarkMode = toggleDarkMode,

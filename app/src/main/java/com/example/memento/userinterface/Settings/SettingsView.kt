@@ -49,9 +49,6 @@ import androidx.compose.ui.window.DialogProperties
 import com.example.memento.R
 
 
-const val PrivacyPolicyString = "Memento respects your privacy and will protect any personal information you provide through our services. When you use Memento we may collect personal information such as your email address. Your image responses to daily prompts may be visible to other users based on your privacy settings. Firebase provides robust security features to safeguard your data. We do not sell, trade, or rent your personal information to third parties."
-const val TermsOfServicesString = "By using our app, you agree to abide by these terms and conditions governing the use of our service, including the posting of image responses to daily prompts. You are solely responsible for the content you post, and you must ensure that your posts comply with applicable laws and do not infringe upon the rights of others."
-
 @Composable
 fun Popup(onDismiss: () -> Unit, text: String) {
     Dialog(
@@ -79,23 +76,18 @@ fun Popup(onDismiss: () -> Unit, text: String) {
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun SettingsView(
-    onMentalHealthOnlineClicked: () -> Unit = {},
-    onMentalHealthPhoneClicked: () -> Unit = {},
     onLogoutClicked: () -> Unit = {},
     isDarkMode: Boolean,
     toggleDarkMode: (Boolean) -> Unit,
     viewModel: SettingsViewModel = SettingsViewModel()
-
 ) {
 
     val scrollState = rememberScrollState()
     var showPrivacyPopup by remember { mutableStateOf(false) }
     var showTermsOfService by remember { mutableStateOf(false) }
     val openResourcesUrlLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
-
 
     MementoTheme(darkTheme = isDarkMode) {
 
@@ -118,8 +110,6 @@ fun SettingsView(
                     .verticalScroll(scrollState)
             ) {
                 Divider(thickness = 3.dp)
-
-                var checked by remember { mutableStateOf(true) }
 
 
                 Column() {
@@ -155,44 +145,6 @@ fun SettingsView(
                     Divider(thickness = 1.dp)
                 }
 
-                Column(modifier = Modifier) {
-                    Text(
-                        stringResource(id = R.string.notifications), fontSize = 18.sp,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(horizontal = 10.dp)
-                    )
-
-                    Text(
-                        stringResource(id = R.string.en_notifications), fontSize = 15.sp,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(horizontal = 10.dp)
-                    )
-                    Switch(
-                        checked = checked,
-                        colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.secondary),
-                        modifier = Modifier.padding(horizontal = 25.dp),
-                        onCheckedChange = {
-                            checked = it
-                        }
-                    )
-
-                    Text(
-                        stringResource(id = R.string.te_notifications), fontSize = 15.sp,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(horizontal = 10.dp)
-                    )
-                    Switch(
-                        checked = false,
-                        colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.secondary),
-                        modifier = Modifier.padding(horizontal = 25.dp),
-                        onCheckedChange = {
-                            checked = it
-                        }
-                    )
-
-                    Divider(thickness = 1.dp)
-                }
-
                 Column() {
                     Text(
                         stringResource(id = R.string.m_h_resources), fontSize = 18.sp,
@@ -200,22 +152,14 @@ fun SettingsView(
                         modifier = Modifier.padding(horizontal = 10.dp)
                     )
                     Button(
-                        onClick = {
-                            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW)
-                            intent.data = android.net.Uri.parse("https://www.canada.ca/en/public-health/services/mental-health-services/mental-health-get-help.html")
-                            openResourcesUrlLauncher.launch(intent)
-                        },
+                        onClick = { openResourcesUrlLauncher.launch(viewModel.mhResourceLink)},
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                         modifier = Modifier.padding(top = 12.dp).padding(horizontal = 25.dp),
                     ) {
                         Text(stringResource(id = R.string.o_resources), fontSize = 14.sp)
                     }
                     Button(
-                        onClick = {
-                            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW)
-                            intent.data = android.net.Uri.parse("https://www.camh.ca/en/health-info/crisis-resources")
-                            openResourcesUrlLauncher.launch(intent)
-                        },
+                        onClick = { openResourcesUrlLauncher.launch(viewModel.mhPhoneLink)},
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                         modifier = Modifier
                             .padding(top = 5.dp)
@@ -243,7 +187,7 @@ fun SettingsView(
                     }
 
                     if (showPrivacyPopup) {
-                        Popup(onDismiss = { showPrivacyPopup = false}, text = PrivacyPolicyString)
+                        Popup(onDismiss = { showPrivacyPopup = false}, text = stringResource(id = R.string.privacy_policy_paragraph))
                     }
 
                     Button(
@@ -257,7 +201,7 @@ fun SettingsView(
                     }
 
                     if (showTermsOfService) {
-                        Popup(onDismiss = { showTermsOfService= false}, text = TermsOfServicesString)
+                        Popup(onDismiss = { showTermsOfService= false}, text = stringResource(id = R.string.t_o_s_paragraph))
                     }
 
                     Divider(thickness = 1.dp)

@@ -26,7 +26,9 @@
     <string name="m_h_phone">Mental Health Related Phone Lines</string>
     <string name="legal">Legal</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy_paragraph">"Memento respects your privacy and will protect any personal information you provide through our services. When you use Memento we may collect personal information such as your email address. Your image responses to daily prompts may be visible to other users based on your privacy settings. Firebase provides robust security features to safeguard your data. We do not sell, trade, or rent your personal information to third parties."</string>
     <string name="t_o_s">Terms Of Service</string>
+    <string name="t_o_s_paragraph">"By using our app, you agree to abide by these terms and conditions governing the use of our service, including the posting of image responses to daily prompts. You are solely responsible for the content you post, and you must ensure that your posts comply with applicable laws and do not infringe upon the rights of others."</string>
     <string name="log_out">Log out</string>
     <string name="delete_account">Delete Account</string>
     <string name="home">Home</string>
