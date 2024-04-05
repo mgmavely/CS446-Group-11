@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.memento"
+    namespace = "com.burgerbytes.memento"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.memento"
+        applicationId = "com.burgerbytes.memento"
         minSdk = 31
         targetSdk = 34
         versionCode = 1
