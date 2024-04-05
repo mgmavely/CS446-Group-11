@@ -29,7 +29,7 @@ class PostLoader : Loader<List<PostItem>> {
     }
 }
 
-class DatePostLoader : Loader<List<org.example.userinterface.History.PostItem>> {
+class HistoryPostLoader : Loader<List<org.example.userinterface.History.PostItem>> {
 
     override suspend fun loadPosts(db: FirebaseFirestore): List<org.example.userinterface.History.PostItem> {
         val firebaseAuth = FirebaseAuth.getInstance()
@@ -53,7 +53,7 @@ class DatePostLoader : Loader<List<org.example.userinterface.History.PostItem>> 
     }
 }
 
-class TimePostLoader : Loader<List<PostItem>> {
+class DiscoverPostLoader : Loader<List<PostItem>> {
     override suspend fun loadPosts(db: FirebaseFirestore): List<PostItem> {
         var posts = MutableStateFlow<List<PostItem>>(emptyList())
         val today = SimpleDateFormat("yyyy-MM-dd").format(Date())

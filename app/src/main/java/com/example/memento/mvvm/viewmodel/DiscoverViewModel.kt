@@ -6,7 +6,7 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.memento.Loader
-import com.example.memento.TimePostLoader
+import com.example.memento.DiscoverPostLoader
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -34,7 +34,7 @@ class DiscoverViewModel : ViewModel() {
     val posted: MutableState<Boolean> = mutableStateOf(false)
     val prompt: MutableState<String> = mutableStateOf("Daily Prompt")
 
-    val loader: Loader<List<PostItem>> = TimePostLoader()
+    val loader: Loader<List<PostItem>> = DiscoverPostLoader()
 
     init {
         verifyPost()

@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.memento.DatePostLoader
+import com.example.memento.HistoryPostLoader
 import com.example.memento.Loader
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -28,41 +28,18 @@ class HistoryViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
     private val firebaseAuth = FirebaseAuth.getInstance()
-    val currentUser = firebaseAuth.currentUser
 
     private val _posts = MutableStateFlow<List<PostItem>>(emptyList())
     val posts: StateFlow<List<PostItem>> = _posts
 
-    val loader: Loader<List<PostItem>> = DatePostLoader()
+    val loader: Loader<List<PostItem>> = HistoryPostLoader()
 
     init {
         viewModelScope.launch {
             _posts.value = loader.loadPosts(Firebase.firestore)
         }
-//         loadPosts()
     }
 
-    fun loadPosts() {
-        viewModelScope.launch {
-            val db = Firebase.firestore
-
-            // call to get posts
-            db.collection("posts").orderBy("date", Query.Direction.DESCENDING).get().addOnSuccessListener { querySnapshot ->
-                val postsList = querySnapshot.map { document ->
-                    PostItem(document.getString("prompt"),
-                        document.getString("caption"),
-                        document.getString("date"),
-                        document.getString("imageurl"),
-                        document.getString("userid")
-                    )
-                }
-                _posts.value = postsList.filter{it.userid == "${currentUser?.uid}"}
-            }
-
-
-        }
-
-    }
     fun deleteDocumentAndImage(deleteKey: String) {
         viewModelScope.launch {
             // Delete document from Firestore
