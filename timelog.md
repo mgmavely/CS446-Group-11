@@ -46,6 +46,7 @@
 | 2024-03-11 |         |        |         |         |     3   |            |     Setup Firebase auth and session management    |
 | 2024-03-16 |         |        |         |         |     2   |            |     Firebase DB schema design    |
 | 2024-03-16 |     6   |        |         |         |         |            |     Storage schema design and Camera implementation    |
+| 2024-03-18 |    2     |   2    |   2     |    2     |   2    |      2      |     Sprint kickoff  |
 | 2024-03-18 |         |        |         |         |     2   |            |     Architecture and Design Pattern brainstorm started  |
 | 2024-03-18 |         |       |         |    4    |         |      | Worked on History Page           |
 | 2024-03-20 |         |        |         |         |     2   |            |     Finished Architecture and Design Pattern brainstorm    |
@@ -55,18 +56,29 @@
 | 2024-03-25 |    1     |    1   |     1    |    1    |    1   |      1     |     Group meeting to plan tasks out for week   |
 | 2024-03-25 |          |        |        |         |    2   |            |     Setup wiring for user posts to Firebase Storage and Firestore DB   |
 | 2024-03-25 |          |        |        |         |    2   |            |     Implemented functions for user posts (toggle privacy, delete and caption)  |
+| 2024-03-25 |          |        |    3    |         |    2   |            |    Loader class/some functionality   |
 | 2024-03-26 |          |        |        |         |    1  |            |     Navbar UI fix  |
+| 2024-03-26 |          |        |   6    |         |      |            |    MVVM architecture refactor and design - Discover |
 | 2024-03-26 |          |        |        |     3    |     |            |    Refactored history and discover page to use MVVM  |
 | 2024-03-27 |          |        |        |     1    |     |            |    Implemented posting of image url to firebase collection when user uploads |
 | 2024-03-27 |          |        |        |     6    |     |            |    Implemented pulling of posts from firebase to discover and history |
+| 2024-03-27 |          |        |   3    |         |      |            |    MVVM refactor - Login, Settings |
 | 2024-03-27 |          |        |        |         |    2  |            |     MVVM implementation for HomeView + db refactor for posts  |
 | 2024-03-29 |          |        |        |         |    0.5 |            |     Discover page prompt now loading today's prompt |
 | 2024-03-29 |          |        |        |         |    1 |            |     Added warning before user takes photo |
+| 2024-03-29 |          |        |   6    |         |      |            |    Decorator/Discover Page refactor |
 | 2024-03-29 |     3    |        |        |         |    1 |            |     Globalization and light/dark |
 | 2024-03-30 |     3    |        |        |         |    1 |            |     Globalization and light/dark |
 | 2024-03-30 |          |        |        |         |    1.5 |            |     Recorded and edited videos for presentation |
+| 2024-03-30 |          |        |   3     |         |       |            |     Refactor/finish Loader class  |
 | 2024-03-31 |     3    |        |        |         |    1 |            |     Globalization and light/dark issues  |
+| 2024-03-31 |          |        |   2     |         |       |            |     Made presentation slide deck  |
 | 2024-04-01 |     2    |    2    |    2     |     2    |     2    |   2   | Presentation Setup     |
 | 2024-04-01 |    0.5   |        |        |         |      |            |     HomeView image issue  |
 | 2024-04-01 |    1   |        |        |         |      |            |     Play Store images design  |
+| 2024-04-01 |    2      |    2    |   2     |   2      |   2    |     2       |     Final sprint  |
+| 2024-04-02 |          |        |   5     |         |       |            |    Small separation of concerns/UI state refactor   |
+| 2024-04-03 |          |        |   3     |         |       |            |     Enforce unidirectional MVVM arch  |
+| 2024-04-04 |          |        |   3     |         |       |            |     UML arch diagrams for D6  |
+| 2024-04-05 |          |        |   3     |         |       |            |     UML design patterns diagrams for D6  |
 
