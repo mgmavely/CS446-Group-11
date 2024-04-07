@@ -81,4 +81,9 @@
 | 2024-04-03 |          |        |   3     |         |       |            |     Enforce unidirectional MVVM arch  |
 | 2024-04-04 |          |        |   3     |         |       |            |     UML arch diagrams for D6  |
 | 2024-04-05 |          |        |   3     |         |       |            |     UML design patterns diagrams for D6  |
-
+| 2024-04-04 |     3    |        |         |         |       |            |     Release apk generation and setup for Play Store Upload  |
+| 2024-04-05 |     1    |        |         |         |       |            |     Refactoring for release  |
+| 2024-04-05 |     1    |        |         |         |       |            |     Edit package name  |
+| 2024-04-06 |     1    |        |         |         |       |            |     Completing Play Store forms  |
+| 2024-04-06 |     1    |        |         |         |       |            |     Play Store upload for internal tests  |
+| 2024-04-06 |     1    |        |         |         |       |            |     Play Store upload for release  |
