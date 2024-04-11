@@ -52,6 +52,7 @@
 | 2024-03-20 |         |        |         |         |     2   |            |     Finished Architecture and Design Pattern brainstorm    |
 | 2024-03-20 |         |        |     2    |         |        |            |     Worked on D4 Arch   |
 | 2024-03-20 |         |       |         |    2    |         |      | Worked on D4 Arch           |
+| 2024-03-21 |         |    2   |         |       |         |      | Worked on traduction design       |
 | 2024-03-24 |    1     |        |          |         |        |            |     Adjust camera implementation   |
 | 2024-03-25 |    1     |    1   |     1    |    1    |    1   |      1     |     Group meeting to plan tasks out for week   |
 | 2024-03-25 |          |        |        |         |    2   |            |     Setup wiring for user posts to Firebase Storage and Firestore DB   |
@@ -71,6 +72,8 @@
 | 2024-03-30 |     3    |        |        |         |    1 |            |     Globalization and light/dark |
 | 2024-03-30 |          |        |        |         |    1.5 |            |     Recorded and edited videos for presentation |
 | 2024-03-30 |          |        |   3     |         |       |            |     Refactor/finish Loader class  |
+| 2024-03-30 |          |   4     |        |         |       |            |     Strike implementation  |
+| 2024-03-30 |          |    4    |        |         |       |            |     Reviewing functionalities and code  |
 | 2024-03-31 |         |        |         |     1    |         |      | implemented correct discover and history queries                |
 | 2024-03-31 |         |        |         |     1    |         |      | updated history ui                |
 | 2024-03-31 |         |        |         |     .5   |         |      | implemented prompt call for discover            |
@@ -88,11 +91,14 @@
 | 2024-04-01 |    1   |        |        |         |      |            |     Play Store images design  |
 | 2024-04-05 |          |        |   3     |         |       |            |     UML design patterns diagrams for D6  |
 | 2024-04-05 |          |        |        |     4    |       |            |     Worked on design portion of D6  |
+| 2024-04-05 |          |    3    |        |         |       |            |     Worked on D6 |
 | 2024-04-05 |     3    |        |         |         |       |            |     Refactoring for release  |
 | 2024-04-05 |    1.5    |        |         |         |       |            |     Edit package name  |
 | 2024-04-06 |     1    |        |         |         |       |            |     Completing Play Store forms  |
+| 2024-04-05 |          |    3    |        |         |       |            |     Worked on D6 |
 | 2024-04-06 |     1    |        |         |         |       |            |     Play Store upload for internal tests  |
 | 2024-04-06 |     1    |        |         |         |       |            |     Play Store upload for release  |
+| 2024-04-07 |          |    0.5    |        |         |       |            |     Worked on D7 |
 | 2024-04-07 |          |        |        |     1    |       |            |     Worked on D7 |
 | 2024-04-07 |          |        |    1    |         |       |            |     Worked on D7 |
 
